@@ -1,6 +1,9 @@
 package A1BnB.backend.member.service.impl;
 
+import static A1BnB.backend.member.exception.constants.MemberExceptionMessages.DUPLICATE_NAME;
+
 import A1BnB.backend.member.dto.request.MemberSignupRequest;
+import A1BnB.backend.member.exception.DuplicateNameException;
 import A1BnB.backend.member.model.Role;
 import A1BnB.backend.member.model.entity.Member;
 import A1BnB.backend.member.service.MemberService;
@@ -43,9 +46,9 @@ public class MemberServiceImpl implements MemberService {
 
     // 이름의 중복 검증
     private void validateDuplicateName(String username){
-        Optional<Member> findUser = memberRepository.findByName(username);
-        if (findUser.isPresent()) {
-            throw new IllegalArgumentException();
+        Optional<Member> findMember = memberRepository.findByName(username);
+        if (findMember.isPresent()) {
+            throw new DuplicateNameException(DUPLICATE_NAME.getMessage());
         }
     }
 
