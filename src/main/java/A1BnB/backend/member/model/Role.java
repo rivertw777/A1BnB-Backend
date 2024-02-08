@@ -10,4 +10,8 @@ public enum Role {
 
     private final String roleName;
 
+    public String getRole() {
+        return roleName;
+    }
+
 }

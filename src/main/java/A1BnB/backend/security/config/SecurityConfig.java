@@ -1,12 +1,17 @@
 package A1BnB.backend.security.config;
 
+import A1BnB.backend.security.filter.JwtAuthenticationFilter;
+import A1BnB.backend.security.filter.JwtAuthorizationFilter;
+import A1BnB.backend.security.utils.TokenProvider;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,16 +22,23 @@ import org.springframework.security.web.SecurityFilterChain;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
+    @Autowired
+    private final TokenProvider tokenProvider;
+
     // 보안 필터 체인 구성
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+                // jwt 토큰 사용
                 .csrf().disable()
                 .cors()
                 .and()
                 .formLogin().disable()
                 .httpBasic().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                // 커스텀 필터 적용
+                .apply(new MyCustomDsl())
                 .and()
                 .authorizeRequests()
                 // 회원가입
@@ -48,6 +60,21 @@ public class SecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    // 커스텀 필터 설정
+    public class MyCustomDsl extends AbstractHttpConfigurer<MyCustomDsl, HttpSecurity> {
+        @Override
+        public void configure(HttpSecurity http) throws Exception {
+            AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);
+            JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager, tokenProvider);
+            JwtAuthorizationFilter jwtAuthorizationFilter = new JwtAuthorizationFilter(authenticationManager, tokenProvider);
+            // 로그인 경로
+            jwtAuthenticationFilter.setFilterProcessesUrl("/api/users/login");
+            http
+                    .addFilter(jwtAuthenticationFilter)
+                    .addFilter(jwtAuthorizationFilter);
+        }
     }
 
 }
