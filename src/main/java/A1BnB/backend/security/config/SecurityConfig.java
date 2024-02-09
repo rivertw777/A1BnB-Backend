@@ -2,7 +2,7 @@ package A1BnB.backend.security.config;
 
 import A1BnB.backend.security.filter.JwtAuthenticationFilter;
 import A1BnB.backend.security.filter.JwtAuthorizationFilter;
-import A1BnB.backend.security.utils.TokenProvider;
+import A1BnB.backend.security.service.SecurityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -23,7 +23,7 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     @Autowired
-    private final TokenProvider tokenProvider;
+    private final SecurityService securityService;
 
     // 보안 필터 체인 구성
     @Bean
@@ -65,8 +65,8 @@ public class SecurityConfig {
         @Override
         public void configure(HttpSecurity http) throws Exception {
             AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);
-            JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager, tokenProvider);
-            JwtAuthorizationFilter jwtAuthorizationFilter = new JwtAuthorizationFilter(authenticationManager, tokenProvider);
+            JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager, securityService);
+            JwtAuthorizationFilter jwtAuthorizationFilter = new JwtAuthorizationFilter(authenticationManager, securityService);
             // 로그인 경로
             jwtAuthenticationFilter.setFilterProcessesUrl("/api/users/login");
             http

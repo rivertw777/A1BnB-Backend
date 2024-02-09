@@ -1,13 +1,11 @@
 package A1BnB.backend.security.filter;
 
 import A1BnB.backend.member.dto.request.MemberLoginRequest;
-import A1BnB.backend.security.dto.TokenData;
 import A1BnB.backend.security.dto.response.TokenResponse;
 import A1BnB.backend.security.model.CustomUserDetails;
-import A1BnB.backend.security.utils.TokenProvider;
+import A1BnB.backend.security.service.SecurityService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -23,7 +21,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private final AuthenticationManager authenticationManager;
-    private final TokenProvider tokenProvider;
+    private final SecurityService securityService;
 
     // 인증 시도
     @Override
@@ -47,14 +45,14 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     // 인증 성공 시
     @Override
-    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
-        // 토큰 생성
+    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException {
+        // authentication에서 userDetails 추출
         CustomUserDetails userDetails = (CustomUserDetails) authResult.getPrincipal();
-        TokenData tokenData = tokenProvider.generateToken(userDetails);
-        String accessToken = String.valueOf(tokenData.accessToken());
-        TokenResponse tokenResponse = new TokenResponse(accessToken);
 
-        // response body에 토큰 DTO 반환
+        // JWT 토큰 발급
+        TokenResponse tokenResponse = securityService.getTokenResponse(userDetails);
+
+        // response body에 access 토큰 DTO 반환
         ObjectMapper objectMapper = new ObjectMapper();
         String responseBody = objectMapper.writeValueAsString(tokenResponse);
         response.setContentType("application/json");

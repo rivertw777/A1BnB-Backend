@@ -2,34 +2,27 @@ package A1BnB.backend.redis.service;
 
 import java.util.concurrent.TimeUnit;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class RedisService {
 
-    private final RedisTemplate<String, String> redisTemplate;
+    @Autowired
+    private final RedisTemplate<String, Object> redisTemplate;
 
-    @Transactional
-    public void setValues(String key, String value){
-        redisTemplate.opsForValue().set(key, value);
+    public void setToken(String token, String username, long expiration) {
+        redisTemplate.opsForValue().set(token, username);
+        redisTemplate.expire(token, expiration, TimeUnit.MILLISECONDS);
     }
 
-    // 만료시간 설정 -> 자동 삭제
-    @Transactional
-    public void setValuesWithTimeout(String key, String value, long timeout){
-        redisTemplate.opsForValue().set(key, value, timeout, TimeUnit.MILLISECONDS);
-    }
-
-    public String getValues(String key){
+    public Object getValue(String key) {
         return redisTemplate.opsForValue().get(key);
     }
 
-    @Transactional
-    public void deleteValues(String key) {
+    public void deleteValue(String key) {
         redisTemplate.delete(key);
     }
 }
