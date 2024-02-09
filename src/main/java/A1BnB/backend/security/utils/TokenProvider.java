@@ -1,10 +1,11 @@
 package A1BnB.backend.security.utils;
 
+import A1BnB.backend.redis.service.RedisService;
+import A1BnB.backend.security.dto.TokenData;
 import A1BnB.backend.security.model.CustomUserDetails;
 import A1BnB.backend.security.service.SecurityService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -21,41 +22,53 @@ import org.springframework.stereotype.Component;
 public class TokenProvider {
 
     private final SecurityService securityService;
+    private final RedisService redisService;
     private final Key jwtSecretKey;
-    private final long jwtExpirationInMs;
+    private final long accessTokenExpiration;
+    private final long refreshTokenExpiration;
 
-    public TokenProvider(SecurityService securityService, @Value("${jwt.secret}") String secretKey,
-                         @Value("${jwt.expiration}") String jwtExpirationInMs){
+    public TokenProvider(SecurityService securityService,
+                         RedisService redisService, @Value("${jwt.secret}") String secretKey,
+                         @Value("${jwt.access.expiration}") String accessTokenExpiration,
+                         @Value("${jwt.refresh.expiration}") String refreshTokenExpiration){
         this.securityService = securityService;
+        this.redisService = redisService;
         this.jwtSecretKey = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
-        this.jwtExpirationInMs = Long.parseLong(jwtExpirationInMs);
-
+        this.accessTokenExpiration = Long.parseLong(accessTokenExpiration);
+        this.refreshTokenExpiration = Long.parseLong(refreshTokenExpiration);
     }
 
     // 토큰 생성
-    public String generateToken(UserDetails userDetails) {
+    public TokenData generateToken(UserDetails userDetails) {
         long now = (new Date()).getTime();
-        // 접근 토큰 생성
-        Date accessTokenExpiresIn = new Date(now + jwtExpirationInMs);
-        return Jwts.builder()
+
+        // access 토큰 생성
+        String accessToken = Jwts.builder()
                 .setSubject(userDetails.getUsername())
                 .claim("auth", userDetails.getAuthorities())
-                .setExpiration(accessTokenExpiresIn)
+                .setExpiration(new Date(now + accessTokenExpiration))
                 .signWith(jwtSecretKey, SignatureAlgorithm.HS256)
                 .compact();
+
+        // refresh 토큰 생성
+        String refreshToken = Jwts.builder()
+                .setSubject(userDetails.getUsername())
+                .setExpiration(new Date(now + refreshTokenExpiration))
+                .signWith(jwtSecretKey, SignatureAlgorithm.HS256)
+                .compact();
+        return new TokenData(accessToken, refreshToken);
     }
 
     // 인증 정보 추출
-    public Authentication extractAuthentication(String accessToken) {
+    public Authentication extractAuthentication(String token) {
         // 토큰 복호화
-        Claims claims = parseClaims(accessToken);
-
+        Claims claims = parseClaims(token);
         if (claims.get("auth") == null) {
             throw new IllegalArgumentException("권한 정보가 없는 토큰입니다.");
         }
 
         // 회원 이름 추출
-        String name = getUsernameFromToken(accessToken);
+        String name = claims.getSubject();
 
         // UserDetails 객체를 만들어서 Authentication 리턴
         CustomUserDetails customUserDetails = securityService.loadUserByUsername(name);
@@ -63,36 +76,16 @@ public class TokenProvider {
     }
 
     // 토큰 복호화
-    private Claims parseClaims(String accessToken) {
+    private Claims parseClaims(String token) {
         try {
-            return Jwts.parserBuilder().setSigningKey(jwtSecretKey).build().parseClaimsJws(accessToken).getBody();
+            return Jwts.parserBuilder()
+                    .setSigningKey(jwtSecretKey)
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
             // 토큰 만료시 예외 처리
         } catch (ExpiredJwtException e) {
             return e.getClaims();
-        }
-    }
-
-    // 토큰으로부터 이름 추출
-    public String getUsernameFromToken(String token) throws JwtException {
-        Claims claims = Jwts.parserBuilder()
-                .setSigningKey(jwtSecretKey)
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
-
-        return claims.getSubject();
-    }
-
-    // 토큰 검증
-    public boolean validateToken(String token) throws JwtException {
-        try {
-            Jwts.parserBuilder()
-                    .setSigningKey(jwtSecretKey)
-                    .build()
-                    .parseClaimsJws(token);
-            return true;
-        } catch (JwtException | IllegalArgumentException e) {
-            throw new JwtException("유효하지 않은 토큰입니다.");
         }
     }
 

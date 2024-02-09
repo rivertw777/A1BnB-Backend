@@ -1,7 +1,8 @@
 package A1BnB.backend.security.filter;
 
 import A1BnB.backend.member.dto.request.MemberLoginRequest;
-import A1BnB.backend.security.dto.TokenResponse;
+import A1BnB.backend.security.dto.TokenData;
+import A1BnB.backend.security.dto.response.TokenResponse;
 import A1BnB.backend.security.model.CustomUserDetails;
 import A1BnB.backend.security.utils.TokenProvider;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -49,8 +50,9 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
         // 토큰 생성
         CustomUserDetails userDetails = (CustomUserDetails) authResult.getPrincipal();
-        String jwt = tokenProvider.generateToken(userDetails);
-        TokenResponse tokenResponse = new TokenResponse(jwt);
+        TokenData tokenData = tokenProvider.generateToken(userDetails);
+        String accessToken = String.valueOf(tokenData.accessToken());
+        TokenResponse tokenResponse = new TokenResponse(accessToken);
 
         // response body에 토큰 DTO 반환
         ObjectMapper objectMapper = new ObjectMapper();

@@ -36,9 +36,6 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
         // 헤더에서 토큰 정보 추출
         String token = request.getHeader(HEADER_STRING).replace(TOKEN_PREFIX,"");
 
-        // 토큰 검증
-        tokenProvider.validateToken(token);
-
         // 토큰으로 부터 인증 정보 추출
         Authentication authentication = tokenProvider.extractAuthentication(token);
         // 강제로 시큐리티의 세션에 접근하여 값 저장

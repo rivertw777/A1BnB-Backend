@@ -31,8 +31,6 @@ public class SecurityConfig {
         http
                 // jwt 토큰 사용
                 .csrf().disable()
-                .cors()
-                .and()
                 .formLogin().disable()
                 .httpBasic().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
