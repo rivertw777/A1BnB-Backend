@@ -2,7 +2,7 @@ package A1BnB.backend.member.exception.handler;
 
 import A1BnB.backend.member.exception.DuplicateNameException;
 import A1BnB.backend.member.exception.MemberNotFoundException;
-import A1BnB.backend.member.exception.dto.CustomErrorResponse;
+import A1BnB.backend.exception.dto.CustomErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

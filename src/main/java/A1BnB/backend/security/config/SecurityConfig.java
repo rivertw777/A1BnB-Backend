@@ -1,7 +1,10 @@
 package A1BnB.backend.security.config;
 
-import A1BnB.backend.security.filter.JwtAuthenticationFilter;
-import A1BnB.backend.security.filter.JwtAuthorizationFilter;
+import A1BnB.backend.security.config.filter.JwtAuthenticationFilter;
+import A1BnB.backend.security.config.filter.JwtAuthorizationFilter;
+import A1BnB.backend.security.config.handler.JwtAccessDeniedHandler;
+import A1BnB.backend.security.config.handler.JwtAuthenticationEntryPoint;
+import A1BnB.backend.security.config.handler.JwtAuthenticationFailuerHandler;
 import A1BnB.backend.security.service.SecurityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +19,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -28,6 +32,7 @@ public class SecurityConfig {
     // 보안 필터 체인 구성
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+
         http
                 // jwt 토큰 사용
                 .csrf().disable()
@@ -37,6 +42,10 @@ public class SecurityConfig {
                 .and()
                 // 커스텀 필터 적용
                 .apply(new MyCustomDsl())
+                .and()
+                .exceptionHandling()
+                .accessDeniedHandler(new JwtAccessDeniedHandler())
+                .authenticationEntryPoint(new JwtAuthenticationEntryPoint())
                 .and()
                 .authorizeRequests()
                 // 회원가입
@@ -65,13 +74,18 @@ public class SecurityConfig {
         @Override
         public void configure(HttpSecurity http) throws Exception {
             AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);
+
+            // 인증 필터 설정
             JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager, securityService);
-            JwtAuthorizationFilter jwtAuthorizationFilter = new JwtAuthorizationFilter(authenticationManager, securityService);
-            // 로그인 경로
-            jwtAuthenticationFilter.setFilterProcessesUrl("/api/users/login");
+            jwtAuthenticationFilter.setFilterProcessesUrl("/api/security/login");
+            jwtAuthenticationFilter.setAuthenticationFailureHandler(new JwtAuthenticationFailuerHandler());
+
+            // 인가 필터 설정
+            JwtAuthorizationFilter jwtAuthorizationFilter = new JwtAuthorizationFilter(securityService);
+
             http
                     .addFilter(jwtAuthenticationFilter)
-                    .addFilter(jwtAuthorizationFilter);
+                    .addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);
         }
     }
 
