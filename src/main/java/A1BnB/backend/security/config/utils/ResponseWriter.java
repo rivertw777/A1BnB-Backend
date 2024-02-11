@@ -1,4 +1,4 @@
-package A1BnB.backend.security.config;
+package A1BnB.backend.security.config.utils;
 
 import A1BnB.backend.exception.dto.CustomErrorResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -9,14 +9,14 @@ import org.springframework.stereotype.Component;
 @Component
 public class ResponseWriter {
     public static void writeErrorResponse(HttpServletResponse response, int httpStatus, String errorMessage) throws IOException {
+        // Error DTO 생성
+        CustomErrorResponse errorResponse = new CustomErrorResponse(errorMessage);
         // 상태 코드 설정
         response.setStatus(httpStatus);
-        ObjectMapper objectMapper = new ObjectMapper();
-        CustomErrorResponse errorResponse = new CustomErrorResponse(errorMessage);
-        // response body에 에러 메시지 저장
-        String responseBody = objectMapper.writeValueAsString(errorResponse);
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
+        ObjectMapper objectMapper = new ObjectMapper();
+        String responseBody = objectMapper.writeValueAsString(errorResponse);
         response.getWriter().write(responseBody);
     }
 

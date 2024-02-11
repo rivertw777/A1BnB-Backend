@@ -7,7 +7,7 @@ import A1BnB.backend.member.exception.DuplicateNameException;
 import A1BnB.backend.member.model.Role;
 import A1BnB.backend.member.model.entity.Member;
 import A1BnB.backend.member.service.MemberService;
-import A1BnB.backend.repository.MemberRepository;
+import A1BnB.backend.member.repository.MemberRepository;
 import jakarta.transaction.Transactional;
 import java.util.Collections;
 import java.util.Optional;

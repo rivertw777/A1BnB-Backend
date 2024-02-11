@@ -4,7 +4,6 @@ import A1BnB.backend.security.config.filter.JwtAuthenticationFilter;
 import A1BnB.backend.security.config.filter.JwtAuthorizationFilter;
 import A1BnB.backend.security.config.handler.JwtAccessDeniedHandler;
 import A1BnB.backend.security.config.handler.JwtAuthenticationEntryPoint;
-import A1BnB.backend.security.config.handler.JwtAuthenticationFailuerHandler;
 import A1BnB.backend.security.service.SecurityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,7 +77,6 @@ public class SecurityConfig {
             // 인증 필터 설정
             JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager, securityService);
             jwtAuthenticationFilter.setFilterProcessesUrl("/api/security/login");
-            jwtAuthenticationFilter.setAuthenticationFailureHandler(new JwtAuthenticationFailuerHandler());
 
             // 인가 필터 설정
             JwtAuthorizationFilter jwtAuthorizationFilter = new JwtAuthorizationFilter(securityService);
