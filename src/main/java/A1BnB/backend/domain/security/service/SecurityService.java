@@ -51,8 +51,10 @@ public class SecurityService implements UserDetailsService {
     @Transactional
     private void setRefreshTokenInRedis(TokenData tokenData){
         String accessToken = tokenData.accessToken();
+        // 이름 추출
         String userName = tokenProvider.parseClaims(accessToken).getSubject();
         String refreshToken = tokenData.refreshToken();
+        // 만료 시간 추출
         long expiration = tokenProvider.parseClaims(refreshToken).getExpiration().getTime();
         redisService.setToken(userName, refreshToken, expiration);
     }
@@ -74,22 +76,22 @@ public class SecurityService implements UserDetailsService {
         tokenProvider.validateToken(token);
     }
 
-    public AccessTokenResponse refreshAccessToken(String accessToken) {
+    public AccessTokenResponse refreshAccessToken(String accessToken) throws ExpiredJwtTokenException {
         // redis에서 refresh 토큰 조회
         String userName = tokenProvider.parseClaims(accessToken).getSubject();
         String refreshToken = redisService.getRefreshToken(userName);
+        // 조회 실패시 예외 처리
         if (refreshToken == null) {
-            // 재로그인 요청
+            throw new ExpiredJwtTokenException("만료된 JWT 토큰입니다.");
         }
+        // 조회 성공시 토큰 재발급
         CustomUserDetails userDetails = loadUserByUsername(userName);
-        // 토큰 DTO 반환
         return getAccessTokenResponse(userDetails);
     }
 
     // 로그아웃
     @Transactional
-    public void logout(String accessToken){
-        String username = tokenProvider.parseClaims(accessToken).getSubject();
+    public void logout(String username){
         redisService.deleteToken(username);
     }
 

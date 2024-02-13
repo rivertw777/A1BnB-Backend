@@ -46,8 +46,8 @@ public class SecurityConfig {
                 .apply(new MyCustomDsl())
                 .and()
                 .exceptionHandling()
-                .accessDeniedHandler(new JwtAccessDeniedHandler())
-                .authenticationEntryPoint(new JwtAuthenticationEntryPoint())
+                .accessDeniedHandler(new JwtAccessDeniedHandler(responseWriter))
+                .authenticationEntryPoint(new JwtAuthenticationEntryPoint(responseWriter))
                 .and()
                 .authorizeRequests()
                 // 회원가입

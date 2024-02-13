@@ -16,16 +16,16 @@ public class RedisService {
     private final RedisTemplate<String, String> redisTemplate;
 
     @Transactional
-    public void setToken(String userName, String refreshToken, long expiration) {
-        redisTemplate.opsForValue().set(userName, refreshToken, expiration, TimeUnit.MILLISECONDS);
+    public void setToken(String username, String refreshToken, long expiration) {
+        redisTemplate.opsForValue().set(username, refreshToken, expiration, TimeUnit.MILLISECONDS);
     }
 
-    public String getRefreshToken(String accessToken) {
-        return redisTemplate.opsForValue().get(accessToken);
+    public String getRefreshToken(String username) {
+        return redisTemplate.opsForValue().get(username);
     }
 
     @Transactional
-    public void deleteToken(String token) {
-        redisTemplate.delete(token);
+    public void deleteToken(String username) {
+        redisTemplate.delete(username);
     }
 }
