@@ -1,15 +1,19 @@
 package A1BnB.backend.domain.security.config;
 
+import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
+
 import A1BnB.backend.domain.security.config.filter.JwtAuthenticationFilter;
 import A1BnB.backend.domain.security.config.filter.JwtAuthorizationFilter;
 import A1BnB.backend.domain.security.config.handler.JwtAccessDeniedHandler;
 import A1BnB.backend.domain.security.config.handler.JwtAuthenticationEntryPoint;
+import A1BnB.backend.domain.security.config.handler.JwtAuthenticationFailureHandler;
 import A1BnB.backend.domain.security.config.utils.ResponseWriter;
 import A1BnB.backend.domain.security.service.SecurityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -31,7 +35,6 @@ public class SecurityConfig {
     @Autowired
     private final ResponseWriter responseWriter;
 
-
     // 보안 필터 체인 구성
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -43,18 +46,18 @@ public class SecurityConfig {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 // 커스텀 필터 적용
-                .apply(new MyCustomDsl())
+                .apply(new MyCustomFilter())
                 .and()
                 .exceptionHandling()
                 .accessDeniedHandler(new JwtAccessDeniedHandler(responseWriter))
                 .authenticationEntryPoint(new JwtAuthenticationEntryPoint(responseWriter))
                 .and()
-                .authorizeRequests()
-                // 회원가입
-                .requestMatchers("/api/users").permitAll()
-                // Swagger
-                .requestMatchers("/swagger-ui/**", "/swagger-resources/**", "/v3/api-docs/**").permitAll()
-                .anyRequest().authenticated();
+                .authorizeHttpRequests((authz) -> authz
+                        .requestMatchers(antMatcher(HttpMethod.GET, "/api/users")).permitAll()
+                        .requestMatchers(antMatcher(HttpMethod.GET, "/api/posts")).permitAll()
+                        .requestMatchers("/swagger-ui/**", "/swagger-resources/**", "/v3/api-docs/**").permitAll()
+                        .anyRequest().authenticated()
+                );
         return http.build();
     }
 
@@ -72,7 +75,7 @@ public class SecurityConfig {
     }
 
     // 커스텀 필터 설정
-    public class MyCustomDsl extends AbstractHttpConfigurer<MyCustomDsl, HttpSecurity> {
+    public class MyCustomFilter extends AbstractHttpConfigurer<MyCustomFilter, HttpSecurity> {
         @Override
         public void configure(HttpSecurity http) throws Exception {
             AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);
@@ -80,6 +83,7 @@ public class SecurityConfig {
             // 인증 필터 설정
             JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager, securityService, responseWriter);
             jwtAuthenticationFilter.setFilterProcessesUrl("/api/security/login");
+            jwtAuthenticationFilter.setAuthenticationFailureHandler(new JwtAuthenticationFailureHandler(responseWriter));
 
             // 인가 필터 설정
             JwtAuthorizationFilter jwtAuthorizationFilter = new JwtAuthorizationFilter(securityService, responseWriter);

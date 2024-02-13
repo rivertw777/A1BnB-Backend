@@ -11,8 +11,6 @@ import A1BnB.backend.domain.security.utils.TokenProvider;
 import A1BnB.backend.domain.redis.service.RedisService;
 import A1BnB.backend.domain.member.repository.MemberRepository;
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.MalformedJwtException;
-import io.jsonwebtoken.UnsupportedJwtException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -71,8 +69,7 @@ public class SecurityService implements UserDetailsService {
     }
 
     // 토큰 검증
-    public void validateToken(String token)
-            throws MalformedJwtException, ExpiredJwtTokenException, UnsupportedJwtException {
+    public void validateToken(String token) {
         tokenProvider.validateToken(token);
     }
 

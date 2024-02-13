@@ -62,8 +62,7 @@ public class TokenProvider {
     }
 
     // 토큰 검증
-    public void validateToken(String token)
-            throws MalformedJwtException, ExpiredJwtTokenException, UnsupportedJwtException {
+    public void validateToken(String token) {
         try {
             Jwts.parserBuilder().setSigningKey(jwtSecretKey).build().parseClaimsJws(token);
         } catch (MalformedJwtException e) {
@@ -74,5 +73,4 @@ public class TokenProvider {
             throw new UnsupportedJwtException("지원되지 않는 JWT 토큰입니다.");
         }
     }
-
 }

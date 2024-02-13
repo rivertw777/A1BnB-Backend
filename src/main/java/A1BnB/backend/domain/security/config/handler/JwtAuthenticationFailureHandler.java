@@ -10,16 +10,16 @@ import java.io.IOException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
+// 로그인 실패
 @RequiredArgsConstructor
-public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
+public class JwtAuthenticationFailureHandler implements AuthenticationFailureHandler {
     @Autowired
     private final ResponseWriter responseWriter;
     @Override
-    public void commence(HttpServletRequest request,
-                         HttpServletResponse response,
-                         AuthenticationException authException) throws IOException {
-        //responseWriter.writeErrorResponse(response, SC_UNAUTHORIZED, LOGIN_FAILED.getMessage());
+    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
+                                        AuthenticationException exception) throws IOException {
+        responseWriter.writeErrorResponse(response, SC_UNAUTHORIZED, LOGIN_FAILED.getMessage());
     }
 }
