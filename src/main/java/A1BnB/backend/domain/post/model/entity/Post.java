@@ -33,17 +33,13 @@ public class Post extends BaseTimeEntity {
     @Column(name = "photo_url")
     private String photoUrl;
 
-    @Column(name = "caption", length = 500)
-    private String caption;
-
     @Column(name = "location", length = 100)
     private String location;
 
     @Builder
-    public Post(Member author, String photoUrl, String caption, String location) {
+    public Post(Member author, String photoUrl, String location) {
         this.author = author;
         this.photoUrl = photoUrl;
-        this.caption = caption;
         this.location = location;
     }
 

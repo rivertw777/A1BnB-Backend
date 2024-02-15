@@ -1,6 +1,8 @@
 package A1BnB.backend.domain.member.dto.request;
 
-public record MemberLoginRequest(String name, String password) {
+import jakarta.validation.constraints.NotNull;
+
+public record MemberLoginRequest(@NotNull String name,@NotNull String password) {
     public MemberLoginRequest {
     }
 }

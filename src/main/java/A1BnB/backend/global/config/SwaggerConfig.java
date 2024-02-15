@@ -1,4 +1,4 @@
-package A1BnB.backend.config;
+package A1BnB.backend.global.config;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;

@@ -34,7 +34,7 @@ public class MemberServiceImpl implements MemberService {
         // 비밀번호 인코딩
         String encodedPassword = passwordEncoder.encode(signupParam.password());
 
-        // 회원 저장
+        // Member 엔티티 저장
         Member member = Member.builder()
                 .name(signupParam.name())
                 .password(encodedPassword)

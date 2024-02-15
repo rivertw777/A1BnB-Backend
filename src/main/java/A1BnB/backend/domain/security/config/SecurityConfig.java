@@ -7,7 +7,7 @@ import A1BnB.backend.domain.security.config.filter.JwtAuthorizationFilter;
 import A1BnB.backend.domain.security.config.handler.JwtAccessDeniedHandler;
 import A1BnB.backend.domain.security.config.handler.JwtAuthenticationEntryPoint;
 import A1BnB.backend.domain.security.config.handler.JwtAuthenticationFailureHandler;
-import A1BnB.backend.domain.security.config.utils.ResponseWriter;
+import A1BnB.backend.domain.security.utils.ResponseWriter;
 import A1BnB.backend.domain.security.service.SecurityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,9 +53,10 @@ public class SecurityConfig {
                 .authenticationEntryPoint(new JwtAuthenticationEntryPoint(responseWriter))
                 .and()
                 .authorizeHttpRequests((authz) -> authz
-                        .requestMatchers(antMatcher(HttpMethod.GET, "/api/users")).permitAll()
+                        .requestMatchers(antMatcher(HttpMethod.POST, "/api/users")).permitAll()
                         .requestMatchers(antMatcher(HttpMethod.GET, "/api/posts")).permitAll()
                         .requestMatchers("/swagger-ui/**", "/swagger-resources/**", "/v3/api-docs/**").permitAll()
+                        .requestMatchers("/photos/**").permitAll()
                         .anyRequest().authenticated()
                 );
         return http.build();

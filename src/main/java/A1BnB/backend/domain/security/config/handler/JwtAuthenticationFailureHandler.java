@@ -3,7 +3,7 @@ package A1BnB.backend.domain.security.config.handler;
 import static A1BnB.backend.domain.security.exception.constants.SecurityExceptionMessages.LOGIN_FAILED;
 import static jakarta.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
-import A1BnB.backend.domain.security.config.utils.ResponseWriter;
+import A1BnB.backend.domain.security.utils.ResponseWriter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;

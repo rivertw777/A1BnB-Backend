@@ -1,4 +1,4 @@
-package A1BnB.backend.domain.security.config.utils;
+package A1BnB.backend.domain.security.utils;
 
 import A1BnB.backend.domain.security.dto.response.AccessTokenResponse;
 import A1BnB.backend.global.exception.dto.CustomErrorResponse;

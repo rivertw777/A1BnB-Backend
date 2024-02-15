@@ -3,6 +3,7 @@ package A1BnB.backend.global.config;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
@@ -10,6 +11,9 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Value("${react.url}")
     private String reactUrl;
+
+    @Value("${photo.file.dir}")
+    private String photoFileDir;
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
@@ -19,5 +23,11 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowedHeaders("Content-Type", "Authorization")
                 .exposedHeaders("Authorization")
                 .allowCredentials(true);
+    }
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/photos/**")
+                .addResourceLocations(photoFileDir);
     }
 }

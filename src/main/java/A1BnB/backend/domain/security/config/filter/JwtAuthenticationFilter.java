@@ -1,7 +1,7 @@
 package A1BnB.backend.domain.security.config.filter;
 
 import A1BnB.backend.domain.member.dto.request.MemberLoginRequest;
-import A1BnB.backend.domain.security.config.utils.ResponseWriter;
+import A1BnB.backend.domain.security.utils.ResponseWriter;
 import A1BnB.backend.domain.security.model.CustomUserDetails;
 import A1BnB.backend.domain.security.dto.response.AccessTokenResponse;
 import A1BnB.backend.domain.security.service.SecurityService;

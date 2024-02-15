@@ -4,7 +4,7 @@ import static A1BnB.backend.domain.security.constants.JwtProperties.HEADER_STRIN
 import static A1BnB.backend.domain.security.constants.JwtProperties.TOKEN_PREFIX;
 import static jakarta.servlet.http.HttpServletResponse.SC_FORBIDDEN;
 
-import A1BnB.backend.domain.security.config.utils.ResponseWriter;
+import A1BnB.backend.domain.security.utils.ResponseWriter;
 import A1BnB.backend.domain.security.service.SecurityService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -48,6 +48,5 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             responseWriter.writeErrorResponse(response, SC_FORBIDDEN, e.getMessage());
         }
         chain.doFilter(request, response);
-
    }
 }

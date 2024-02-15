@@ -2,6 +2,7 @@ package A1BnB.backend.domain.post.service;
 
 import static A1BnB.backend.domain.member.exception.constants.MemberExceptionMessages.MEMBER_NAME_NOT_FOUND;
 
+import A1BnB.backend.domain.file.service.FileSystemService;
 import A1BnB.backend.domain.member.exception.MemberNotFoundException;
 import A1BnB.backend.domain.member.model.entity.Member;
 import A1BnB.backend.domain.post.model.entity.Post;
@@ -10,6 +11,7 @@ import A1BnB.backend.domain.post.dto.request.PostUploadRequest;
 import A1BnB.backend.domain.post.dto.response.PostResponse;
 import A1BnB.backend.domain.post.dto.response.mapper.PostResponseMapper;
 import A1BnB.backend.domain.member.repository.MemberRepository;
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -28,21 +30,23 @@ public class PostServiceImpl implements PostService {
     private final MemberRepository memberRepository;
     @Autowired
     private final PostResponseMapper postResponseMapper;
+    @Autowired
+    private final FileSystemService fileService;
 
     // 게시물 등록
     @Override
-    public void registerPost(String userName, PostUploadRequest uploadParam) {
+    public void registerPost(String userName, PostUploadRequest uploadParam) throws IOException {
         // 로그인 중인 회원 조회
         Member currentMember = findMember(userName);
 
         // 사진 경로 반환
-        String photoName = UUID.randomUUID() + "_" + uploadParam.photo().getOriginalFilename();
-        String photoUrl = "https://images.unsplash.com/photo-1513694203232-719a280e022f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1NjQyODl8MHwxfHNlYXJjaHwxfHxyb29tfGVufDB8fHx8MTcwNzI5ODY1Mnww&ixlib=rb-4.0.3&q=80&w=1080";
-        // 게시물 저장
+        String photoName = UUID.randomUUID() + "_" + uploadParam.photos()[0].getOriginalFilename();
+        String photoUrl = fileService.uploadPhoto(uploadParam.photos(), photoName);
+
+        // Post 엔티티 저장
         Post post = Post.builder()
                 .author(currentMember)
                 .photoUrl(photoUrl)
-                .caption(uploadParam.caption())
                 .location(uploadParam.location())
                 .build();
         postRepository.save(post);

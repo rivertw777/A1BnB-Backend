@@ -54,7 +54,7 @@ public class SecurityService implements UserDetailsService {
         String refreshToken = tokenData.refreshToken();
         // 만료 시간 추출
         long expiration = tokenProvider.parseClaims(refreshToken).getExpiration().getTime();
-        redisService.setToken(userName, refreshToken, expiration);
+        redisService.setRefreshToken(userName, refreshToken, expiration);
     }
 
     // 인증 정보 반환
@@ -89,7 +89,7 @@ public class SecurityService implements UserDetailsService {
     // 로그아웃
     @Transactional
     public void logout(String username){
-        redisService.deleteToken(username);
+        redisService.deleteRefreshToken(username);
     }
 
 }
