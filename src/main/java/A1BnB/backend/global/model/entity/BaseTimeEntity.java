@@ -1,4 +1,4 @@
-package A1BnB.backend.domain.post.model;
+package A1BnB.backend.global.model.entity;
 
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;

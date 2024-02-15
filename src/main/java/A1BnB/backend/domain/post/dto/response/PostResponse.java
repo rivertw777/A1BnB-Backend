@@ -1,6 +1,8 @@
 package A1BnB.backend.domain.post.dto.response;
 
-public record PostResponse(Long postId, String photoUrl, String location) {
+import java.util.List;
+
+public record PostResponse(Long postId, List<String> photoUrls, String location) {
     public PostResponse{
     }
 }

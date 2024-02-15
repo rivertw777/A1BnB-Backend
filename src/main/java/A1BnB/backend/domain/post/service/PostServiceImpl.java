@@ -4,9 +4,11 @@ import static A1BnB.backend.domain.member.exception.constants.MemberExceptionMes
 
 import A1BnB.backend.domain.file.service.FileSystemService;
 import A1BnB.backend.domain.member.exception.MemberNotFoundException;
-import A1BnB.backend.domain.member.model.entity.Member;
+import A1BnB.backend.domain.photo.model.entity.Photo;
+import A1BnB.backend.domain.photo.service.PhotoService;
 import A1BnB.backend.domain.post.model.entity.Post;
 import A1BnB.backend.domain.post.repository.PostRepository;
+import A1BnB.backend.domain.member.model.entity.Member;
 import A1BnB.backend.domain.post.dto.request.PostUploadRequest;
 import A1BnB.backend.domain.post.dto.response.PostResponse;
 import A1BnB.backend.domain.post.dto.response.mapper.PostResponseMapper;
@@ -14,10 +16,12 @@ import A1BnB.backend.domain.member.repository.MemberRepository;
 import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 @RequiredArgsConstructor
 @Transactional
@@ -32,6 +36,8 @@ public class PostServiceImpl implements PostService {
     private final PostResponseMapper postResponseMapper;
     @Autowired
     private final FileSystemService fileService;
+    @Autowired
+    private final PhotoService photoService;
 
     // 게시물 등록
     @Override
@@ -40,17 +46,28 @@ public class PostServiceImpl implements PostService {
         Member currentMember = findMember(userName);
 
         // 사진 경로 반환
-        String photoName = UUID.randomUUID() + "_" + uploadParam.photos()[0].getOriginalFilename();
-        String photoUrl = fileService.uploadPhoto(uploadParam.photos(), photoName);
+        List<String> photoNames = makePhotoNames(uploadParam.photos());
+        List<String> photoUrls = fileService.uploadPhoto(uploadParam.photos(), photoNames);
+
+        // 사진 엔티티 저장
+        List<Photo> photos = photoService.savePhotos(photoUrls);
 
         // Post 엔티티 저장
         Post post = Post.builder()
                 .author(currentMember)
-                .photoUrl(photoUrl)
                 .location(uploadParam.location())
+                .photos(photos)
                 .build();
         postRepository.save(post);
+
     }
+
+    private List<String> makePhotoNames(List<MultipartFile> photos) {
+        return photos.stream()
+                .map(photo -> UUID.randomUUID() + "_" + photo.getOriginalFilename())
+                .collect(Collectors.toList());
+    }
+
 
     // 게시물 전체 조회
     @Override
