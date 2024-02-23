@@ -15,11 +15,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("api/photos")
 public class PhotoController {
+
+    private static final Logger logger = LoggerFactory.getLogger(PhotoController.class);
 
     @Autowired
     private final PhotoService photoService;
@@ -36,7 +40,7 @@ public class PhotoController {
         List<String> photoUrls = photoService.uploadPhotos(uploadParam);
 
         // Lambda POST 요청
-        String inferenceResult = postPhotosToLambda(photoUrls);
+        String inferenceResult = sendPhotosToLambda(photoUrls);
 
         // 사진 엔티티 저장
         photoService.savePhotos(inferenceResult);
@@ -44,13 +48,16 @@ public class PhotoController {
     }
 
     // Lambda POST 요청
-    private String postPhotosToLambda(List<String> photoUrls){
-        return webClient.post()
+    public String sendPhotosToLambda(List<String> photoUrls){
+        long start = System.currentTimeMillis();
+        String result = webClient.post()
                 .uri(lambdaUrl)
                 .bodyValue(photoUrls)
                 .retrieve()
                 .bodyToMono(String.class)
                 .block();
+        long executionTime = System.currentTimeMillis() - start;
+        logger.info("sendPhotosToLambda - Execution Time: " + executionTime + "ms");
+        return result;
     }
-
 }

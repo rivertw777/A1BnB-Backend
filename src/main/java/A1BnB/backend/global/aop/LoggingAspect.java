@@ -35,7 +35,7 @@ public class LoggingAspect {
     }
 
     // 메서드 실행 이후 로깅
-    @Around("execution(* A1BnB.backend.*.*.service.*.*(..)) || ")
+    @Around("execution(* A1BnB.backend.*.*.service.*.*(..))")
     public Object logAfter(ProceedingJoinPoint joinPoint) throws Throwable {
         String methodName = joinPoint.getSignature().getName();
         String className = joinPoint.getSignature().getDeclaringTypeName();
@@ -49,7 +49,6 @@ public class LoggingAspect {
         logger.info("[{}] [Completed] {}.{}() - Execution Time: {}ms", layer, className, methodName, executionTime);
         return result;
     }
-
 
     // 클래스 이름으로부터 계층(layer) 이름 추출
     private String getLayerName(String className) {
