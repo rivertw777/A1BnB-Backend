@@ -2,7 +2,6 @@ package A1BnB.backend.domain.photo.model.entity;
 
 import A1BnB.backend.domain.ammenity.model.entity.Ammenity;
 import A1BnB.backend.domain.post.model.entity.Post;
-import A1BnB.backend.global.model.entity.BaseTimeEntity;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -25,7 +24,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @Table(name = "photos")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Photo extends BaseTimeEntity {
+public class Photo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

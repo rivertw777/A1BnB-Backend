@@ -54,6 +54,7 @@ public class PhotoServiceImpl implements PhotoService {
 
     @Override
     public void savePhotos(String inferenceResult) throws JsonProcessingException {
+        // 문자열 파싱
         Map<String, List<Map<String, Double>>> parsedResult = jsonParser.parseInferenceResult(inferenceResult);
 
         for (Map.Entry<String, List<Map<String, Double>>> entry : parsedResult.entrySet()) {
@@ -78,15 +79,21 @@ public class PhotoServiceImpl implements PhotoService {
     private List<Ammenity> getAmmenities(List<Map<String, Double>> objectList) {
         List<Ammenity> ammenities = new ArrayList<>();
         for (Map<String, Double> objectMap : objectList) {
-            for (Map.Entry<String, Double> objectEntry : objectMap.entrySet()) {
-                String type = objectEntry.getKey();
-                double confidence = objectEntry.getValue();
-                // ammenity 엔티티 저장
-                Ammenity ammenity = ammenityService.saveAmmenity(type, confidence);
-                ammenities.add(ammenity);
-            }
+            // ammenity 추가
+            addAmmenity(ammenities, objectMap);
         }
         return ammenities;
+    }
+
+    // ammenity 추가
+    private void addAmmenity(List<Ammenity> ammenities, Map<String, Double> objectMap) {
+        for (Map.Entry<String, Double> objectEntry : objectMap.entrySet()) {
+            String type = objectEntry.getKey();
+            double confidence = objectEntry.getValue();
+            // ammenity 엔티티 저장
+            Ammenity ammenity = ammenityService.saveAmmenity(type, confidence);
+            ammenities.add(ammenity);
+        }
     }
 
     // 분석된 사진 경로 반환
