@@ -1,9 +1,8 @@
-package A1BnB.backend.domain.redis.service;
+package A1BnB.backend.global.redis.service;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.awaitility.Awaitility.await;
 
-import A1BnB.backend.global.redis.service.RedisService;
 import java.time.Duration;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,7 +33,7 @@ class RedisServiceTest {
     }
 
     @Test
-    @DisplayName("Refresh 토큰 조회")
+    @DisplayName("Refresh 토큰 조회 확인")
     void saveAndFindTest() {
         // when
         String findToken = redisService.getRefreshToken(KEY);
@@ -43,12 +42,11 @@ class RedisServiceTest {
     }
 
     @Test
-    @DisplayName("Refresh 토큰 조회")
+    @DisplayName("Refresh 토큰 삭제 확인")
     void deleteTest() {
         // when
         redisService.deleteRefreshToken(KEY);
         String findValue = redisService.getRefreshToken(KEY);
-
         // then
         assertThat(findValue).isEqualTo(null);
     }
@@ -68,4 +66,3 @@ class RedisServiceTest {
     }
 
 }
-
