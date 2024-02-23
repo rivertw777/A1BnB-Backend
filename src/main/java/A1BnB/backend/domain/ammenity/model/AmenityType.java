@@ -1,0 +1,28 @@
+package A1BnB.backend.domain.ammenity.model;
+
+public enum AmenityType {
+    BATHTUB,
+    BED,
+    CHEST_OF_DRAWERS,
+    CLOSET,
+    COMPUTER_MONITOR,
+    COUCH,
+    FRYING_PAN,
+    HAIR_DRYER,
+    HOME_APPLIANCE,
+    JACUZZI,
+    KITCHEN_APPLIANCE,
+    MICROWAVE_OVEN,
+    OVEN,
+    PRESSURE_COOKER,
+    PRINTER,
+    REFRIGERATOR,
+    SINK,
+    SOFA_BED,
+    SWIMMING_POOL,
+    TABLE,
+    WARDROBE,
+    WASHING_MACHINE,
+    TELEVISION,
+    TOASTER
+}
