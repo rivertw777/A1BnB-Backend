@@ -3,6 +3,7 @@ package A1BnB.backend.domain.redis.service;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.awaitility.Awaitility.await;
 
+import A1BnB.backend.global.redis.service.RedisService;
 import java.time.Duration;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
