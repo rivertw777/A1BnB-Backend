@@ -9,5 +9,5 @@ import org.springframework.stereotype.Service;
 @Service
 public interface PhotoService {
     List<String> uploadPhotos(PhotoUploadRequest uploadParam) throws IOException;
-    void savePhotos(String inferenceResult) throws JsonProcessingException;
+    List<Long> savePhotos(String inferenceResult) throws JsonProcessingException;
 }

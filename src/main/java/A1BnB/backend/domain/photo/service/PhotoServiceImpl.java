@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -53,26 +54,46 @@ public class PhotoServiceImpl implements PhotoService {
     }
 
     @Override
-    public void savePhotos(String inferenceResult) throws JsonProcessingException {
+    public List<Long> savePhotos(String inferenceResult) throws JsonProcessingException {
         // 문자열 파싱
         Map<String, List<Map<String, Double>>> parsedResult = jsonParser.parseInferenceResult(inferenceResult);
 
+        List<Long> photoIdList = new ArrayList<>();
         for (Map.Entry<String, List<Map<String, Double>>> entry : parsedResult.entrySet()) {
-            String imageUrl = entry.getKey();
-            List<Map<String, Double>> objectList = entry.getValue();
-
-            // ammenity 리스트 반환
-            List<Ammenity> ammenities = getAmmenities(objectList);
-
-            // photo 엔티티 저장
-            String detectedUrl = getDetectedUrl(imageUrl);
-            Photo photo = Photo.builder()
-                    .originalUrl(imageUrl)
-                    .detectedUrl(detectedUrl)
-                    .ammenities(ammenities)
-                    .build();
-            photoRepository.save(photo);
+            handleEntry(photoIdList, entry);
         }
+        // photoId 리스트
+        return photoIdList;
+    }
+
+    private void handleEntry(List<Long> photoIdList, Entry<String, List<Map<String, Double>>> entry) {
+        String imageUrl = entry.getKey();
+        List<Map<String, Double>> objectList = entry.getValue();
+
+        // ammenity 리스트 반환
+        List<Ammenity> ammenities = getAmmenities(objectList);
+
+        // photo 엔티티 저장
+        Photo photo = getPhoto(imageUrl, ammenities);
+        photoIdList.add(photo.getPhotoId());
+    }
+
+    // photo 엔티티 저장
+    private Photo getPhoto(String imageUrl, List<Ammenity> ammenities) {
+        String detectedUrl = getDetectedUrl(imageUrl);
+        Photo photo = Photo.builder()
+                .originalUrl(imageUrl)
+                .detectedUrl(detectedUrl)
+                .ammenities(ammenities)
+                .build();
+        photoRepository.save(photo);
+        return photo;
+    }
+
+    // 분석된 사진 경로 반환
+    private String getDetectedUrl(String originalUrl){
+        String photoName = originalUrl.substring(originalUrl.indexOf("photos/") + "photos/".length());
+        return detecetedUrl + photoName;
     }
 
     // ammenity 리스트 반환
@@ -94,12 +115,6 @@ public class PhotoServiceImpl implements PhotoService {
             Ammenity ammenity = ammenityService.saveAmmenity(type, confidence);
             ammenities.add(ammenity);
         }
-    }
-
-    // 분석된 사진 경로 반환
-    private String getDetectedUrl(String originalUrl){
-        String photoName = originalUrl.substring(originalUrl.indexOf("photos/") + "photos/".length());
-        return detecetedUrl + photoName;
     }
 
 }

@@ -35,20 +35,22 @@ public class PhotoController {
     private String lambdaUrl;
 
     @PostMapping(value = "", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> savePhotos(@Valid @ModelAttribute PhotoUploadRequest uploadParam) throws IOException {
+    public ResponseEntity<List<Long>> savePhotos(@Valid @ModelAttribute PhotoUploadRequest uploadParam) throws IOException {
         // 사진 업로드, 경로 반환
         List<String> photoUrls = photoService.uploadPhotos(uploadParam);
 
         // Lambda POST 요청
-        String inferenceResult = sendPhotosToLambda(photoUrls);
+        String inferenceResult = postLambda(photoUrls);
 
         // 사진 엔티티 저장
-        photoService.savePhotos(inferenceResult);
-        return ResponseEntity.ok().build();
+        List<Long> photoIdList = photoService.savePhotos(inferenceResult);
+
+        // photoIdList 반환
+        return ResponseEntity.ok(photoIdList);
     }
 
     // Lambda POST 요청
-    public String sendPhotosToLambda(List<String> photoUrls){
+    public String postLambda(List<String> photoUrls){
         long start = System.currentTimeMillis();
         String result = webClient.post()
                 .uri(lambdaUrl)
@@ -57,7 +59,8 @@ public class PhotoController {
                 .bodyToMono(String.class)
                 .block();
         long executionTime = System.currentTimeMillis() - start;
-        logger.info("sendPhotosToLambda - Execution Time: " + executionTime + "ms");
+        logger.info("postLambda - Execution Time: " + executionTime + "ms");
         return result;
     }
+
 }
