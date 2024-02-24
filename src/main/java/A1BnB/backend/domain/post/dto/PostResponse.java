@@ -1,4 +1,4 @@
-package A1BnB.backend.domain.post.dto.response;
+package A1BnB.backend.domain.post.dto;
 
 import java.util.List;
 

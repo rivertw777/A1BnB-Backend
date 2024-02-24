@@ -1,4 +1,4 @@
-package A1BnB.backend.domain.photo.dto.request;
+package A1BnB.backend.domain.photo.dto;
 
 import jakarta.validation.constraints.NotNull;
 import java.util.List;

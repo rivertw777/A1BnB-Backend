@@ -4,7 +4,7 @@ import static A1BnB.backend.domain.member.exception.constants.MemberExceptionMes
 
 import A1BnB.backend.domain.member.model.entity.Member;
 import A1BnB.backend.global.security.dto.TokenData;
-import A1BnB.backend.global.security.dto.response.AccessTokenResponse;
+import A1BnB.backend.global.security.dto.AccessTokenResponse;
 import A1BnB.backend.global.security.exception.ExpiredJwtTokenException;
 import A1BnB.backend.global.security.model.CustomUserDetails;
 import A1BnB.backend.global.security.utils.TokenProvider;

@@ -1,9 +1,9 @@
 package A1BnB.backend.global.security.config.filter;
 
-import A1BnB.backend.domain.member.dto.request.MemberLoginRequest;
+import A1BnB.backend.domain.member.dto.MemberLoginRequest;
 import A1BnB.backend.global.security.utils.ResponseWriter;
 import A1BnB.backend.global.security.model.CustomUserDetails;
-import A1BnB.backend.global.security.dto.response.AccessTokenResponse;
+import A1BnB.backend.global.security.dto.AccessTokenResponse;
 import A1BnB.backend.global.security.service.SecurityService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;

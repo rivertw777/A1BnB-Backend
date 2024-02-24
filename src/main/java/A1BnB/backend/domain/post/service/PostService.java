@@ -1,7 +1,7 @@
 package A1BnB.backend.domain.post.service;
 
-import A1BnB.backend.domain.post.dto.request.PostUploadRequest;
-import A1BnB.backend.domain.post.dto.response.PostResponse;
+import A1BnB.backend.domain.post.dto.PostUploadRequest;
+import A1BnB.backend.domain.post.dto.PostResponse;
 import java.io.IOException;
 import java.util.List;
 import org.springframework.stereotype.Service;

@@ -2,7 +2,9 @@ package A1BnB.backend.domain.photo.service;
 
 import A1BnB.backend.domain.ammenity.model.entity.Ammenity;
 import A1BnB.backend.domain.ammenity.service.AmmenityService;
-import A1BnB.backend.domain.photo.dto.request.PhotoUploadRequest;
+import A1BnB.backend.domain.photo.dto.PhotoUploadRequest;
+import A1BnB.backend.domain.photo.dto.ResultResponse;
+import A1BnB.backend.domain.photo.dto.mapper.ResultResponseMapper;
 import A1BnB.backend.domain.photo.model.entity.Photo;
 import A1BnB.backend.domain.photo.repository.PhotoRepository;
 import A1BnB.backend.domain.photo.utils.JsonParser;
@@ -35,6 +37,8 @@ public class PhotoServiceImpl implements PhotoService {
     private final PhotoRepository photoRepository;
     @Autowired
     private final JsonParser jsonParser;
+    @Autowired
+    private final ResultResponseMapper resultResponseMapper;
 
     @Value("${photo.detected.url}")
     private String detecetedUrl;
@@ -115,6 +119,27 @@ public class PhotoServiceImpl implements PhotoService {
             Ammenity ammenity = ammenityService.saveAmmenity(type, confidence);
             ammenities.add(ammenity);
         }
+    }
+
+    @Override
+    public List<ResultResponse> getResults(List<Long> photoIdList) {
+        // 사진 리스트 조회
+        List<Photo> photos = getPhotos(photoIdList);
+        // // 결과 응답 DTO 반환
+        return resultResponseMapper.toResultResponses(photos);
+    }
+
+    // 사진 리스트 조회
+    private List<Photo> getPhotos(List<Long> photoIdList) {
+        return photoIdList.stream()
+                .map(this::findByPhotoId)
+                .collect(Collectors.toList());
+    }
+
+    private Photo findByPhotoId(Long photoId) {
+        Photo photo = photoRepository.findByPhotoId(photoId)
+                .orElseThrow(() -> new IllegalArgumentException());
+        return photo;
     }
 
 }

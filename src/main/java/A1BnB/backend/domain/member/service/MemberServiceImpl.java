@@ -3,7 +3,7 @@ package A1BnB.backend.domain.member.service;
 import static A1BnB.backend.domain.member.exception.constants.MemberExceptionMessages.DUPLICATE_NAME;
 
 import A1BnB.backend.domain.member.model.entity.Member;
-import A1BnB.backend.domain.member.dto.request.MemberSignupRequest;
+import A1BnB.backend.domain.member.dto.MemberSignupRequest;
 import A1BnB.backend.domain.member.exception.DuplicateNameException;
 import A1BnB.backend.domain.member.model.Role;
 import A1BnB.backend.domain.member.repository.MemberRepository;

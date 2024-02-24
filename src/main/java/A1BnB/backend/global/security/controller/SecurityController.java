@@ -1,6 +1,6 @@
 package A1BnB.backend.global.security.controller;
 
-import A1BnB.backend.global.security.dto.response.AccessTokenResponse;
+import A1BnB.backend.global.security.dto.AccessTokenResponse;
 import A1BnB.backend.global.security.service.SecurityService;
 import A1BnB.backend.global.security.constants.JwtProperties;
 import lombok.RequiredArgsConstructor;

@@ -1,6 +1,8 @@
 package A1BnB.backend.domain.photo.controller;
 
-import A1BnB.backend.domain.photo.dto.request.PhotoUploadRequest;
+import A1BnB.backend.domain.photo.dto.PhotoUploadRequest;
+import A1BnB.backend.domain.photo.dto.ResultRequest;
+import A1BnB.backend.domain.photo.dto.ResultResponse;
 import A1BnB.backend.domain.photo.service.PhotoService;
 import jakarta.validation.Valid;
 import java.io.IOException;
@@ -12,6 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -50,7 +53,7 @@ public class PhotoController {
     }
 
     // Lambda POST 요청
-    public String postLambda(List<String> photoUrls){
+    private String postLambda(List<String> photoUrls){
         long start = System.currentTimeMillis();
         String result = webClient.post()
                 .uri(lambdaUrl)
@@ -61,6 +64,13 @@ public class PhotoController {
         long executionTime = System.currentTimeMillis() - start;
         logger.info("postLambda - Execution Time: " + executionTime + "ms");
         return result;
+    }
+
+    // 분석 결과 반환
+    @PostMapping("/results")
+    public ResponseEntity<List<ResultResponse>> getResults(@Valid @RequestBody ResultRequest requestParam) {
+        List<ResultResponse> resultResponses = photoService.getResults(requestParam.photoIdList());
+        return ResponseEntity.ok(resultResponses);
     }
 
 }

@@ -1,6 +1,6 @@
 package A1BnB.backend.domain.member.controller;
 
-import A1BnB.backend.domain.member.dto.request.MemberSignupRequest;
+import A1BnB.backend.domain.member.dto.MemberSignupRequest;
 import A1BnB.backend.domain.member.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

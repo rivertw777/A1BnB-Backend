@@ -1,4 +1,4 @@
-package A1BnB.backend.domain.member.dto.request;
+package A1BnB.backend.domain.member.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;

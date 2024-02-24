@@ -1,6 +1,6 @@
 package A1BnB.backend.domain.member.service;
 
-import A1BnB.backend.domain.member.dto.request.MemberSignupRequest;
+import A1BnB.backend.domain.member.dto.MemberSignupRequest;
 import org.springframework.stereotype.Service;
 
 @Service
