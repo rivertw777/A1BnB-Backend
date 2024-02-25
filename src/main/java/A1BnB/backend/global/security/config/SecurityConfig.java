@@ -56,7 +56,6 @@ public class SecurityConfig {
                         .requestMatchers(antMatcher(HttpMethod.POST, "/api/users")).permitAll()
                         .requestMatchers(antMatcher(HttpMethod.GET, "/api/posts")).permitAll()
                         .requestMatchers("/swagger-ui/**", "/swagger-resources/**", "/v3/api-docs/**").permitAll()
-                        .requestMatchers("/photos/**").permitAll()
                         .anyRequest().authenticated()
                 );
         return http.build();

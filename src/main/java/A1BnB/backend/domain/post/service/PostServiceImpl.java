@@ -3,6 +3,8 @@ package A1BnB.backend.domain.post.service;
 import A1BnB.backend.domain.member.service.MemberService;
 import A1BnB.backend.domain.photo.model.entity.Photo;
 import A1BnB.backend.domain.photo.service.PhotoService;
+import A1BnB.backend.domain.post.dto.PostSearchRequest;
+import A1BnB.backend.domain.post.dto.PostSearchResponse;
 import A1BnB.backend.domain.post.model.entity.Post;
 import A1BnB.backend.domain.post.repository.PostRepository;
 import A1BnB.backend.domain.member.model.entity.Member;
@@ -58,6 +60,11 @@ public class PostServiceImpl implements PostService {
 
         // 게시물 응답 DTO 반환
         return postResponseMapper.toPostResponses(posts);
+    }
+
+    @Override
+    public List<PostSearchResponse> searchByCondition(PostSearchRequest searchCondition) {
+        return postRepository.search(searchCondition);
     }
 
 }
