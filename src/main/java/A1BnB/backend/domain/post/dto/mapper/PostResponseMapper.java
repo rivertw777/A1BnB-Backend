@@ -23,8 +23,12 @@ public class PostResponseMapper {
 
         return new PostResponse(
                 post.getPostId(),
+                post.getAuthor().getName(),
                 photoUrls,
-                post.getLocation()
+                post.getLocation(),
+                post.getCheckIn(),
+                post.getCheckOut(),
+                post.getPricePerNight()
         );
     }
 

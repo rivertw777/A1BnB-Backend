@@ -43,6 +43,9 @@ public class PostServiceImpl implements PostService {
                 .author(currentMember)
                 .location(uploadParam.location())
                 .photos(photos)
+                .checkIn(uploadParam.checkIn())
+                .checkOut(uploadParam.checkOut())
+                .pricePerNight(uploadParam.pricePerNight())
                 .build();
         postRepository.save(post);
     }

@@ -14,6 +14,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AccessLevel;
@@ -41,14 +42,27 @@ public class Post extends BaseTimeEntity {
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<Photo> photos = new ArrayList<>();
 
+    @Column(name = "CheckInDate")
+    private LocalDateTime checkIn;
+
+    @Column(name = "CheckOutDate")
+    private LocalDateTime checkOut;
+
+    @Column(name = "PricePerNight")
+    private String pricePerNight;
+
     @Builder
-    public Post(Member author, String location, List<Photo> photos) {
+    public Post(Member author, String location, List<Photo> photos, LocalDateTime checkIn, LocalDateTime checkOut,
+                String pricePerNight) {
         this.photos = photos;
         for (Photo photo : photos) {
             photo.setPost(this);
         }
         this.author = author;
         this.location = location;
+        this.checkIn = checkIn;
+        this.checkOut = checkOut;
+        this.pricePerNight = pricePerNight;
     }
 
 }
