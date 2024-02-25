@@ -78,12 +78,12 @@ public class PhotoServiceImpl implements PhotoService {
         List<Ammenity> ammenities = getAmmenities(objectList);
 
         // photo 엔티티 저장
-        Photo photo = getPhoto(imageUrl, ammenities);
+        Photo photo = savePhoto(imageUrl, ammenities);
         photoIdList.add(photo.getPhotoId());
     }
 
     // photo 엔티티 저장
-    private Photo getPhoto(String imageUrl, List<Ammenity> ammenities) {
+    private Photo savePhoto(String imageUrl, List<Ammenity> ammenities) {
         String detectedUrl = getDetectedUrl(imageUrl);
         Photo photo = Photo.builder()
                 .originalUrl(imageUrl)
@@ -130,7 +130,7 @@ public class PhotoServiceImpl implements PhotoService {
     }
 
     // 사진 리스트 조회
-    private List<Photo> getPhotos(List<Long> photoIdList) {
+    public List<Photo> getPhotos(List<Long> photoIdList) {
         return photoIdList.stream()
                 .map(this::findByPhotoId)
                 .collect(Collectors.toList());

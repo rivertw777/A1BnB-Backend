@@ -1,7 +1,9 @@
 package A1BnB.backend.domain.member.service;
 
 import static A1BnB.backend.domain.member.exception.constants.MemberExceptionMessages.DUPLICATE_NAME;
+import static A1BnB.backend.domain.member.exception.constants.MemberExceptionMessages.MEMBER_NAME_NOT_FOUND;
 
+import A1BnB.backend.domain.member.exception.MemberNotFoundException;
 import A1BnB.backend.domain.member.model.entity.Member;
 import A1BnB.backend.domain.member.dto.MemberSignupRequest;
 import A1BnB.backend.domain.member.exception.DuplicateNameException;
@@ -49,6 +51,13 @@ public class MemberServiceImpl implements MemberService {
         if (findMember.isPresent()) {
             throw new DuplicateNameException(DUPLICATE_NAME.getMessage());
         }
+    }
+
+    // 이름으로 찾아서 반환
+    public Member findMember(String userName){
+        Member member = memberRepository.findByName(userName)
+                .orElseThrow(() -> new MemberNotFoundException(MEMBER_NAME_NOT_FOUND.getMessage()));
+        return member;
     }
 
 }
