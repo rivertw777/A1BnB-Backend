@@ -20,7 +20,6 @@ public class PostResponseMapper {
         List<String> photoUrls = post.getPhotos().stream()
                 .map(Photo::getOriginalUrl)
                 .collect(Collectors.toList());
-
         return new PostResponse(
                 post.getPostId(),
                 post.getAuthor().getName(),
