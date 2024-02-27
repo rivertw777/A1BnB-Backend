@@ -53,8 +53,12 @@ public class SecurityConfig {
                 .authenticationEntryPoint(new JwtAuthenticationEntryPoint(responseWriter))
                 .and()
                 .authorizeHttpRequests((authz) -> authz
+                        // 회원 가입
                         .requestMatchers(antMatcher(HttpMethod.POST, "/api/users")).permitAll()
+                        // 게시물 조회
                         .requestMatchers(antMatcher(HttpMethod.GET, "/api/posts")).permitAll()
+                        // 게시물 검색
+                        .requestMatchers(antMatcher(HttpMethod.POST, "/api/posts/search")).permitAll()
                         .requestMatchers("/swagger-ui/**", "/swagger-resources/**", "/v3/api-docs/**").permitAll()
                         .anyRequest().authenticated()
                 );

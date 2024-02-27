@@ -1,4 +1,4 @@
-package A1BnB.backend.domain.ammenity.model.entity;
+package A1BnB.backend.domain.amenity.model.entity;
 
 import A1BnB.backend.domain.photo.model.entity.Photo;
 import jakarta.persistence.Column;
@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @Table(name = "ammenities")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Ammenity {
+public class Amenity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,7 +36,7 @@ public class Ammenity {
     private Photo photo;
 
     @Builder
-    public Ammenity(String type, Double confidence) {
+    public Amenity(String type, Double confidence) {
         this.type = type;
         this.confidence = confidence;
     }

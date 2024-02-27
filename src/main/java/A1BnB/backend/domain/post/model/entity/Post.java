@@ -49,11 +49,11 @@ public class Post extends BaseTimeEntity {
     private LocalDateTime checkOut;
 
     @Column(name = "PricePerNight")
-    private String pricePerNight;
+    private Double pricePerNight;
 
     @Builder
     public Post(Member author, String location, List<Photo> photos, LocalDateTime checkIn, LocalDateTime checkOut,
-                String pricePerNight) {
+                Double pricePerNight) {
         this.photos = photos;
         for (Photo photo : photos) {
             photo.setPost(this);

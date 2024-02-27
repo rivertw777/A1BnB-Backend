@@ -15,7 +15,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -47,7 +46,7 @@ public class PostController {
     // 게시물 검색
     @PostMapping("/search")
     public ResponseEntity<List<PostSearchResponse>> searchByCondition(
-            @Valid @RequestBody PostSearchRequest searchCondition) {
+            @Valid @ModelAttribute PostSearchRequest searchCondition) {
         List<PostSearchResponse> postSearchResponses = postService.searchByCondition(searchCondition);
         return ResponseEntity.ok(postSearchResponses);
     }

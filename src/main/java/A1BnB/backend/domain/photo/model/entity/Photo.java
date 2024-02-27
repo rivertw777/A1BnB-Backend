@@ -1,6 +1,6 @@
 package A1BnB.backend.domain.photo.model.entity;
 
-import A1BnB.backend.domain.ammenity.model.entity.Ammenity;
+import A1BnB.backend.domain.amenity.model.entity.Amenity;
 import A1BnB.backend.domain.post.model.entity.Post;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -46,16 +46,16 @@ public class Photo {
     private String detectedUrl;
 
     @OneToMany(mappedBy = "photo", cascade = CascadeType.ALL)
-    private List<Ammenity> ammenities = new ArrayList<>();
+    private List<Amenity> amenities = new ArrayList<>();
 
     @Builder
-    public Photo(String originalUrl, String detectedUrl, List<Ammenity> ammenities) {
+    public Photo(String originalUrl, String detectedUrl, List<Amenity> amenities) {
         this.originalUrl = originalUrl;
         this.detectedUrl = detectedUrl;
-        for (Ammenity ammenity : ammenities) {
-            ammenity.setPhoto(this);
+        for (Amenity amenity : amenities) {
+            amenity.setPhoto(this);
         }
-        this.ammenities = ammenities;
+        this.amenities = amenities;
     }
 
     public void setPost(Post post){

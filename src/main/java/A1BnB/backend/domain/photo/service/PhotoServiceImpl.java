@@ -1,7 +1,7 @@
 package A1BnB.backend.domain.photo.service;
 
-import A1BnB.backend.domain.ammenity.model.entity.Ammenity;
-import A1BnB.backend.domain.ammenity.service.AmmenityService;
+import A1BnB.backend.domain.amenity.model.entity.Amenity;
+import A1BnB.backend.domain.amenity.service.AmenityService;
 import A1BnB.backend.domain.photo.dto.PhotoUploadRequest;
 import A1BnB.backend.domain.photo.dto.ResultResponse;
 import A1BnB.backend.domain.photo.dto.mapper.ResultResponseMapper;
@@ -32,7 +32,7 @@ public class PhotoServiceImpl implements PhotoService {
     @Autowired
     private final S3Service s3Service;
     @Autowired
-    private final AmmenityService ammenityService;
+    private final AmenityService amenityService;
     @Autowired
     private final PhotoRepository photoRepository;
     @Autowired
@@ -74,21 +74,21 @@ public class PhotoServiceImpl implements PhotoService {
         String imageUrl = entry.getKey();
         List<Map<String, Double>> objectList = entry.getValue();
 
-        // ammenity 리스트 반환
-        List<Ammenity> ammenities = getAmmenities(objectList);
+        // amenity 리스트 반환
+        List<Amenity> amenities = getAmenities(objectList);
 
         // photo 엔티티 저장
-        Photo photo = savePhoto(imageUrl, ammenities);
+        Photo photo = savePhoto(imageUrl, amenities);
         photoIdList.add(photo.getPhotoId());
     }
 
     // photo 엔티티 저장
-    private Photo savePhoto(String imageUrl, List<Ammenity> ammenities) {
+    private Photo savePhoto(String imageUrl, List<Amenity> amenities) {
         String detectedUrl = getDetectedUrl(imageUrl);
         Photo photo = Photo.builder()
                 .originalUrl(imageUrl)
                 .detectedUrl(detectedUrl)
-                .ammenities(ammenities)
+                .amenities(amenities)
                 .build();
         photoRepository.save(photo);
         return photo;
@@ -100,24 +100,24 @@ public class PhotoServiceImpl implements PhotoService {
         return detecetedUrl + photoName;
     }
 
-    // ammenity 리스트 반환
-    private List<Ammenity> getAmmenities(List<Map<String, Double>> objectList) {
-        List<Ammenity> ammenities = new ArrayList<>();
+    // amenity 리스트 반환
+    private List<Amenity> getAmenities(List<Map<String, Double>> objectList) {
+        List<Amenity> amenities = new ArrayList<>();
         for (Map<String, Double> objectMap : objectList) {
-            // ammenity 추가
-            addAmmenity(ammenities, objectMap);
+            // amenity 추가
+            addAmenity(amenities, objectMap);
         }
-        return ammenities;
+        return amenities;
     }
 
-    // ammenity 추가
-    private void addAmmenity(List<Ammenity> ammenities, Map<String, Double> objectMap) {
+    // amenity 추가
+    private void addAmenity(List<Amenity> amenities, Map<String, Double> objectMap) {
         for (Map.Entry<String, Double> objectEntry : objectMap.entrySet()) {
             String type = objectEntry.getKey();
             double confidence = objectEntry.getValue();
-            // ammenity 엔티티 저장
-            Ammenity ammenity = ammenityService.saveAmmenity(type, confidence);
-            ammenities.add(ammenity);
+            // amenity 엔티티 저장
+            Amenity amenity = amenityService.saveAmenity(type, confidence);
+            amenities.add(amenity);
         }
     }
 
@@ -137,9 +137,8 @@ public class PhotoServiceImpl implements PhotoService {
     }
 
     private Photo findByPhotoId(Long photoId) {
-        Photo photo = photoRepository.findByPhotoId(photoId)
+        return photoRepository.findByPhotoId(photoId)
                 .orElseThrow(() -> new IllegalArgumentException());
-        return photo;
     }
 
 }

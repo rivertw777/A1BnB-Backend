@@ -1,6 +1,6 @@
 package A1BnB.backend.domain.photo.dto.mapper;
 
-import A1BnB.backend.domain.ammenity.model.entity.Ammenity;
+import A1BnB.backend.domain.amenity.model.entity.Amenity;
 import A1BnB.backend.domain.photo.dto.ResultResponse;
 import A1BnB.backend.domain.photo.model.entity.Photo;
 import java.util.List;
@@ -17,15 +17,15 @@ public class ResultResponseMapper {
     }
 
     public ResultResponse toResultResponse(Photo photo) {
-        List<Ammenity> ammenities = photo.getAmmenities();
-        List<String> ammenityTypes = ammenities.stream()
-                .map(Ammenity::getType)
+        List<Amenity> amenities = photo.getAmenities();
+        List<String> amenityTypes = amenities.stream()
+                .map(Amenity::getType)
                 .collect(Collectors.toList());
         return new ResultResponse(
                 photo.getPhotoId(),
                 "kitchen",
                 photo.getDetectedUrl(),
-                ammenityTypes
+                amenityTypes
         );
     }
 

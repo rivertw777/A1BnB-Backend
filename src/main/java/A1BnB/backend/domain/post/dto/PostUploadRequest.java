@@ -9,7 +9,7 @@ public record PostUploadRequest(@NotNull List<Long> photoIdList, @NotNull String
                                 @NotNull String caption,
                                 @NotNull @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss") LocalDateTime checkIn,
                                 @NotNull @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss") LocalDateTime checkOut,
-                                @NotNull String pricePerNight) {
+                                @NotNull Double pricePerNight) {
     public PostUploadRequest {
     }
 }

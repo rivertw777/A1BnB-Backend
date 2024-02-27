@@ -46,18 +46,17 @@ public class MemberServiceImpl implements MemberService {
     }
 
     // 이름의 중복 검증
-    private void validateDuplicateName(String username){
-        Optional<Member> findMember = memberRepository.findByName(username);
+    private void validateDuplicateName(String name){
+        Optional<Member> findMember = memberRepository.findByName(name);
         if (findMember.isPresent()) {
             throw new DuplicateNameException(DUPLICATE_NAME.getMessage());
         }
     }
 
     // 이름으로 찾아서 반환
-    public Member findMember(String userName){
-        Member member = memberRepository.findByName(userName)
-                .orElseThrow(() -> new MemberNotFoundException(MEMBER_NAME_NOT_FOUND.getMessage()));
-        return member;
+    public Member findMember(String name){
+        return memberRepository.findByName(name)
+                .orElseThrow(()->new MemberNotFoundException(MEMBER_NAME_NOT_FOUND.getMessage()));
     }
 
 }
