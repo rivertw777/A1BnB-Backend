@@ -1,9 +1,9 @@
 package A1BnB.backend.domain.post.repository;
 
 import A1BnB.backend.domain.post.dto.PostSearchRequest;
-import A1BnB.backend.domain.post.dto.PostSearchResponse;
+import A1BnB.backend.domain.post.dto.PostSearchResult;
 import java.util.List;
 
 public interface PostSearchRepository {
-    List<PostSearchResponse> search(PostSearchRequest searchCondition);
+    List<PostSearchResult> search(PostSearchRequest searchCondition);
 }

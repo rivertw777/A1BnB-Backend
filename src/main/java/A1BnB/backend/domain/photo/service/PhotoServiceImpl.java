@@ -3,7 +3,7 @@ package A1BnB.backend.domain.photo.service;
 import A1BnB.backend.domain.amenity.model.entity.Amenity;
 import A1BnB.backend.domain.amenity.service.AmenityService;
 import A1BnB.backend.domain.photo.dto.PhotoUploadRequest;
-import A1BnB.backend.domain.photo.dto.ResultResponse;
+import A1BnB.backend.domain.photo.dto.InferenceResultResponse;
 import A1BnB.backend.domain.photo.dto.mapper.ResultResponseMapper;
 import A1BnB.backend.domain.photo.model.entity.Photo;
 import A1BnB.backend.domain.photo.repository.PhotoRepository;
@@ -25,7 +25,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 @RequiredArgsConstructor
-@Transactional
 @Service
 public class PhotoServiceImpl implements PhotoService {
 
@@ -83,6 +82,7 @@ public class PhotoServiceImpl implements PhotoService {
     }
 
     // photo 엔티티 저장
+    @Transactional
     private Photo savePhoto(String imageUrl, List<Amenity> amenities) {
         String detectedUrl = getDetectedUrl(imageUrl);
         Photo photo = Photo.builder()
@@ -122,7 +122,7 @@ public class PhotoServiceImpl implements PhotoService {
     }
 
     @Override
-    public List<ResultResponse> getResults(List<Long> photoIdList) {
+    public List<InferenceResultResponse> getInferenceResults(List<Long> photoIdList) {
         // 사진 리스트 조회
         List<Photo> photos = getPhotos(photoIdList);
         // // 결과 응답 DTO 반환
@@ -130,15 +130,9 @@ public class PhotoServiceImpl implements PhotoService {
     }
 
     // 사진 리스트 조회
+    @Transactional(readOnly = true)
     public List<Photo> getPhotos(List<Long> photoIdList) {
-        return photoIdList.stream()
-                .map(this::findByPhotoId)
-                .collect(Collectors.toList());
-    }
-
-    private Photo findByPhotoId(Long photoId) {
-        return photoRepository.findByPhotoId(photoId)
-                .orElseThrow(() -> new IllegalArgumentException());
+        return photoRepository.findAllByIdIn(photoIdList);
     }
 
 }

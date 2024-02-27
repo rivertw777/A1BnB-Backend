@@ -9,15 +9,15 @@ import A1BnB.backend.domain.member.dto.MemberSignupRequest;
 import A1BnB.backend.domain.member.exception.DuplicateNameException;
 import A1BnB.backend.domain.member.model.Role;
 import A1BnB.backend.domain.member.repository.MemberRepository;
-import jakarta.transaction.Transactional;
+
 import java.util.Collections;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-@Transactional
 @Service
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
@@ -29,6 +29,7 @@ public class MemberServiceImpl implements MemberService {
 
     // 회원 가입
     @Override
+    @Transactional
     public void registerUser(MemberSignupRequest signupParam) {
         // 이름 중복 검증
         validateDuplicateName(signupParam.name());
@@ -46,6 +47,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     // 이름의 중복 검증
+    @Transactional(readOnly = true)
     private void validateDuplicateName(String name){
         Optional<Member> findMember = memberRepository.findByName(name);
         if (findMember.isPresent()) {
@@ -54,6 +56,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     // 이름으로 찾아서 반환
+    @Transactional(readOnly = true)
     public Member findMember(String name){
         return memberRepository.findByName(name)
                 .orElseThrow(()->new MemberNotFoundException(MEMBER_NAME_NOT_FOUND.getMessage()));

@@ -4,8 +4,8 @@ import static A1BnB.backend.domain.member.model.entity.QMember.member;
 import static A1BnB.backend.domain.post.model.entity.QPost.post;
 
 import A1BnB.backend.domain.post.dto.PostSearchRequest;
-import A1BnB.backend.domain.post.dto.PostSearchResponse;
-import A1BnB.backend.domain.post.dto.QPostSearchResponse;
+import A1BnB.backend.domain.post.dto.PostSearchResult;
+import A1BnB.backend.domain.post.dto.QPostSearchResult;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.time.LocalDateTime;
@@ -18,9 +18,10 @@ public class PostSearchRepositoryImpl implements PostSearchRepository {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<PostSearchResponse> search(PostSearchRequest requestParam) {
+    public List<PostSearchResult> search(PostSearchRequest searchCondition) {
         return queryFactory
-                .select(new QPostSearchResponse(
+                .select(new QPostSearchResult(
+                        post.postId,
                         member.name,
                         post.location,
                         post.checkIn,
@@ -29,12 +30,12 @@ public class PostSearchRepositoryImpl implements PostSearchRepository {
                 ))
                 .from(post)
                 .leftJoin(post.author, member)
-                .where(memberNameEq(requestParam.authorName()),
-                        locationEq(requestParam.location()),
-                        betweenDate(requestParam.checkIn(), requestParam.checkOut()),
-                        priceGoe(requestParam.minPrice()),
-                        priceLoe(requestParam.maxPrice()),
-                        amenitiesContains(requestParam.amenities())
+                .where(memberNameEq(searchCondition.authorName()),
+                        locationEq(searchCondition.location()),
+                        betweenDate(searchCondition.checkIn(), searchCondition.checkOut()),
+                        priceGoe(searchCondition.minPrice()),
+                        priceLoe(searchCondition.maxPrice()),
+                        amenitiesContains(searchCondition.amenities())
                 )
                 .fetch();
     }

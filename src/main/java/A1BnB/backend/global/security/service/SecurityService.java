@@ -87,7 +87,6 @@ public class SecurityService implements UserDetailsService {
     }
 
     // 로그아웃
-    @Transactional
     public void logout(String username){
         redisService.deleteRefreshToken(username);
     }

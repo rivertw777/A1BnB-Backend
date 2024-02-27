@@ -4,7 +4,7 @@ import A1BnB.backend.domain.member.service.MemberService;
 import A1BnB.backend.domain.photo.model.entity.Photo;
 import A1BnB.backend.domain.photo.service.PhotoService;
 import A1BnB.backend.domain.post.dto.PostSearchRequest;
-import A1BnB.backend.domain.post.dto.PostSearchResponse;
+import A1BnB.backend.domain.post.dto.PostSearchResult;
 import A1BnB.backend.domain.post.model.entity.Post;
 import A1BnB.backend.domain.post.repository.PostRepository;
 import A1BnB.backend.domain.member.model.entity.Member;
@@ -12,6 +12,7 @@ import A1BnB.backend.domain.post.dto.PostUploadRequest;
 import A1BnB.backend.domain.post.dto.PostResponse;
 import A1BnB.backend.domain.post.dto.mapper.PostResponseMapper;
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,6 +34,7 @@ public class PostServiceImpl implements PostService {
 
     // 게시물 등록
     @Override
+    @Transactional
     public void registerPost(String userName, PostUploadRequest uploadParam) {
         // 로그인 중인 회원 조회
         Member currentMember = memberService.findMember(userName);
@@ -54,6 +56,7 @@ public class PostServiceImpl implements PostService {
 
     // 게시물 전체 조회
     @Override
+    @Transactional(readOnly = true)
     public List<PostResponse> getAllPosts() {
         // 게시물 전체 조회
         List<Post> posts = postRepository.findAll();
@@ -63,8 +66,23 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostSearchResponse> searchByCondition(PostSearchRequest searchCondition) {
-        return postRepository.search(searchCondition);
+    @Transactional(readOnly = true)
+    public List<PostResponse> searchByCondition(PostSearchRequest searchCondition) {
+        // 게시물 검색
+        List<PostSearchResult> searchResults = postRepository.search(searchCondition);
+
+        // 게시물 Id 리스트
+        List<Long> postIdList = makePostIdList(searchResults);
+
+        // 게시물 조회
+        List<Post> posts = postRepository.findAllByIdIn(postIdList);
+        return postResponseMapper.toPostResponses(posts);
+    }
+
+    private List<Long> makePostIdList(List<PostSearchResult> searchResults){
+        return searchResults.stream()
+                .map(PostSearchResult::postId)
+                .collect(Collectors.toList());
     }
 
 }

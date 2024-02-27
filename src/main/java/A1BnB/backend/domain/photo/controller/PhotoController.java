@@ -1,8 +1,8 @@
 package A1BnB.backend.domain.photo.controller;
 
 import A1BnB.backend.domain.photo.dto.PhotoUploadRequest;
-import A1BnB.backend.domain.photo.dto.ResultRequest;
-import A1BnB.backend.domain.photo.dto.ResultResponse;
+import A1BnB.backend.domain.photo.dto.InferenceResultRequest;
+import A1BnB.backend.domain.photo.dto.InferenceResultResponse;
 import A1BnB.backend.domain.photo.service.PhotoService;
 import jakarta.validation.Valid;
 import java.io.IOException;
@@ -68,9 +68,9 @@ public class PhotoController {
 
     // 분석 결과 반환
     @PostMapping("/results")
-    public ResponseEntity<List<ResultResponse>> getResults(@Valid @RequestBody ResultRequest requestParam) {
-        List<ResultResponse> resultResponses = photoService.getResults(requestParam.photoIdList());
-        return ResponseEntity.ok(resultResponses);
+    public ResponseEntity<List<InferenceResultResponse>> getResults(@Valid @RequestBody InferenceResultRequest requestParam) {
+        List<InferenceResultResponse> inferenceResultResponses = photoService.getInferenceResults((requestParam.photoIdList()));
+        return ResponseEntity.ok(inferenceResultResponses);
     }
 
 }

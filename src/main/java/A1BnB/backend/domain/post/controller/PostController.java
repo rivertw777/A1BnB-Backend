@@ -1,7 +1,6 @@
 package A1BnB.backend.domain.post.controller;
 
 import A1BnB.backend.domain.post.dto.PostSearchRequest;
-import A1BnB.backend.domain.post.dto.PostSearchResponse;
 import A1BnB.backend.domain.post.dto.PostUploadRequest;
 import A1BnB.backend.domain.post.dto.PostResponse;
 import A1BnB.backend.domain.post.service.PostService;
@@ -45,10 +44,10 @@ public class PostController {
 
     // 게시물 검색
     @PostMapping("/search")
-    public ResponseEntity<List<PostSearchResponse>> searchByCondition(
+    public ResponseEntity<List<PostResponse>> searchByCondition(
             @Valid @ModelAttribute PostSearchRequest searchCondition) {
-        List<PostSearchResponse> postSearchResponses = postService.searchByCondition(searchCondition);
-        return ResponseEntity.ok(postSearchResponses);
+        List<PostResponse> postResponses = postService.searchByCondition(searchCondition);
+        return ResponseEntity.ok(postResponses);
     }
 
 }
