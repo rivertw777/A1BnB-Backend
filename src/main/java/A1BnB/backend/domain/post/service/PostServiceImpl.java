@@ -15,6 +15,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -57,17 +59,17 @@ public class PostServiceImpl implements PostService {
     // 게시물 전체 조회
     @Override
     @Transactional(readOnly = true)
-    public List<PostResponse> getAllPosts() {
+    public Page<PostResponse> getAllPosts(Pageable pageable) {
         // 게시물 전체 조회
-        List<Post> posts = postRepository.findAll();
+        Page<Post> postPage = postRepository.findAll(pageable);
 
         // 게시물 응답 DTO 반환
-        return postResponseMapper.toPostResponses(posts);
+        return postPage.map(postResponseMapper::toPostResponse);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<PostResponse> searchByCondition(PostSearchRequest searchCondition) {
+    public Page<PostResponse> searchByCondition(PostSearchRequest searchCondition, Pageable pageable) {
         // 게시물 검색
         List<PostSearchResult> searchResults = postRepository.search(searchCondition);
 
@@ -75,8 +77,10 @@ public class PostServiceImpl implements PostService {
         List<Long> postIdList = makePostIdList(searchResults);
 
         // 게시물 조회
-        List<Post> posts = postRepository.findAllByIdIn(postIdList);
-        return postResponseMapper.toPostResponses(posts);
+        Page<Post> postPage = postRepository.findAllByIdIn(postIdList, pageable);
+
+        // 게시물 응답 DTO 반환
+        return postPage.map(postResponseMapper::toPostResponse);
     }
 
     private List<Long> makePostIdList(List<PostSearchResult> searchResults){

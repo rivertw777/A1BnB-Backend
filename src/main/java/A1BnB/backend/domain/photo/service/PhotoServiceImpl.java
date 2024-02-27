@@ -2,6 +2,7 @@ package A1BnB.backend.domain.photo.service;
 
 import A1BnB.backend.domain.amenity.model.entity.Amenity;
 import A1BnB.backend.domain.amenity.service.AmenityService;
+import A1BnB.backend.domain.photo.dto.InferenceResultRequest;
 import A1BnB.backend.domain.photo.dto.PhotoUploadRequest;
 import A1BnB.backend.domain.photo.dto.InferenceResultResponse;
 import A1BnB.backend.domain.photo.dto.mapper.ResultResponseMapper;
@@ -122,10 +123,10 @@ public class PhotoServiceImpl implements PhotoService {
     }
 
     @Override
-    public List<InferenceResultResponse> getInferenceResults(List<Long> photoIdList) {
+    public List<InferenceResultResponse> getInferenceResults(InferenceResultRequest requestParam) {
         // 사진 리스트 조회
-        List<Photo> photos = getPhotos(photoIdList);
-        // // 결과 응답 DTO 반환
+        List<Photo> photos = getPhotos(requestParam.photoIdList());
+        // 결과 응답 DTO 반환
         return resultResponseMapper.toResultResponses(photos);
     }
 

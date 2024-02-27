@@ -5,7 +5,6 @@ import A1BnB.backend.domain.member.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,10 +19,9 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping("")
-    public ResponseEntity<Void> signUp(@Valid @RequestBody MemberSignupRequest signupParam) {
+    public void signUp(@Valid @RequestBody MemberSignupRequest signupParam) {
         // 회원 가입
         memberService.registerUser(signupParam);
-        return ResponseEntity.ok().build();
     }
 
 }

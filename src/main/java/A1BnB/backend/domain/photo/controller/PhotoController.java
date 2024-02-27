@@ -11,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -38,18 +37,15 @@ public class PhotoController {
     private String lambdaUrl;
 
     @PostMapping(value = "", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Long>> savePhotos(@Valid @ModelAttribute PhotoUploadRequest uploadParam) throws IOException {
+    public List<Long> savePhotos(@Valid @ModelAttribute PhotoUploadRequest uploadParam) throws IOException {
         // 사진 업로드, 경로 반환
         List<String> photoUrls = photoService.uploadPhotos(uploadParam);
 
         // Lambda POST 요청
         String inferenceResult = postLambda(photoUrls);
 
-        // 사진 엔티티 저장
-        List<Long> photoIdList = photoService.savePhotos(inferenceResult);
-
-        // photoIdList 반환
-        return ResponseEntity.ok(photoIdList);
+        // 사진 엔티티 저장, photoIdList 반환
+        return photoService.savePhotos(inferenceResult);
     }
 
     // Lambda POST 요청
@@ -68,9 +64,8 @@ public class PhotoController {
 
     // 분석 결과 반환
     @PostMapping("/results")
-    public ResponseEntity<List<InferenceResultResponse>> getResults(@Valid @RequestBody InferenceResultRequest requestParam) {
-        List<InferenceResultResponse> inferenceResultResponses = photoService.getInferenceResults((requestParam.photoIdList()));
-        return ResponseEntity.ok(inferenceResultResponses);
+    public List<InferenceResultResponse> getResults(@Valid @RequestBody InferenceResultRequest requestParam) {
+        return photoService.getInferenceResults(requestParam);
     }
 
 }

@@ -55,7 +55,7 @@ public class PostSearchRepositoryImpl implements PostSearchRepository {
         if (checkIn == null && checkOut == null) {
             return null;
         }
-        return post.createdAt.between(checkIn, checkOut);
+        return post.checkIn.goe(checkIn).and(post.checkOut.loe(checkOut));
     }
 
     // 최소 가격 만족 여부

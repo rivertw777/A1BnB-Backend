@@ -1,5 +1,6 @@
 package A1BnB.backend.domain.photo.service;
 
+import A1BnB.backend.domain.photo.dto.InferenceResultRequest;
 import A1BnB.backend.domain.photo.dto.PhotoUploadRequest;
 import A1BnB.backend.domain.photo.dto.InferenceResultResponse;
 import A1BnB.backend.domain.photo.model.entity.Photo;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 public interface PhotoService {
     List<String> uploadPhotos(PhotoUploadRequest uploadParam) throws IOException;
     List<Long> savePhotos(String inferenceResult) throws JsonProcessingException;
-    List<InferenceResultResponse> getInferenceResults(List<Long> photoIdList);
+    List<InferenceResultResponse> getInferenceResults(InferenceResultRequest requestParam);
     List<Photo> getPhotos(List<Long> photoIdList);
+
 }
