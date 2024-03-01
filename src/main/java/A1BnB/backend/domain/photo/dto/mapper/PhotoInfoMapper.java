@@ -1,7 +1,6 @@
 package A1BnB.backend.domain.photo.dto.mapper;
 
 import A1BnB.backend.domain.amenity.model.entity.Amenity;
-import A1BnB.backend.domain.photo.dto.InferenceResultResponse;
 import A1BnB.backend.domain.photo.dto.PhotoInfo;
 import A1BnB.backend.domain.photo.model.entity.Photo;
 import java.util.List;

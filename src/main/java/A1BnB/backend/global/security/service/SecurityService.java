@@ -1,6 +1,7 @@
 package A1BnB.backend.global.security.service;
 
 import static A1BnB.backend.domain.member.exception.constants.MemberExceptionMessages.MEMBER_NAME_NOT_FOUND;
+import static A1BnB.backend.global.security.exception.constants.SecurityExceptionMessages.EXPIRED_REFRESH_TOKEN;
 
 import A1BnB.backend.domain.member.model.entity.Member;
 import A1BnB.backend.global.security.dto.TokenData;
@@ -35,7 +36,7 @@ public class SecurityService implements UserDetailsService {
         return new CustomUserDetails(member);
     }
 
-    // 토큰 DTO 반환
+    // Access 토큰 DTO 반환
     public AccessTokenResponse getAccessTokenResponse(CustomUserDetails userDetails) {
         // 토큰 생성
         TokenData tokenData = tokenProvider.generateToken(userDetails);
@@ -79,7 +80,7 @@ public class SecurityService implements UserDetailsService {
         String refreshToken = redisService.getRefreshToken(userName);
         // 조회 실패시 예외 처리
         if (refreshToken == null) {
-            throw new ExpiredJwtTokenException("만료된 JWT 토큰입니다.");
+            throw new ExpiredJwtTokenException(EXPIRED_REFRESH_TOKEN.getMessage());
         }
         // 조회 성공시 토큰 재발급
         CustomUserDetails userDetails = loadUserByUsername(userName);

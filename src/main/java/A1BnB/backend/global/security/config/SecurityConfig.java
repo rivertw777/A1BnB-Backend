@@ -54,6 +54,8 @@ public class SecurityConfig {
                         .requestMatchers(antMatcher(HttpMethod.POST, "/api/users")).permitAll()
                         // 게시물 조회
                         .requestMatchers(antMatcher(HttpMethod.GET, "/api/posts")).permitAll()
+                        // 게시물 단일 조회
+                        .requestMatchers(antMatcher(HttpMethod.GET, "/api/posts/{\\d+}")).permitAll()
                         // 게시물 검색
                         .requestMatchers(antMatcher(HttpMethod.POST, "/api/posts/search")).permitAll()
                         .requestMatchers("/swagger-ui/**", "/swagger-resources/**", "/v3/api-docs/**").permitAll()

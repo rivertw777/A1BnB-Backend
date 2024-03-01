@@ -1,6 +1,6 @@
 package A1BnB.backend.global.security.exception.handler;
 
-import static org.springframework.http.HttpStatus.FORBIDDEN;
+import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 import A1BnB.backend.global.security.exception.ExpiredJwtTokenException;
 import A1BnB.backend.global.exception.dto.CustomErrorResponse;
@@ -16,7 +16,7 @@ public class SecurityExceptionHandler {
     // refresh 토큰 조회 실패
     @ExceptionHandler(ExpiredJwtTokenException.class)
     public ResponseEntity<CustomErrorResponse> handleExpiredJwtTokenException(ExpiredJwtTokenException e) {
-        return ResponseEntity.status(FORBIDDEN).body(new CustomErrorResponse(e.getMessage()));
+        return ResponseEntity.status(UNAUTHORIZED).body(new CustomErrorResponse(e.getMessage()));
     }
 
 }

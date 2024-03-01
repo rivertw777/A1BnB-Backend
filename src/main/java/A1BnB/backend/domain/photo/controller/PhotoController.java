@@ -8,7 +8,6 @@ import jakarta.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -34,11 +33,9 @@ public class PhotoController {
     public List<Long> inferPhotos(@Valid @ModelAttribute PhotoUploadRequest uploadParam) throws IOException {
         // s3 사진 업로드, 경로 반환
         List<String> photoUrls = photoService.uploadPhotos(uploadParam);
-
         // Lambda POST 요청
         String inferenceResult = postLambda(photoUrls);
-
-        // 사진 엔티티 저장, photoIdList 반환
+        // Photo 엔티티 저장, photoIdList 반환
         return photoService.savePhotos(inferenceResult);
     }
 

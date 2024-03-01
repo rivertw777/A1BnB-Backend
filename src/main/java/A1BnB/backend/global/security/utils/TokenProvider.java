@@ -1,5 +1,9 @@
 package A1BnB.backend.global.security.utils;
 
+import static A1BnB.backend.global.security.exception.constants.SecurityExceptionMessages.EXPIRED_ACCESS_TOKEN;
+import static A1BnB.backend.global.security.exception.constants.SecurityExceptionMessages.MALFORMED_TOKEN;
+import static A1BnB.backend.global.security.exception.constants.SecurityExceptionMessages.UNSUPPORTED_TOKEN;
+
 import A1BnB.backend.global.security.dto.TokenData;
 import A1BnB.backend.global.security.exception.ExpiredJwtTokenException;
 import io.jsonwebtoken.Claims;
@@ -66,11 +70,11 @@ public class TokenProvider {
         try {
             Jwts.parserBuilder().setSigningKey(jwtSecretKey).build().parseClaimsJws(token);
         } catch (MalformedJwtException e) {
-            throw new MalformedJwtException("잘못된 JWT 서명입니다.");
+            throw new MalformedJwtException(MALFORMED_TOKEN.getMessage());
         } catch (ExpiredJwtException e) {
-            throw new ExpiredJwtTokenException("만료된 JWT 토큰입니다.");
+            throw new ExpiredJwtTokenException(EXPIRED_ACCESS_TOKEN.getMessage());
         } catch (UnsupportedJwtException e) {
-            throw new UnsupportedJwtException("지원되지 않는 JWT 토큰입니다.");
+            throw new UnsupportedJwtException(UNSUPPORTED_TOKEN.getMessage());
         }
     }
 }

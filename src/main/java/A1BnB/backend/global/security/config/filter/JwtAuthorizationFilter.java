@@ -2,7 +2,7 @@ package A1BnB.backend.global.security.config.filter;
 
 import static A1BnB.backend.global.security.constants.JwtProperties.HEADER_STRING;
 import static A1BnB.backend.global.security.constants.JwtProperties.TOKEN_PREFIX;
-import static jakarta.servlet.http.HttpServletResponse.SC_FORBIDDEN;
+import static jakarta.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
 import A1BnB.backend.global.security.utils.ResponseWriter;
 import A1BnB.backend.global.security.service.SecurityService;
@@ -43,7 +43,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             // 사용자 인증 정보 저장
             SecurityContextHolder.getContext().setAuthentication(authentication);
         } catch (Exception e) {
-            responseWriter.writeErrorResponse(response, SC_FORBIDDEN, e.getMessage());
+            responseWriter.writeErrorResponse(response, SC_UNAUTHORIZED, e.getMessage());
         }
         chain.doFilter(request, response);
    }
