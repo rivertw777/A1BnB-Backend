@@ -1,10 +1,16 @@
 package A1BnB.backend.domain.post.service;
 
+import static A1BnB.backend.domain.member.exception.constants.MemberExceptionMessages.MEMBER_NAME_NOT_FOUND;
+
+import A1BnB.backend.domain.member.exception.MemberNotFoundException;
 import A1BnB.backend.domain.member.service.MemberService;
+import A1BnB.backend.domain.photo.dto.PhotoInfo;
 import A1BnB.backend.domain.photo.model.entity.Photo;
 import A1BnB.backend.domain.photo.service.PhotoService;
+import A1BnB.backend.domain.post.dto.PostDetailResponse;
 import A1BnB.backend.domain.post.dto.PostSearchRequest;
 import A1BnB.backend.domain.post.dto.PostSearchResult;
+import A1BnB.backend.domain.post.dto.mapper.PostDetailResponseMapper;
 import A1BnB.backend.domain.post.model.entity.Post;
 import A1BnB.backend.domain.post.repository.PostRepository;
 import A1BnB.backend.domain.member.model.entity.Member;
@@ -26,20 +32,21 @@ public class PostServiceImpl implements PostService {
 
     private final PostRepository postRepository;
     private final MemberService memberService;
-    private final PostResponseMapper postResponseMapper;
     private final PhotoService photoService;
+    private final PostResponseMapper postResponseMapper;
+    private final PostDetailResponseMapper postDetailResponseMapper;
 
     // 게시물 등록
     @Override
     @Transactional
     public void registerPost(String userName, PostUploadRequest uploadParam) {
-        // 로그인 중인 회원 조회
         Member currentMember = memberService.findMember(userName);
-
-        // photo 리스트 조회
         List<Photo> photos = photoService.getPhotos(uploadParam.photoIdList());
+        savePost(uploadParam, currentMember, photos);
+    }
 
-        // Post 엔티티 저장
+    // Post 엔티티 저장
+    private void savePost(PostUploadRequest uploadParam, Member currentMember, List<Photo> photos) {
         Post post = Post.builder()
                 .author(currentMember)
                 .location(uploadParam.location())
@@ -51,37 +58,49 @@ public class PostServiceImpl implements PostService {
         postRepository.save(post);
     }
 
-    // 게시물 전체 조회
+    // 게시물 응답 DTO Page 반환
     @Override
     @Transactional(readOnly = true)
     public Page<PostResponse> getAllPosts(Pageable pageable) {
-        // 게시물 전체 조회
         Page<Post> postPage = postRepository.findAll(pageable);
-
         // 게시물 응답 DTO 반환
         return postPage.map(postResponseMapper::toPostResponse);
     }
 
+
+    // 게시물 검색 응답 DTO Page 반환
     @Override
     @Transactional(readOnly = true)
     public Page<PostResponse> searchByCondition(PostSearchRequest searchCondition, Pageable pageable) {
         // 게시물 검색
         List<PostSearchResult> searchResults = postRepository.search(searchCondition);
-
-        // 게시물 Id 리스트
         List<Long> postIdList = makePostIdList(searchResults);
-
         // 게시물 조회
         Page<Post> postPage = postRepository.findAllByIdList(postIdList, pageable);
-
-        // 게시물 응답 DTO 반환
         return postPage.map(postResponseMapper::toPostResponse);
     }
 
+    // postId 리스트 반환
     private List<Long> makePostIdList(List<PostSearchResult> searchResults){
         return searchResults.stream()
                 .map(PostSearchResult::postId)
                 .collect(Collectors.toList());
+    }
+
+    // 게시물 상세 DTO 반환
+    @Override
+    @Transactional(readOnly = true)
+    public PostDetailResponse getPostDetail(Long postId) {
+        Post post = findPostByPostId(postId);
+        List<PhotoInfo> photoInfoList = photoService.getPhotoInfoList(post.getPhotos());
+        return postDetailResponseMapper.toPostDetailResponse(post, photoInfoList);
+    }
+
+    // 게시물 단일 조회
+    @Transactional(readOnly = true)
+    public Post findPostByPostId(Long postId){
+        return postRepository.findByPostId(postId)
+                .orElseThrow(()->new MemberNotFoundException(MEMBER_NAME_NOT_FOUND.getMessage()));
     }
 
 }

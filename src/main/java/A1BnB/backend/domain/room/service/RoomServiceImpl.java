@@ -15,6 +15,7 @@ public class RoomServiceImpl implements RoomService {
     @Autowired
     private final RoomRepository roomRepository;
 
+    // Room 반환
     @Override
     public Room getRoom(Map<String, Double> roomInfo) {
         String roomType = roomInfo.keySet().iterator().next();
@@ -23,6 +24,7 @@ public class RoomServiceImpl implements RoomService {
         return room;
     }
 
+    // Room 엔티티 저장
     @Transactional
     private Room saveRoom(String roomType, Double probability) {
         Room room = Room.builder()

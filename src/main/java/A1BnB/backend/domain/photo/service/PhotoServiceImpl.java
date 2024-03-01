@@ -3,8 +3,10 @@ package A1BnB.backend.domain.photo.service;
 import A1BnB.backend.domain.amenity.model.entity.Amenity;
 import A1BnB.backend.domain.amenity.service.AmenityService;
 import A1BnB.backend.domain.photo.dto.InferenceResultRequest;
+import A1BnB.backend.domain.photo.dto.PhotoInfo;
 import A1BnB.backend.domain.photo.dto.PhotoUploadRequest;
 import A1BnB.backend.domain.photo.dto.InferenceResultResponse;
+import A1BnB.backend.domain.photo.dto.mapper.PhotoInfoMapper;
 import A1BnB.backend.domain.photo.dto.mapper.ResultResponseMapper;
 import A1BnB.backend.domain.photo.model.entity.Photo;
 import A1BnB.backend.domain.photo.repository.PhotoRepository;
@@ -34,25 +36,27 @@ public class PhotoServiceImpl implements PhotoService {
     private final RoomService roomService;
     private final PhotoRepository photoRepository;
     private final ResultResponseMapper resultResponseMapper;
+    private final PhotoInfoMapper photoInfoMapper;
     private final JsonParser jsonParser;
 
     @Value("${photo.detected.url}")
     private String detecetedUrl;
 
+    // 사진 s3 업로드
     @Override
     public List<String> uploadPhotos(PhotoUploadRequest uploadParam) throws IOException {
-        // 사진 경로 반환
         List<String> photoNames = makePhotoNames(uploadParam.photos());
-        List<String> photoUrls = s3Service.uploadPhotos(uploadParam.photos(), photoNames);
-        return photoUrls;
+        return s3Service.uploadPhotos(uploadParam.photos(), photoNames);
     }
 
+    // 사진 이름 반환
     private List<String> makePhotoNames(List<MultipartFile> photos) {
         return photos.stream()
                 .map(photo -> UUID.randomUUID() + "_" + photo.getOriginalFilename())
                 .collect(Collectors.toList());
     }
 
+    // 사진 저장, PhotoId 리스트 반환
     @Override
     public List<Long> savePhotos(String inferenceResult) throws JsonProcessingException {
         Map<String, Map<String, Map<String, Double>>> parsedData = jsonParser.parseInferenceResult(inferenceResult);
@@ -72,6 +76,7 @@ public class PhotoServiceImpl implements PhotoService {
         return photoIdList;
     }
 
+    // Photo 엔티티 저장
     @Transactional
     private Photo savePhoto(String imageUrl, Room room, List<Amenity> amenities) {
         Photo photo = Photo.builder()
@@ -84,25 +89,31 @@ public class PhotoServiceImpl implements PhotoService {
         return photo;
     }
 
-
     // 분석된 사진 경로 반환
     private String getDetectedUrl(String originalUrl){
         String photoName = originalUrl.substring(originalUrl.indexOf("photos/") + "photos/".length());
         return detecetedUrl + photoName;
     }
 
-
-    // 추론 결과 반환
+    // 사진 추론 결과 DTO 리스트 반환
     @Override
+    @Transactional(readOnly = true)
     public List<InferenceResultResponse> getInferenceResults(InferenceResultRequest requestParam) {
         List<Photo> photos = getPhotos(requestParam.photoIdList());
         return resultResponseMapper.toResultResponses(photos);
     }
 
-    // 사진 리스트 조회
+    // Photo 리스트 반환
     @Transactional(readOnly = true)
     public List<Photo> getPhotos(List<Long> photoIdList) {
         return photoRepository.findAllByIdList(photoIdList);
+    }
+
+    // 사진 정보 DTO 리스트 반환
+    @Override
+    @Transactional(readOnly = true)
+    public List<PhotoInfo> getPhotoInfoList(List<Photo> photos) {
+        return photoInfoMapper.toPhotoInfoList(photos);
     }
 
 }

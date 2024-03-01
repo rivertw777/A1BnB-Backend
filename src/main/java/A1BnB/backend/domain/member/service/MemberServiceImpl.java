@@ -28,13 +28,14 @@ public class MemberServiceImpl implements MemberService {
     @Override
     @Transactional
     public void registerUser(MemberSignupRequest signupParam) {
-        // 이름 중복 검증
         validateDuplicateName(signupParam.name());
-
         // 비밀번호 인코딩
         String encodedPassword = passwordEncoder.encode(signupParam.password());
+        saveMember(signupParam, encodedPassword);
+    }
 
-        // Member 엔티티 저장
+    // Member 엔티티 저장
+    private void saveMember(MemberSignupRequest signupParam, String encodedPassword) {
         Member member = Member.builder()
                 .name(signupParam.name())
                 .password(encodedPassword)
@@ -42,6 +43,7 @@ public class MemberServiceImpl implements MemberService {
                 .build();
         memberRepository.save(member);
     }
+
 
     // 이름의 중복 검증
     @Transactional(readOnly = true)

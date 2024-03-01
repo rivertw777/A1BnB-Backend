@@ -16,6 +16,7 @@ public class AmenityServiceImpl implements AmenityService {
 
     private final AmenityRepository amenityRepository;
 
+    // Amenity 리스트 반환
     @Override
     public List<Amenity> getAmenities(Map<String, Double> amenitiesInfo) {
         return amenitiesInfo
@@ -25,6 +26,7 @@ public class AmenityServiceImpl implements AmenityService {
                 .collect(Collectors.toList());
     }
 
+    // Amenity 엔티티 저장
     @Transactional
     private Amenity saveAmenity(String type, Double confidence) {
         Amenity amenity = Amenity.builder()

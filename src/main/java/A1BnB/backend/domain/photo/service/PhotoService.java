@@ -1,6 +1,7 @@
 package A1BnB.backend.domain.photo.service;
 
 import A1BnB.backend.domain.photo.dto.InferenceResultRequest;
+import A1BnB.backend.domain.photo.dto.PhotoInfo;
 import A1BnB.backend.domain.photo.dto.PhotoUploadRequest;
 import A1BnB.backend.domain.photo.dto.InferenceResultResponse;
 import A1BnB.backend.domain.photo.model.entity.Photo;
@@ -15,5 +16,6 @@ public interface PhotoService {
     List<Long> savePhotos(String inferenceResult) throws JsonProcessingException;
     List<InferenceResultResponse> getInferenceResults(InferenceResultRequest requestParam);
     List<Photo> getPhotos(List<Long> photoIdList);
+    List<PhotoInfo> getPhotoInfoList(List<Photo> photos);
 
 }

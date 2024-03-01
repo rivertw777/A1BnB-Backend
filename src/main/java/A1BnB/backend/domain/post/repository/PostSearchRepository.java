@@ -5,5 +5,6 @@ import A1BnB.backend.domain.post.dto.PostSearchResult;
 import java.util.List;
 
 public interface PostSearchRepository {
+
     List<PostSearchResult> search(PostSearchRequest searchCondition);
 }
