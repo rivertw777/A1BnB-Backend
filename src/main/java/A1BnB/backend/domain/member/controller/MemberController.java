@@ -4,7 +4,6 @@ import A1BnB.backend.domain.member.dto.MemberSignupRequest;
 import A1BnB.backend.domain.member.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/users")
 public class MemberController {
 
-    @Autowired
     private final MemberService memberService;
 
     @PostMapping("")

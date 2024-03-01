@@ -1,0 +1,36 @@
+package A1BnB.backend.domain.room.service;
+
+import A1BnB.backend.domain.room.model.entity.Room;
+import A1BnB.backend.domain.room.model.repostiory.RoomRepository;
+import java.util.Map;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+@Service
+@RequiredArgsConstructor
+public class RoomServiceImpl implements RoomService {
+
+    @Autowired
+    private final RoomRepository roomRepository;
+
+    @Override
+    public Room getRoom(Map<String, Double> roomInfo) {
+        String roomType = roomInfo.keySet().iterator().next();
+        Double probability = roomInfo.get(roomType);
+        Room room = saveRoom(roomType, probability);
+        return room;
+    }
+
+    @Transactional
+    private Room saveRoom(String roomType, Double probability) {
+        Room room = Room.builder()
+                .type(roomType)
+                .probability(probability)
+                .build();
+        roomRepository.save(room);
+        return room;
+    }
+
+}

@@ -23,7 +23,7 @@ public class ResultResponseMapper {
                 .collect(Collectors.toList());
         return new InferenceResultResponse(
                 photo.getPhotoId(),
-                "kitchen",
+                photo.getRoom().getType(),
                 photo.getDetectedUrl(),
                 amenityTypes
         );

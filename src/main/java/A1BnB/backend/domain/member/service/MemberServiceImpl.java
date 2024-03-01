@@ -13,7 +13,6 @@ import A1BnB.backend.domain.member.repository.MemberRepository;
 import java.util.Collections;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,9 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
 
-    @Autowired
     private final MemberRepository memberRepository;
-    @Autowired
     private final PasswordEncoder passwordEncoder;
 
     // 회원 가입

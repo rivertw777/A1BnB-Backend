@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,10 +14,8 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public class S3Service {
 
-    @Autowired
     private final AmazonS3 amazonS3;
 
-    @Autowired
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 

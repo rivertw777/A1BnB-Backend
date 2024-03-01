@@ -4,7 +4,6 @@ import A1BnB.backend.global.security.dto.AccessTokenResponse;
 import A1BnB.backend.global.security.service.SecurityService;
 import A1BnB.backend.global.security.constants.JwtProperties;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class SecurityController {
 
-    @Autowired
     private final SecurityService securityService;
 
     // access 토큰 재발급

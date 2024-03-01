@@ -6,7 +6,6 @@ import A1BnB.backend.domain.post.dto.PostResponse;
 import A1BnB.backend.domain.post.service.PostService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -22,7 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("api/posts")
 public class PostController {
 
-    @Autowired
     private final PostService postService;
 
     // 게시물 업로드

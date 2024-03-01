@@ -17,19 +17,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.reactive.function.client.WebClient;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("api/photos")
 public class PhotoController {
 
-    private static final Logger logger = LoggerFactory.getLogger(PhotoController.class);
-
-    @Autowired
     private final PhotoService photoService;
-    @Autowired
     private final WebClient webClient;
 
     // Lambda API
@@ -37,8 +31,8 @@ public class PhotoController {
     private String lambdaUrl;
 
     @PostMapping(value = "", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Long> savePhotos(@Valid @ModelAttribute PhotoUploadRequest uploadParam) throws IOException {
-        // 사진 업로드, 경로 반환
+    public List<Long> inferPhotos(@Valid @ModelAttribute PhotoUploadRequest uploadParam) throws IOException {
+        // s3 사진 업로드, 경로 반환
         List<String> photoUrls = photoService.uploadPhotos(uploadParam);
 
         // Lambda POST 요청
@@ -50,16 +44,12 @@ public class PhotoController {
 
     // Lambda POST 요청
     private String postLambda(List<String> photoUrls){
-        long start = System.currentTimeMillis();
-        String result = webClient.post()
+        return webClient.post()
                 .uri(lambdaUrl)
                 .bodyValue(photoUrls)
                 .retrieve()
                 .bodyToMono(String.class)
                 .block();
-        long executionTime = System.currentTimeMillis() - start;
-        logger.info("postLambda - Execution Time: " + executionTime + "ms");
-        return result;
     }
 
     // 분석 결과 반환

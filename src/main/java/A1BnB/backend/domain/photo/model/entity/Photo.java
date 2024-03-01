@@ -2,6 +2,7 @@ package A1BnB.backend.domain.photo.model.entity;
 
 import A1BnB.backend.domain.amenity.model.entity.Amenity;
 import A1BnB.backend.domain.post.model.entity.Post;
+import A1BnB.backend.domain.room.model.entity.Room;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -12,6 +13,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,9 +36,6 @@ public class Photo {
     @JoinColumn(name = "post_id")
     private Post post;
 
-    @Column(name = "room_type")
-    private String roomType;
-
     // 원본 사진경로
     @Column(name = "original_url")
     private String originalUrl;
@@ -48,14 +47,19 @@ public class Photo {
     @OneToMany(mappedBy = "photo", cascade = CascadeType.ALL)
     private List<Amenity> amenities = new ArrayList<>();
 
+    @OneToOne(mappedBy = "photo", cascade = CascadeType.ALL)
+    private Room room;
+
     @Builder
-    public Photo(String originalUrl, String detectedUrl, List<Amenity> amenities) {
+    public Photo(String originalUrl, String detectedUrl, List<Amenity> amenities, Room room) {
         this.originalUrl = originalUrl;
         this.detectedUrl = detectedUrl;
         for (Amenity amenity : amenities) {
             amenity.setPhoto(this);
         }
         this.amenities = amenities;
+        room.setPhoto(this);
+        this.room = room;
     }
 
     public void setPost(Post post){

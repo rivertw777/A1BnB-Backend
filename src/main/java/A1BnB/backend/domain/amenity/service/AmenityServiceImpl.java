@@ -3,8 +3,10 @@ package A1BnB.backend.domain.amenity.service;
 import A1BnB.backend.domain.amenity.model.entity.Amenity;
 import A1BnB.backend.domain.amenity.repository.AmenityRepository;
 
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,12 +14,19 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class AmenityServiceImpl implements AmenityService {
 
-    @Autowired
     private final AmenityRepository amenityRepository;
 
     @Override
+    public List<Amenity> getAmenities(Map<String, Double> amenitiesInfo) {
+        return amenitiesInfo
+                .entrySet()
+                .stream()
+                .map(entry -> saveAmenity(entry.getKey(), entry.getValue()))
+                .collect(Collectors.toList());
+    }
+
     @Transactional
-    public Amenity saveAmenity(String type, Double confidence) {
+    private Amenity saveAmenity(String type, Double confidence) {
         Amenity amenity = Amenity.builder()
                 .type(type)
                 .confidence(confidence)

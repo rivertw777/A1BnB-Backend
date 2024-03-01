@@ -11,5 +11,5 @@ public interface PhotoRepository extends JpaRepository<Photo, Long> {
     Optional<Photo> findByPhotoId(Long photoId);
 
     @Query("SELECT p FROM Photo p WHERE p.id IN :ids")
-    List<Photo> findAllByIdIn(@Param("ids") List<Long> ids);
+    List<Photo> findAllByIdList(@Param("ids") List<Long> ids);
 }

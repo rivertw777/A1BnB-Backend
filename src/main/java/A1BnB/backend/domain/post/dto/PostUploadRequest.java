@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.format.annotation.DateTimeFormat;
 
+// 게시물 등록 요청
 public record PostUploadRequest(@NotNull List<Long> photoIdList, @NotNull String location,
                                 @NotNull String caption,
                                 @NotNull @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss") LocalDateTime checkIn,

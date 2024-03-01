@@ -11,7 +11,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -21,11 +20,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 // 인증 필터
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
-    @Autowired
+
     private final AuthenticationManager authenticationManager;
-    @Autowired
     private final SecurityService securityService;
-    @Autowired
     private final ResponseWriter responseWriter;
 
     // 인증 시도

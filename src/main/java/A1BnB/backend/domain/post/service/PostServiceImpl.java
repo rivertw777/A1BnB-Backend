@@ -14,7 +14,6 @@ import A1BnB.backend.domain.post.dto.mapper.PostResponseMapper;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -25,13 +24,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class PostServiceImpl implements PostService {
 
-    @Autowired
     private final PostRepository postRepository;
-    @Autowired
     private final MemberService memberService;
-    @Autowired
     private final PostResponseMapper postResponseMapper;
-    @Autowired
     private final PhotoService photoService;
 
     // 게시물 등록
@@ -77,7 +72,7 @@ public class PostServiceImpl implements PostService {
         List<Long> postIdList = makePostIdList(searchResults);
 
         // 게시물 조회
-        Page<Post> postPage = postRepository.findAllByIdIn(postIdList, pageable);
+        Page<Post> postPage = postRepository.findAllByIdList(postIdList, pageable);
 
         // 게시물 응답 DTO 반환
         return postPage.map(postResponseMapper::toPostResponse);

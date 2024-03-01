@@ -10,7 +10,6 @@ import A1BnB.backend.global.security.config.handler.JwtAuthenticationFailureHand
 import A1BnB.backend.global.security.utils.ResponseWriter;
 import A1BnB.backend.global.security.service.SecurityService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -30,9 +29,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    @Autowired
     private final SecurityService securityService;
-    @Autowired
     private final ResponseWriter responseWriter;
 
     // 보안 필터 체인 구성

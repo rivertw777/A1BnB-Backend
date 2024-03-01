@@ -9,17 +9,17 @@ import A1BnB.backend.domain.photo.dto.mapper.ResultResponseMapper;
 import A1BnB.backend.domain.photo.model.entity.Photo;
 import A1BnB.backend.domain.photo.repository.PhotoRepository;
 import A1BnB.backend.domain.photo.utils.JsonParser;
+import A1BnB.backend.domain.room.model.entity.Room;
+import A1BnB.backend.domain.room.service.RoomService;
 import A1BnB.backend.global.s3.service.S3Service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,16 +29,12 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public class PhotoServiceImpl implements PhotoService {
 
-    @Autowired
     private final S3Service s3Service;
-    @Autowired
     private final AmenityService amenityService;
-    @Autowired
+    private final RoomService roomService;
     private final PhotoRepository photoRepository;
-    @Autowired
-    private final JsonParser jsonParser;
-    @Autowired
     private final ResultResponseMapper resultResponseMapper;
+    private final JsonParser jsonParser;
 
     @Value("${photo.detected.url}")
     private String detecetedUrl;
@@ -59,41 +55,35 @@ public class PhotoServiceImpl implements PhotoService {
 
     @Override
     public List<Long> savePhotos(String inferenceResult) throws JsonProcessingException {
-        // 문자열 파싱
-        Map<String, List<Map<String, Double>>> parsedResult = jsonParser.parseInferenceResult(inferenceResult);
+        Map<String, Map<String, Map<String, Double>>> parsedData = jsonParser.parseInferenceResult(inferenceResult);
 
         List<Long> photoIdList = new ArrayList<>();
-        for (Map.Entry<String, List<Map<String, Double>>> entry : parsedResult.entrySet()) {
-            handleEntry(photoIdList, entry);
+        for (Map.Entry<String, Map<String, Map<String, Double>>> entry : parsedData.entrySet()) {
+            String imageUrl = entry.getKey();
+            Map<String, Double> roomInfo = entry.getValue().get("room");
+            Map<String, Double> amenitiesInfo = entry.getValue().get("amenities");
+
+            Room room = roomService.getRoom(roomInfo);
+            List<Amenity> amenities = amenityService.getAmenities(amenitiesInfo);
+
+            Photo photo = savePhoto(imageUrl, room, amenities);
+            photoIdList.add(photo.getPhotoId());
         }
-        // photoId 리스트
         return photoIdList;
     }
 
-    private void handleEntry(List<Long> photoIdList, Entry<String, List<Map<String, Double>>> entry) {
-        String imageUrl = entry.getKey();
-        List<Map<String, Double>> objectList = entry.getValue();
-
-        // amenity 리스트 반환
-        List<Amenity> amenities = getAmenities(objectList);
-
-        // photo 엔티티 저장
-        Photo photo = savePhoto(imageUrl, amenities);
-        photoIdList.add(photo.getPhotoId());
-    }
-
-    // photo 엔티티 저장
     @Transactional
-    private Photo savePhoto(String imageUrl, List<Amenity> amenities) {
-        String detectedUrl = getDetectedUrl(imageUrl);
+    private Photo savePhoto(String imageUrl, Room room, List<Amenity> amenities) {
         Photo photo = Photo.builder()
                 .originalUrl(imageUrl)
-                .detectedUrl(detectedUrl)
+                .detectedUrl(getDetectedUrl(imageUrl))
                 .amenities(amenities)
+                .room(room)
                 .build();
         photoRepository.save(photo);
         return photo;
     }
+
 
     // 분석된 사진 경로 반환
     private String getDetectedUrl(String originalUrl){
@@ -101,39 +91,18 @@ public class PhotoServiceImpl implements PhotoService {
         return detecetedUrl + photoName;
     }
 
-    // amenity 리스트 반환
-    private List<Amenity> getAmenities(List<Map<String, Double>> objectList) {
-        List<Amenity> amenities = new ArrayList<>();
-        for (Map<String, Double> objectMap : objectList) {
-            // amenity 추가
-            addAmenity(amenities, objectMap);
-        }
-        return amenities;
-    }
 
-    // amenity 추가
-    private void addAmenity(List<Amenity> amenities, Map<String, Double> objectMap) {
-        for (Map.Entry<String, Double> objectEntry : objectMap.entrySet()) {
-            String type = objectEntry.getKey();
-            double confidence = objectEntry.getValue();
-            // amenity 엔티티 저장
-            Amenity amenity = amenityService.saveAmenity(type, confidence);
-            amenities.add(amenity);
-        }
-    }
-
+    // 추론 결과 반환
     @Override
     public List<InferenceResultResponse> getInferenceResults(InferenceResultRequest requestParam) {
-        // 사진 리스트 조회
         List<Photo> photos = getPhotos(requestParam.photoIdList());
-        // 결과 응답 DTO 반환
         return resultResponseMapper.toResultResponses(photos);
     }
 
     // 사진 리스트 조회
     @Transactional(readOnly = true)
     public List<Photo> getPhotos(List<Long> photoIdList) {
-        return photoRepository.findAllByIdIn(photoIdList);
+        return photoRepository.findAllByIdList(photoIdList);
     }
 
 }

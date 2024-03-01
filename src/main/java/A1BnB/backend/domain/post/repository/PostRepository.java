@@ -13,8 +13,6 @@ public interface PostRepository extends JpaRepository<Post, Long>, PostSearchRep
     Page<Post> findAll(Pageable pageable);
 
     @Query("SELECT p FROM Post p WHERE p.id IN :ids")
-    Page<Post> findAllByIdIn(@Param("ids") List<Long> ids, Pageable pageable);
-
-
+    Page<Post> findAllByIdList(@Param("ids") List<Long> ids, Pageable pageable);
 
 }
