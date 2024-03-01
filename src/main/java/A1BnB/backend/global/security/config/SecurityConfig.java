@@ -47,7 +47,7 @@ public class SecurityConfig {
                 .and()
                 .exceptionHandling()
                 .accessDeniedHandler(new JwtAccessDeniedHandler(responseWriter))
-                .authenticationEntryPoint(new JwtAuthenticationEntryPoint(responseWriter))
+                .authenticationEntryPoint(new JwtAuthenticationEntryPoint())
                 .and()
                 .authorizeHttpRequests((authz) -> authz
                         // 회원 가입

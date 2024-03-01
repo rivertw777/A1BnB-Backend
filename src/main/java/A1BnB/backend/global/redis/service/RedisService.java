@@ -13,7 +13,7 @@ public class RedisService {
     private final RedisTemplate<String, String> redisTemplate;
 
     @Transactional
-    public void setRefreshToken(String username, String refreshToken, long expiration) {
+    public void setRefreshToken(String username, String refreshToken, Long expiration) {
         redisTemplate.opsForValue().set(username, refreshToken, expiration, TimeUnit.MILLISECONDS);
     }
 

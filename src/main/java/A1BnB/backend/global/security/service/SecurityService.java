@@ -14,6 +14,7 @@ import A1BnB.backend.domain.member.repository.MemberRepository;
 import io.jsonwebtoken.Claims;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -28,6 +29,9 @@ public class SecurityService implements UserDetailsService {
     private final TokenProvider tokenProvider;
     private final RedisService redisService;
 
+    @Value("${jwt.refresh.expiration}")
+    private String refreshTokenExpiration;
+
     // 이름으로 회원 조회
     @Override
     public CustomUserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -40,22 +44,15 @@ public class SecurityService implements UserDetailsService {
     public AccessTokenResponse getAccessTokenResponse(CustomUserDetails userDetails) {
         // 토큰 생성
         TokenData tokenData = tokenProvider.generateToken(userDetails);
-        // redis에 refresh 토큰 저장
-        setRefreshTokenInRedis(tokenData);
-        // access 토큰 DTO 반환
+        setRefreshTokenInRedis(userDetails.getUsername(), tokenData);
         return new AccessTokenResponse(tokenData.accessToken());
     }
 
     // redis에 refresh 토큰 저장
     @Transactional
-    private void setRefreshTokenInRedis(TokenData tokenData){
-        String accessToken = tokenData.accessToken();
-        // 이름 추출
-        String userName = tokenProvider.parseClaims(accessToken).getSubject();
+    private void setRefreshTokenInRedis(String username, TokenData tokenData){
         String refreshToken = tokenData.refreshToken();
-        // 만료 시간 추출
-        long expiration = tokenProvider.parseClaims(refreshToken).getExpiration().getTime();
-        redisService.setRefreshToken(userName, refreshToken, expiration);
+        redisService.setRefreshToken(username, refreshToken, Long.valueOf(refreshTokenExpiration));
     }
 
     // 인증 정보 반환
@@ -74,7 +71,7 @@ public class SecurityService implements UserDetailsService {
         tokenProvider.validateToken(token);
     }
 
-    public AccessTokenResponse refreshAccessToken(String accessToken) throws ExpiredJwtTokenException {
+    public AccessTokenResponse refreshAccessToken(String accessToken) {
         // redis에서 refresh 토큰 조회
         String userName = tokenProvider.parseClaims(accessToken).getSubject();
         String refreshToken = redisService.getRefreshToken(userName);

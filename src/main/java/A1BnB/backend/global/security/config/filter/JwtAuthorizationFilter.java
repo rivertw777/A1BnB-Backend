@@ -4,6 +4,8 @@ import static A1BnB.backend.global.security.constants.JwtProperties.HEADER_STRIN
 import static A1BnB.backend.global.security.constants.JwtProperties.TOKEN_PREFIX;
 import static jakarta.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
+import A1BnB.backend.global.security.dto.AccessTokenResponse;
+import A1BnB.backend.global.security.exception.ExpiredJwtTokenException;
 import A1BnB.backend.global.security.utils.ResponseWriter;
 import A1BnB.backend.global.security.service.SecurityService;
 import jakarta.servlet.FilterChain;
@@ -42,9 +44,34 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             Authentication authentication = securityService.extractAuthentication(token);
             // 사용자 인증 정보 저장
             SecurityContextHolder.getContext().setAuthentication(authentication);
-        } catch (Exception e) {
+        }
+        // access 토큰 만료시
+        catch (ExpiredJwtTokenException e){
+            String path = request.getRequestURI();
+            if (checkRefreshRequest(response, token, path)) {
+                return;
+            }
+            responseWriter.writeErrorResponse(response, SC_UNAUTHORIZED, e.getMessage());
+        }
+        catch (Exception e) {
             responseWriter.writeErrorResponse(response, SC_UNAUTHORIZED, e.getMessage());
         }
         chain.doFilter(request, response);
    }
+
+   // 현재 요청이 토큰 재발급 요청인지
+    private boolean checkRefreshRequest(HttpServletResponse response, String token, String path) throws IOException {
+        if ("/api/security/refresh".equals(path)) {
+            try {
+                AccessTokenResponse accessTokenResponse = securityService.refreshAccessToken(token);
+                responseWriter.writeAccessTokenResponse(response, accessTokenResponse);
+                return true;
+            // refresh 토큰 만료시
+            } catch (ExpiredJwtTokenException e) {
+                responseWriter.writeErrorResponse(response, SC_UNAUTHORIZED, e.getMessage());
+                return true;
+            }
+        }
+        return false;
+    }
 }
