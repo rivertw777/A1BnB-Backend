@@ -47,8 +47,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         }
         // access 토큰 만료시
         catch (ExpiredJwtTokenException e){
-            String path = request.getRequestURI();
-            if (checkRefreshRequest(response, token, path)) {
+            if (checkRefreshRequest(request, response, token)) {
                 return;
             }
             responseWriter.writeErrorResponse(response, SC_UNAUTHORIZED, e.getMessage());
@@ -60,18 +59,20 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
    }
 
    // 현재 요청이 토큰 재발급 요청인지
-    private boolean checkRefreshRequest(HttpServletResponse response, String token, String path) throws IOException {
-        if ("/api/security/refresh".equals(path)) {
-            try {
-                AccessTokenResponse accessTokenResponse = securityService.refreshAccessToken(token);
-                responseWriter.writeAccessTokenResponse(response, accessTokenResponse);
-                return true;
-            // refresh 토큰 만료시
-            } catch (ExpiredJwtTokenException e) {
-                responseWriter.writeErrorResponse(response, SC_UNAUTHORIZED, e.getMessage());
-                return true;
-            }
-        }
-        return false;
+   private boolean checkRefreshRequest(HttpServletRequest request, HttpServletResponse response, String token)
+           throws IOException {
+       String currentPath = request.getRequestURI();
+       if ("/api/security/refresh".equals(currentPath)) {
+           try {
+               AccessTokenResponse accessTokenResponse = securityService.refreshAccessToken(token);
+               responseWriter.writeAccessTokenResponse(response, accessTokenResponse);
+               return true;
+               // refresh 토큰 만료시
+           } catch (ExpiredJwtTokenException e) {
+               responseWriter.writeErrorResponse(response, SC_UNAUTHORIZED, e.getMessage());
+               return true;
+           }
+       }
+       return false;
     }
 }

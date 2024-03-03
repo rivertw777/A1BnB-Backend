@@ -13,5 +13,7 @@ public interface PostService {
     void registerPost(String userName, PostUploadRequest uploadParam);
     Page<PostResponse> getAllPosts(Pageable pageable);
     Page<PostResponse> searchByCondition(PostSearchRequest searchCondition, Pageable pageable);
-    PostDetailResponse getPostDetail(Long postId);
+    PostDetailResponse getPostDetail(String username, Long postId);
+    void likePost(String username, Long postId);
+    void unlikePost(String username, Long postId);
 }

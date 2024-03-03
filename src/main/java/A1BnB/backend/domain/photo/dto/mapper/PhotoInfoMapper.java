@@ -22,6 +22,7 @@ public class PhotoInfoMapper {
                 .collect(Collectors.toList());
         return new PhotoInfo(
                 photo.getOriginalUrl(),
+                photo.getDetectedUrl(),
                 photo.getRoom().getType(),
                 amenityTypes
         );

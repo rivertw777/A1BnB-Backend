@@ -51,18 +51,33 @@ public class Post extends BaseTimeEntity {
     @Column(name = "PricePerNight")
     private Double pricePerNight;
 
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+    private List<PostLikeInfo> postLikeInfos = new ArrayList<>();
+
     @Builder
     public Post(Member author, String location, List<Photo> photos, LocalDateTime checkIn, LocalDateTime checkOut,
                 Double pricePerNight) {
-        this.photos = photos;
-        for (Photo photo : photos) {
-            photo.setPost(this);
-        }
-        this.author = author;
+        setAuthor(author);
         this.location = location;
+        setPhotos(photos);
         this.checkIn = checkIn;
         this.checkOut = checkOut;
         this.pricePerNight = pricePerNight;
     }
 
+    public void setAuthor(Member author) {
+        this.author = author;
+        author.setPost(this);
+    }
+
+    public void setPhotos(List<Photo> photos){
+        this.photos = photos;
+        for (Photo photo : photos) {
+            photo.setPost(this);
+        }
+    }
+
+    public void setPostLikeInfos(PostLikeInfo postLikeInfo){
+        this.postLikeInfos.add(postLikeInfo);
+    }
 }

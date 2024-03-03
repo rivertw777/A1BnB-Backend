@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,10 +39,17 @@ public class PostController {
         return postService.getAllPosts(pageable);
     }
 
-    // 게시물 단일 조회
+    // 게시물 상세 조회 (인증 X)
     @GetMapping("/{postId}")
     public PostDetailResponse getPostDetail(@Valid @PathVariable("postId") Long postId){
-        return postService.getPostDetail(postId);
+        return postService.getPostDetail(null, postId);
+    }
+
+    // 게시물 상세 조회 (인증 O)
+    @PostMapping("/{postId}")
+    public PostDetailResponse getPostDetailWithAuth(@AuthenticationPrincipal(expression = "username") String username,
+                                                    @Valid @PathVariable("postId") Long postId){
+        return postService.getPostDetail(username, postId);
     }
 
     // 게시물 검색
@@ -49,6 +57,22 @@ public class PostController {
     public Page<PostResponse> searchByCondition(@Valid @RequestBody PostSearchRequest searchCondition,
                                                 Pageable pageable) {
         return postService.searchByCondition(searchCondition, pageable);
+    }
+
+    // 게시물 좋아요
+    @PostMapping("/{postId}/like")
+    public void likePost(@AuthenticationPrincipal(expression = "username") String username,
+                         @Valid @PathVariable("postId") Long postId) {
+        // 게시물 좋아요 등록
+        postService.likePost(username, postId);
+    }
+
+    // 게시물 좋아요 취소
+    @DeleteMapping("/{postId}/like")
+    public void unlikePost(@AuthenticationPrincipal(expression = "username") String username,
+                         @Valid @PathVariable("postId") Long postId) {
+        // 게시물 좋아요 등록
+        postService.unlikePost(username, postId);
     }
 
 }

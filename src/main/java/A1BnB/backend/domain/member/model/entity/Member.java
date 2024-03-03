@@ -2,6 +2,7 @@ package A1BnB.backend.domain.member.model.entity;
 
 import A1BnB.backend.domain.member.model.Role;
 import A1BnB.backend.domain.post.model.entity.Post;
+import A1BnB.backend.domain.post.model.entity.PostLikeInfo;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -39,11 +40,22 @@ public class Member {
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
     private List<Post> posts = new ArrayList<>();
 
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<PostLikeInfo> postLikeInfos = new ArrayList<>();
+
     @Builder
     public Member(String name, String password, List<Role> roles) {
         this.name = name;
         this.password = password;
         this.roles = roles;
+    }
+
+    public void setPost(Post post){
+        this.posts.add(post);
+    }
+
+    public void setPostLikeInfos(PostLikeInfo postLikeInfo){
+        this.postLikeInfos.add(postLikeInfo);
     }
 
 }

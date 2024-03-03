@@ -54,12 +54,20 @@ public class Photo {
     public Photo(String originalUrl, String detectedUrl, List<Amenity> amenities, Room room) {
         this.originalUrl = originalUrl;
         this.detectedUrl = detectedUrl;
+        setAmenities(amenities);
+        setRoom(room);
+    }
+
+    public void setAmenities(List<Amenity> amenities){
+        this.amenities = amenities;
         for (Amenity amenity : amenities) {
             amenity.setPhoto(this);
         }
-        this.amenities = amenities;
-        room.setPhoto(this);
+    }
+
+    public void setRoom(Room room){
         this.room = room;
+        room.setPhoto(this);
     }
 
     public void setPost(Post post){

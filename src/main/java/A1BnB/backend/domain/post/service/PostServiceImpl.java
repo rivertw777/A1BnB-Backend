@@ -12,6 +12,8 @@ import A1BnB.backend.domain.post.dto.PostSearchRequest;
 import A1BnB.backend.domain.post.dto.PostSearchResult;
 import A1BnB.backend.domain.post.dto.mapper.PostDetailResponseMapper;
 import A1BnB.backend.domain.post.model.entity.Post;
+import A1BnB.backend.domain.post.model.entity.PostLikeInfo;
+import A1BnB.backend.domain.post.repository.PostLikeRepository;
 import A1BnB.backend.domain.post.repository.PostRepository;
 import A1BnB.backend.domain.member.model.entity.Member;
 import A1BnB.backend.domain.post.dto.PostUploadRequest;
@@ -31,6 +33,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class PostServiceImpl implements PostService {
 
     private final PostRepository postRepository;
+    private final PostLikeRepository postLikeRepository;
     private final MemberService memberService;
     private final PhotoService photoService;
     private final PostResponseMapper postResponseMapper;
@@ -39,8 +42,8 @@ public class PostServiceImpl implements PostService {
     // 게시물 등록
     @Override
     @Transactional
-    public void registerPost(String userName, PostUploadRequest uploadParam) {
-        Member currentMember = memberService.findMember(userName);
+    public void registerPost(String username, PostUploadRequest uploadParam) {
+        Member currentMember = memberService.findMember(username);
         List<Photo> photos = photoService.getPhotos(uploadParam.photoIdList());
         savePost(uploadParam, currentMember, photos);
     }
@@ -90,13 +93,52 @@ public class PostServiceImpl implements PostService {
     // 게시물 상세 DTO 반환
     @Override
     @Transactional(readOnly = true)
-    public PostDetailResponse getPostDetail(Long postId) {
+    public PostDetailResponse getPostDetail(String username, Long postId) {
         Post post = findPostByPostId(postId);
         List<PhotoInfo> photoInfoList = photoService.getPhotoInfoList(post.getPhotos());
-        return postDetailResponseMapper.toPostDetailResponse(post, photoInfoList);
+        Member currentMember = findMember(username);
+        return postDetailResponseMapper.toPostDetailResponse(currentMember, post, photoInfoList);
     }
 
-    // 게시물 단일 조회
+    private Member findMember(String username){
+        if (username!=null){
+            return memberService.findMember(username);
+        }
+        return null;
+    }
+
+    @Override
+    @Transactional
+    public void likePost(String username, Long postId) {
+        Post post = findPostByPostId(postId);
+        Member currentMember = memberService.findMember(username);
+        savePostLike(post, currentMember);
+    }
+
+    private void savePostLike(Post post, Member currentMember) {
+        PostLikeInfo postLikeInfo = PostLikeInfo.builder()
+                .post(post)
+                .member(currentMember)
+                .build();
+        postLikeRepository.save(postLikeInfo);
+    }
+
+    @Override
+    @Transactional
+    public void unlikePost(String username, Long postId) {
+        Post post = findPostByPostId(postId);
+        Member currentMember = memberService.findMember(username);
+        PostLikeInfo postLikeInfo = findByPostAndMembe(post, currentMember);
+        postLikeRepository.delete(postLikeInfo);
+    }
+
+    private PostLikeInfo findByPostAndMembe(Post post, Member currentMember){
+        return postLikeRepository.findByPostAndMember(post, currentMember)
+                .orElseThrow(()->new MemberNotFoundException(MEMBER_NAME_NOT_FOUND.getMessage()));
+    }
+
+
+    // 게시물 상세 조회
     @Transactional(readOnly = true)
     public Post findPostByPostId(Long postId){
         return postRepository.findByPostId(postId)
