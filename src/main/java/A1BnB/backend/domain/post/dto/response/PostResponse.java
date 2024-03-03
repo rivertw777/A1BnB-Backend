@@ -1,4 +1,4 @@
-package A1BnB.backend.domain.post.dto;
+package A1BnB.backend.domain.post.dto.response;
 
 import java.time.LocalDateTime;
 import java.util.List;

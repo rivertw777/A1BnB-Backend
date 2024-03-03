@@ -1,6 +1,6 @@
 package A1BnB.backend.domain.post.dto.mapper;
 
-import A1BnB.backend.domain.post.dto.PostResponse;
+import A1BnB.backend.domain.post.dto.response.PostResponse;
 import A1BnB.backend.domain.post.model.entity.Post;
 import A1BnB.backend.domain.photo.model.entity.Photo;
 import java.util.List;
