@@ -1,9 +1,9 @@
 package A1BnB.backend.domain.post.controller;
 
-import A1BnB.backend.domain.post.dto.PostDetailResponse;
-import A1BnB.backend.domain.post.dto.PostSearchRequest;
-import A1BnB.backend.domain.post.dto.PostUploadRequest;
-import A1BnB.backend.domain.post.dto.PostResponse;
+import A1BnB.backend.domain.post.dto.response.PostDetailResponse;
+import A1BnB.backend.domain.post.dto.request.PostSearchRequest;
+import A1BnB.backend.domain.post.dto.request.PostUploadRequest;
+import A1BnB.backend.domain.post.dto.response.PostResponse;
 import A1BnB.backend.domain.post.service.PostService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -63,7 +63,6 @@ public class PostController {
     @PostMapping("/{postId}/like")
     public void likePost(@AuthenticationPrincipal(expression = "username") String username,
                          @Valid @PathVariable("postId") Long postId) {
-        // 게시물 좋아요 등록
         postService.likePost(username, postId);
     }
 
@@ -71,8 +70,21 @@ public class PostController {
     @DeleteMapping("/{postId}/like")
     public void unlikePost(@AuthenticationPrincipal(expression = "username") String username,
                          @Valid @PathVariable("postId") Long postId) {
-        // 게시물 좋아요 등록
         postService.unlikePost(username, postId);
+    }
+
+    // 게시물 예약
+    @PostMapping("/{postId}/book")
+    public void bookPlace(@AuthenticationPrincipal(expression = "username") String username,
+                         @Valid @PathVariable("postId") Long postId) {
+        postService.likePost(username, postId);
+    }
+
+    // 게시물 예약 취소
+    @DeleteMapping("/{postId}/book")
+    public void unbookPlace(@AuthenticationPrincipal(expression = "username") String username,
+                          @Valid @PathVariable("postId") Long postId) {
+        postService.likePost(username, postId);
     }
 
 }

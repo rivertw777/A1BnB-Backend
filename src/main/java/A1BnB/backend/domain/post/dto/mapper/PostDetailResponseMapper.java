@@ -24,7 +24,8 @@ public class PostDetailResponseMapper {
                 post.getCheckOut(),
                 post.getPricePerNight(),
                 checkLike(post, currentMember),
-                post.getMaximumOccupancy()
+                post.getMaximumOccupancy(),
+                post.getCaption()
         );
     }
 

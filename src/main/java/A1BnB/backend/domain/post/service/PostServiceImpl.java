@@ -58,6 +58,7 @@ public class PostServiceImpl implements PostService {
                 .checkOut(uploadParam.checkOut())
                 .pricePerNight(uploadParam.pricePerNight())
                 .maximumOccupancy(uploadParam.maximumOccupancy())
+                .caption(uploadParam.caption())
                 .build();
         postRepository.save(post);
     }
@@ -137,7 +138,6 @@ public class PostServiceImpl implements PostService {
         return postLikeRepository.findByPostAndMember(post, currentMember)
                 .orElseThrow(()->new MemberNotFoundException(MEMBER_NAME_NOT_FOUND.getMessage()));
     }
-
 
     // 게시물 상세 조회
     @Transactional(readOnly = true)
