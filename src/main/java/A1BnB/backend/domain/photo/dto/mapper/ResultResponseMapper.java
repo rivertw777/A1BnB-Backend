@@ -17,16 +17,18 @@ public class ResultResponseMapper {
     }
 
     public InferenceResultResponse toResultResponse(Photo photo) {
-        List<Amenity> amenities = photo.getAmenities();
-        List<String> amenityTypes = amenities.stream()
-                .map(Amenity::getType)
-                .collect(Collectors.toList());
         return new InferenceResultResponse(
                 photo.getPhotoId(),
                 photo.getRoom().getType(),
                 photo.getDetectedUrl(),
-                amenityTypes
+                getAmenityTypes(photo.getAmenities())
         );
+    }
+
+    private List<String> getAmenityTypes (List<Amenity> amenities) {
+        return amenities.stream()
+                .map(Amenity::getType)
+                .collect(Collectors.toList());
     }
 
 }

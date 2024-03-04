@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface PhotoService {
-    List<String> uploadPhotos(PhotoUploadRequest uploadParam) throws IOException;
+    List<String> uploadPhotos(PhotoUploadRequest requestParam) throws IOException;
     List<Long> savePhotos(String inferenceResult) throws JsonProcessingException;
     List<InferenceResultResponse> getInferenceResults(InferenceResultRequest requestParam);
     List<Photo> getPhotos(List<Long> photoIdList);

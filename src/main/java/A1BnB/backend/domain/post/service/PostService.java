@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface PostService {
-    void registerPost(String userName, PostUploadRequest uploadParam);
+    void registerPost(String userName, PostUploadRequest requestParam);
     Page<PostResponse> getAllPosts(Pageable pageable);
     Page<PostResponse> searchByCondition(PostSearchRequest searchCondition, Pageable pageable);
     PostDetailResponse getPostDetail(String username, Long postId);

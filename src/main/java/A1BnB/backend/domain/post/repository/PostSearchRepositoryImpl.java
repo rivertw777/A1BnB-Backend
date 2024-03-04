@@ -8,7 +8,6 @@ import A1BnB.backend.domain.post.dto.PostSearchResult;
 import A1BnB.backend.domain.post.dto.QPostSearchResult;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 
@@ -24,15 +23,12 @@ public class PostSearchRepositoryImpl implements PostSearchRepository {
                         post.postId,
                         member.name,
                         post.location,
-                        post.checkIn,
-                        post.checkOut,
                         post.pricePerNight
                 ))
                 .from(post)
                 .leftJoin(post.author, member)
                 .where(memberNameEq(searchCondition.authorName()),
                         locationEq(searchCondition.location()),
-                        betweenDate(searchCondition.checkIn(), searchCondition.checkOut()),
                         priceGoe(searchCondition.minPrice()),
                         priceLoe(searchCondition.maxPrice()),
                         amenitiesContains(searchCondition.amenities())
@@ -48,14 +44,6 @@ public class PostSearchRepositoryImpl implements PostSearchRepository {
     // 지역 일치 여부
     private BooleanExpression locationEq(String location){
         return location == null ? null : post.location.eq(location);
-    }
-
-    // 날짜 해당 여부
-    private BooleanExpression betweenDate(LocalDateTime checkIn, LocalDateTime checkOut){
-        if (checkIn == null && checkOut == null) {
-            return null;
-        }
-        return post.checkIn.goe(checkIn).and(post.checkOut.loe(checkOut));
     }
 
     // 최소 가격 만족 여부

@@ -1,5 +1,6 @@
 package A1BnB.backend.domain.post.controller;
 
+import A1BnB.backend.domain.post.dto.request.PostBookRequest;
 import A1BnB.backend.domain.post.dto.response.PostDetailResponse;
 import A1BnB.backend.domain.post.dto.request.PostSearchRequest;
 import A1BnB.backend.domain.post.dto.request.PostUploadRequest;
@@ -29,8 +30,8 @@ public class PostController {
     // 게시물 업로드
     @PostMapping
     public void uploadPost(@AuthenticationPrincipal(expression = "username") String username,
-                           @Valid @ModelAttribute PostUploadRequest uploadParam) {
-        postService.registerPost(username, uploadParam);
+                           @Valid @ModelAttribute PostUploadRequest requestParam) {
+        postService.registerPost(username, requestParam);
     }
 
     // 게시물 전체 조회
@@ -73,18 +74,17 @@ public class PostController {
         postService.unlikePost(username, postId);
     }
 
-    // 게시물 예약
+    // 숙소 예약
     @PostMapping("/{postId}/book")
-    public void bookPlace(@AuthenticationPrincipal(expression = "username") String username,
-                         @Valid @PathVariable("postId") Long postId) {
-        postService.likePost(username, postId);
+    public void bookPost(@AuthenticationPrincipal(expression = "username") String username,
+                         @Valid @PathVariable("postId") Long postId,
+                         @Valid @ModelAttribute PostBookRequest requestParam) {
     }
 
     // 게시물 예약 취소
     @DeleteMapping("/{postId}/book")
-    public void unbookPlace(@AuthenticationPrincipal(expression = "username") String username,
+    public void unbookPost(@AuthenticationPrincipal(expression = "username") String username,
                           @Valid @PathVariable("postId") Long postId) {
-        postService.likePost(username, postId);
     }
 
 }

@@ -44,9 +44,9 @@ public class PhotoServiceImpl implements PhotoService {
 
     // 사진 s3 업로드
     @Override
-    public List<String> uploadPhotos(PhotoUploadRequest uploadParam) throws IOException {
-        List<String> photoNames = makePhotoNames(uploadParam.photos());
-        return s3Service.uploadPhotos(uploadParam.photos(), photoNames);
+    public List<String> uploadPhotos(PhotoUploadRequest requestParam) throws IOException {
+        List<String> photoNames = makePhotoNames(requestParam.photos());
+        return s3Service.uploadPhotos(requestParam.photos(), photoNames);
     }
 
     // 사진 이름 반환

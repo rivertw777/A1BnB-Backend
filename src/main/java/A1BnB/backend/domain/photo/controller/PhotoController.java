@@ -30,9 +30,9 @@ public class PhotoController {
     private String lambdaUrl;
 
     @PostMapping(value = "", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Long> inferPhotos(@Valid @ModelAttribute PhotoUploadRequest uploadParam) throws IOException {
+    public List<Long> inferPhotos(@Valid @ModelAttribute PhotoUploadRequest requestParam) throws IOException {
         // s3 사진 업로드, 경로 반환
-        List<String> photoUrls = photoService.uploadPhotos(uploadParam);
+        List<String> photoUrls = photoService.uploadPhotos(requestParam);
         // Lambda POST 요청
         String inferenceResult = postLambda(photoUrls);
         // Photo 엔티티 저장, photoIdList 반환

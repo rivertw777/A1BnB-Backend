@@ -19,8 +19,10 @@ import A1BnB.backend.domain.member.model.entity.Member;
 import A1BnB.backend.domain.post.dto.request.PostUploadRequest;
 import A1BnB.backend.domain.post.dto.response.PostResponse;
 import A1BnB.backend.domain.post.dto.mapper.PostResponseMapper;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -42,23 +44,29 @@ public class PostServiceImpl implements PostService {
     // 게시물 등록
     @Override
     @Transactional
-    public void registerPost(String username, PostUploadRequest uploadParam) {
+    public void registerPost(String username, PostUploadRequest requestParam) {
         Member currentMember = memberService.findMember(username);
-        List<Photo> photos = photoService.getPhotos(uploadParam.photoIdList());
-        savePost(uploadParam, currentMember, photos);
+        List<Photo> photos = photoService.getPhotos(requestParam.photoIdList());
+        List<LocalDateTime> availableDates = initAvailableDates(requestParam.startDate(), requestParam.endDate());
+        savePost(requestParam, currentMember, photos, availableDates);
+    }
+
+    private List<LocalDateTime> initAvailableDates(LocalDateTime startDate, LocalDateTime endDate) {
+        return Stream.iterate(startDate, date -> date.isBefore(endDate.plusDays(1)), date -> date.plusDays(1))
+                .collect(Collectors.toList());
     }
 
     // Post 엔티티 저장
-    private void savePost(PostUploadRequest uploadParam, Member currentMember, List<Photo> photos) {
+    private void savePost(PostUploadRequest requestParam, Member currentMember, List<Photo> photos,
+                          List<LocalDateTime> availableDates) {
         Post post = Post.builder()
                 .author(currentMember)
-                .location(uploadParam.location())
+                .location(requestParam.location())
                 .photos(photos)
-                .checkIn(uploadParam.checkIn())
-                .checkOut(uploadParam.checkOut())
-                .pricePerNight(uploadParam.pricePerNight())
-                .maximumOccupancy(uploadParam.maximumOccupancy())
-                .caption(uploadParam.caption())
+                .availableDates(availableDates)
+                .pricePerNight(requestParam.pricePerNight())
+                .maximumOccupancy(requestParam.maximumOccupancy())
+                .caption(requestParam.caption())
                 .build();
         postRepository.save(post);
     }
@@ -71,7 +79,6 @@ public class PostServiceImpl implements PostService {
         // 게시물 응답 DTO 반환
         return postPage.map(postResponseMapper::toPostResponse);
     }
-
 
     // 게시물 검색 응답 DTO Page 반환
     @Override
@@ -130,11 +137,11 @@ public class PostServiceImpl implements PostService {
     public void unlikePost(String username, Long postId) {
         Post post = findPostByPostId(postId);
         Member currentMember = memberService.findMember(username);
-        PostLikeInfo postLikeInfo = findByPostAndMembe(post, currentMember);
+        PostLikeInfo postLikeInfo = findByPostAndMember(post, currentMember);
         postLikeRepository.delete(postLikeInfo);
     }
 
-    private PostLikeInfo findByPostAndMembe(Post post, Member currentMember){
+    private PostLikeInfo findByPostAndMember(Post post, Member currentMember){
         return postLikeRepository.findByPostAndMember(post, currentMember)
                 .orElseThrow(()->new MemberNotFoundException(MEMBER_NAME_NOT_FOUND.getMessage()));
     }

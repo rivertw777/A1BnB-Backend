@@ -8,8 +8,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 // 게시물 등록 요청
 public record PostUploadRequest(@NotNull List<Long> photoIdList, @NotNull String location,
                                 @NotNull String caption,
-                                @NotNull @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss") LocalDateTime checkIn,
-                                @NotNull @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss") LocalDateTime checkOut,
+                                @NotNull @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss") LocalDateTime startDate,
+                                @NotNull @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss") LocalDateTime endDate,
                                 @NotNull Double pricePerNight, @NotNull Integer maximumOccupancy) {
     public PostUploadRequest {
     }

@@ -16,16 +16,18 @@ public class PhotoInfoMapper {
     }
 
     public PhotoInfo toPhotoInfo(Photo photo) {
-        List<Amenity> amenities = photo.getAmenities();
-        List<String> amenityTypes = amenities.stream()
-                .map(Amenity::getType)
-                .collect(Collectors.toList());
         return new PhotoInfo(
                 photo.getOriginalUrl(),
                 photo.getDetectedUrl(),
                 photo.getRoom().getType(),
-                amenityTypes
+                getAmenityTypes(photo.getAmenities())
         );
+    }
+
+    private List<String> getAmenityTypes(List<Amenity> amenities){
+        return amenities.stream()
+                .map(Amenity::getType)
+                .collect(Collectors.toList());
     }
 
 }

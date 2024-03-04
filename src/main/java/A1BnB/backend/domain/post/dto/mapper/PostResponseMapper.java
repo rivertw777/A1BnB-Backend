@@ -25,8 +25,6 @@ public class PostResponseMapper {
                 post.getAuthor().getName(),
                 photoUrls,
                 post.getLocation(),
-                post.getCheckIn(),
-                post.getCheckOut(),
                 post.getPricePerNight()
         );
     }
