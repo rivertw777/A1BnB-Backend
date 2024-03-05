@@ -25,7 +25,8 @@ public class PostResponseMapper {
                 post.getAuthor().getName(),
                 photoUrls,
                 post.getLocation(),
-                post.getPricePerNight()
+                post.getPricePerNight(),
+                post.getLikeCount()
         );
     }
 

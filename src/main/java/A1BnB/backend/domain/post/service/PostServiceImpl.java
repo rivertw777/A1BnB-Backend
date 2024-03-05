@@ -124,6 +124,7 @@ public class PostServiceImpl implements PostService {
         Post post = findPostByPostId(postId);
         Member currentMember = memberService.findMember(username);
         postLikeService.likePost(post, currentMember);
+        post.setLikeCount(post.getLikeCount()+1);
     }
 
     @Override
@@ -132,6 +133,7 @@ public class PostServiceImpl implements PostService {
         Post post = findPostByPostId(postId);
         Member currentMember = memberService.findMember(username);
         postLikeService.unlikePost(post, currentMember);
+        post.setLikeCount(post.getLikeCount()-1);
     }
 
     @Override
