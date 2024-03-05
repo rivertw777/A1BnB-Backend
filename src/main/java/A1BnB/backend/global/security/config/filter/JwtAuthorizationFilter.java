@@ -52,6 +52,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             }
             responseWriter.writeErrorResponse(response, SC_UNAUTHORIZED, e.getMessage());
         }
+        // 이외의 예외 상황
         catch (Exception e) {
             responseWriter.writeErrorResponse(response, SC_UNAUTHORIZED, e.getMessage());
         }

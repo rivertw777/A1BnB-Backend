@@ -1,5 +1,6 @@
 package A1BnB.backend.domain.post.service;
 
+import A1BnB.backend.domain.post.dto.request.PostBookRequest;
 import A1BnB.backend.domain.post.dto.response.PostDetailResponse;
 import A1BnB.backend.domain.post.dto.request.PostSearchRequest;
 import A1BnB.backend.domain.post.dto.request.PostUploadRequest;
@@ -16,4 +17,5 @@ public interface PostService {
     PostDetailResponse getPostDetail(String username, Long postId);
     void likePost(String username, Long postId);
     void unlikePost(String username, Long postId);
+    void bookPost(String username, Long postId, PostBookRequest requestParam);
 }

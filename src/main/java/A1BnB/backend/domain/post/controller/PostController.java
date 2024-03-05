@@ -79,6 +79,7 @@ public class PostController {
     public void bookPost(@AuthenticationPrincipal(expression = "username") String username,
                          @Valid @PathVariable("postId") Long postId,
                          @Valid @ModelAttribute PostBookRequest requestParam) {
+        postService.bookPost(username, postId, requestParam);
     }
 
     // 게시물 예약 취소

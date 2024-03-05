@@ -4,7 +4,7 @@ import A1BnB.backend.domain.member.model.entity.Member;
 import A1BnB.backend.domain.photo.dto.PhotoInfo;
 import A1BnB.backend.domain.post.dto.response.PostDetailResponse;
 import A1BnB.backend.domain.post.model.entity.Post;
-import A1BnB.backend.domain.post.repository.PostLikeRepository;
+import A1BnB.backend.domain.postLike.repository.PostLikeRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

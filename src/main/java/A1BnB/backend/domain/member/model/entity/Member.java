@@ -2,7 +2,7 @@ package A1BnB.backend.domain.member.model.entity;
 
 import A1BnB.backend.domain.member.model.Role;
 import A1BnB.backend.domain.post.model.entity.Post;
-import A1BnB.backend.domain.post.model.entity.PostLikeInfo;
+import A1BnB.backend.domain.postLike.model.entity.PostLikeInfo;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

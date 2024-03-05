@@ -1,6 +1,7 @@
-package A1BnB.backend.domain.post.model.entity;
+package A1BnB.backend.domain.postLike.model.entity;
 
 import A1BnB.backend.domain.member.model.entity.Member;
+import A1BnB.backend.domain.post.model.entity.Post;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;

@@ -7,18 +7,18 @@ import A1BnB.backend.domain.member.service.MemberService;
 import A1BnB.backend.domain.photo.dto.PhotoInfo;
 import A1BnB.backend.domain.photo.model.entity.Photo;
 import A1BnB.backend.domain.photo.service.PhotoService;
+import A1BnB.backend.domain.post.dto.request.PostBookRequest;
 import A1BnB.backend.domain.post.dto.response.PostDetailResponse;
 import A1BnB.backend.domain.post.dto.request.PostSearchRequest;
 import A1BnB.backend.domain.post.dto.PostSearchResult;
 import A1BnB.backend.domain.post.dto.mapper.PostDetailResponseMapper;
 import A1BnB.backend.domain.post.model.entity.Post;
-import A1BnB.backend.domain.post.model.entity.PostLikeInfo;
-import A1BnB.backend.domain.post.repository.PostLikeRepository;
 import A1BnB.backend.domain.post.repository.PostRepository;
 import A1BnB.backend.domain.member.model.entity.Member;
 import A1BnB.backend.domain.post.dto.request.PostUploadRequest;
 import A1BnB.backend.domain.post.dto.response.PostResponse;
 import A1BnB.backend.domain.post.dto.mapper.PostResponseMapper;
+import A1BnB.backend.domain.postLike.service.PostLikeService;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,9 +35,9 @@ import org.springframework.transaction.annotation.Transactional;
 public class PostServiceImpl implements PostService {
 
     private final PostRepository postRepository;
-    private final PostLikeRepository postLikeRepository;
     private final MemberService memberService;
     private final PhotoService photoService;
+    private final PostLikeService postLikeService;
     private final PostResponseMapper postResponseMapper;
     private final PostDetailResponseMapper postDetailResponseMapper;
 
@@ -121,29 +121,21 @@ public class PostServiceImpl implements PostService {
     public void likePost(String username, Long postId) {
         Post post = findPostByPostId(postId);
         Member currentMember = memberService.findMember(username);
-        savePostLike(post, currentMember);
+        postLikeService.savePostLike(post, currentMember);
     }
 
-    private void savePostLike(Post post, Member currentMember) {
-        PostLikeInfo postLikeInfo = PostLikeInfo.builder()
-                .post(post)
-                .member(currentMember)
-                .build();
-        postLikeRepository.save(postLikeInfo);
-    }
 
     @Override
     @Transactional
     public void unlikePost(String username, Long postId) {
         Post post = findPostByPostId(postId);
         Member currentMember = memberService.findMember(username);
-        PostLikeInfo postLikeInfo = findByPostAndMember(post, currentMember);
-        postLikeRepository.delete(postLikeInfo);
+        postLikeService.deletePostLike(post, currentMember);
     }
 
-    private PostLikeInfo findByPostAndMember(Post post, Member currentMember){
-        return postLikeRepository.findByPostAndMember(post, currentMember)
-                .orElseThrow(()->new MemberNotFoundException(MEMBER_NAME_NOT_FOUND.getMessage()));
+    @Override
+    public void bookPost(String username, Long postId, PostBookRequest requestParam) {
+
     }
 
     // 게시물 상세 조회

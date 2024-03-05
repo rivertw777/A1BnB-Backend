@@ -23,7 +23,9 @@ public class PostSearchRepositoryImpl implements PostSearchRepository {
                         post.postId,
                         member.name,
                         post.location,
-                        post.pricePerNight
+                        post.pricePerNight,
+                        post.availableDates,
+                        post.maximumOccupancy
                 ))
                 .from(post)
                 .leftJoin(post.author, member)
@@ -31,7 +33,8 @@ public class PostSearchRepositoryImpl implements PostSearchRepository {
                         locationEq(searchCondition.location()),
                         priceGoe(searchCondition.minPrice()),
                         priceLoe(searchCondition.maxPrice()),
-                        amenitiesContains(searchCondition.amenities())
+                        amenitiesContains(searchCondition.amenities()),
+                        isOccupancySatisfied(searchCondition.occupancy())
                 )
                 .fetch();
     }
@@ -67,6 +70,11 @@ public class PostSearchRepositoryImpl implements PostSearchRepository {
             expression = expression == null ? amenityExpression : expression.and(amenityExpression);
         }
         return expression;
+    }
+
+    // 수용 인원 만족 여부
+    private BooleanExpression isOccupancySatisfied(int occupancy) {
+        return post.maximumOccupancy.goe(occupancy);
     }
 
 }
