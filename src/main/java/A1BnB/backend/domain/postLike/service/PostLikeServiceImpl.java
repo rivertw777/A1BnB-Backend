@@ -14,8 +14,9 @@ public class PostLikeServiceImpl implements PostLikeService {
 
     private final PostLikeRepository postLikeRepository;
 
+    @Override
     @Transactional
-    public void savePostLike(Post post, Member currentMember) {
+    public void likePost(Post post, Member currentMember) {
         PostLikeInfo postLikeInfo = PostLikeInfo.builder()
                 .post(post)
                 .member(currentMember)
@@ -23,8 +24,9 @@ public class PostLikeServiceImpl implements PostLikeService {
         postLikeRepository.save(postLikeInfo);
     }
 
+    @Override
     @Transactional
-    public void deletePostLike(Post post, Member currentMember) {
+    public void unlikePost(Post post, Member currentMember) {
         postLikeRepository.deleteByPostAndMember(post, currentMember);
     }
 

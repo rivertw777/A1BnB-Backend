@@ -86,6 +86,7 @@ public class PostController {
     @DeleteMapping("/{postId}/book")
     public void unbookPost(@AuthenticationPrincipal(expression = "username") String username,
                           @Valid @PathVariable("postId") Long postId) {
+        postService.unbookPost(username, postId);
     }
 
 }

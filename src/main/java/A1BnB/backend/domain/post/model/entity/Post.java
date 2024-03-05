@@ -2,6 +2,7 @@ package A1BnB.backend.domain.post.model.entity;
 
 import A1BnB.backend.domain.member.model.entity.Member;
 import A1BnB.backend.domain.photo.model.entity.Photo;
+import A1BnB.backend.domain.postBook.model.PostBookInfo;
 import A1BnB.backend.domain.postLike.model.entity.PostLikeInfo;
 import A1BnB.backend.global.model.entity.BaseTimeEntity;
 import jakarta.persistence.CascadeType;
@@ -58,6 +59,9 @@ public class Post extends BaseTimeEntity {
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<PostLikeInfo> postLikeInfos = new ArrayList<>();
 
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+    private List<PostBookInfo> postBookInfos = new ArrayList<>();
+
     @Builder
     public Post(Member author, String location, List<Photo> photos, List<LocalDateTime> availableDates,
                 Double pricePerNight, Integer maximumOccupancy, String caption) {
@@ -85,4 +89,13 @@ public class Post extends BaseTimeEntity {
     public void setPostLikeInfos(PostLikeInfo postLikeInfo){
         this.postLikeInfos.add(postLikeInfo);
     }
+
+    public void setPostBookInfos(PostBookInfo postBookInfo){
+        this.postBookInfos.add(postBookInfo);
+    }
+
+    public void setAvailableDates(List<LocalDateTime> changedAvailableDates) {
+        this.availableDates = changedAvailableDates;
+    }
+
 }

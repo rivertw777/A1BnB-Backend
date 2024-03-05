@@ -18,6 +18,7 @@ import A1BnB.backend.domain.member.model.entity.Member;
 import A1BnB.backend.domain.post.dto.request.PostUploadRequest;
 import A1BnB.backend.domain.post.dto.response.PostResponse;
 import A1BnB.backend.domain.post.dto.mapper.PostResponseMapper;
+import A1BnB.backend.domain.postBook.service.PostBookService;
 import A1BnB.backend.domain.postLike.service.PostLikeService;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -38,6 +39,7 @@ public class PostServiceImpl implements PostService {
     private final MemberService memberService;
     private final PhotoService photoService;
     private final PostLikeService postLikeService;
+    private final PostBookService postBookService;
     private final PostResponseMapper postResponseMapper;
     private final PostDetailResponseMapper postDetailResponseMapper;
 
@@ -52,7 +54,7 @@ public class PostServiceImpl implements PostService {
     }
 
     private List<LocalDateTime> initAvailableDates(LocalDateTime startDate, LocalDateTime endDate) {
-        return Stream.iterate(startDate, date -> date.isBefore(endDate.plusDays(1)), date -> date.plusDays(1))
+        return Stream.iterate(startDate, date -> !date.isAfter(endDate), date -> date.plusDays(1))
                 .collect(Collectors.toList());
     }
 
@@ -121,25 +123,45 @@ public class PostServiceImpl implements PostService {
     public void likePost(String username, Long postId) {
         Post post = findPostByPostId(postId);
         Member currentMember = memberService.findMember(username);
-        postLikeService.savePostLike(post, currentMember);
+        postLikeService.likePost(post, currentMember);
     }
-
 
     @Override
     @Transactional
     public void unlikePost(String username, Long postId) {
         Post post = findPostByPostId(postId);
         Member currentMember = memberService.findMember(username);
-        postLikeService.deletePostLike(post, currentMember);
+        postLikeService.unlikePost(post, currentMember);
     }
 
     @Override
+    @Transactional
     public void bookPost(String username, Long postId, PostBookRequest requestParam) {
-
+        Post post = findPostByPostId(postId);
+        Member currentMember = memberService.findMember(username);
+        List<LocalDateTime> bookedDates = postBookService.bookPost(post, currentMember, requestParam.checkInDate(), requestParam.checkOutDate());
+        removeBookedDatesFromAvailable(post, post.getAvailableDates(), bookedDates);
     }
 
-    // 게시물 상세 조회
-    @Transactional(readOnly = true)
+    private void removeBookedDatesFromAvailable(Post post, List<LocalDateTime> availableDates, List<LocalDateTime> bookedDates) {
+        availableDates.removeAll(bookedDates);
+        post.setAvailableDates(availableDates);
+    }
+
+    @Override
+    public void unbookPost(String username, Long postId) {
+        Post post = findPostByPostId(postId);
+        Member currentMember = memberService.findMember(username);
+        List<LocalDateTime> bookedDates = postBookService.unbookPost(post, currentMember);
+        addBookedDatesToAvailable(post, post.getAvailableDates(), bookedDates);
+    }
+
+    private void addBookedDatesToAvailable(Post post, List<LocalDateTime> availableDates, List<LocalDateTime> bookedDates) {
+        availableDates.addAll(bookedDates);
+        post.setAvailableDates(availableDates);
+    }
+
+    // 게시물 단일 조회
     public Post findPostByPostId(Long postId){
         return postRepository.findByPostId(postId)
                 .orElseThrow(()->new MemberNotFoundException(MEMBER_NAME_NOT_FOUND.getMessage()));

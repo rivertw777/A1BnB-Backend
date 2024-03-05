@@ -6,6 +6,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface PostLikeService {
-    void savePostLike(Post post, Member currentMember);
-    void deletePostLike(Post post, Member currentMember);
+    void likePost(Post post, Member currentMember);
+    void unlikePost(Post post, Member currentMember);
 }
