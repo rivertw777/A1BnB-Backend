@@ -52,6 +52,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests((authz) -> authz
                         // 회원 가입
                         .requestMatchers(antMatcher(HttpMethod.POST, "/api/users")).permitAll()
+                        // 게시물 업로드
+                        .requestMatchers(antMatcher(HttpMethod.POST, "/api/posts")).hasRole("HOST")
                         // 게시물 조회
                         .requestMatchers(antMatcher(HttpMethod.GET, "/api/posts")).permitAll()
                         // 게시물 상세 조회

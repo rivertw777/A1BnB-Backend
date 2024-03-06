@@ -17,9 +17,9 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping("")
-    public void signUp(@Valid @RequestBody MemberSignupRequest signupParam) {
+    public void signUp(@Valid @RequestBody MemberSignupRequest requestParam) {
         // 회원 가입
-        memberService.registerUser(signupParam);
+        memberService.registerUser(requestParam);
     }
 
 }

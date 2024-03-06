@@ -27,26 +27,34 @@ public class MemberServiceImpl implements MemberService {
     // 회원 가입
     @Override
     @Transactional
-    public void registerUser(MemberSignupRequest signupParam) {
-        validateDuplicateName(signupParam.name());
+    public void registerUser(MemberSignupRequest requestParam) {
+        validateDuplicateName(requestParam.name());
         // 비밀번호 인코딩
-        String encodedPassword = passwordEncoder.encode(signupParam.password());
-        saveMember(signupParam, encodedPassword);
+        String encodedPassword = passwordEncoder.encode(requestParam.password());
+        // 권한 생성
+        Role role = getMemberRole(requestParam.role());
+        System.out.println(role);
+        saveMember(requestParam.name(), encodedPassword, role);
+    }
+
+    private Role getMemberRole(String role) {
+        if (role == "guest") {
+            return Role.GUEST;
+        }
+        return Role.HOST;
     }
 
     // Member 엔티티 저장
-    private void saveMember(MemberSignupRequest signupParam, String encodedPassword) {
+    private void saveMember(String username, String encodedPassword, Role role) {
         Member member = Member.builder()
-                .name(signupParam.name())
+                .name(username)
                 .password(encodedPassword)
-                .roles(Collections.singletonList(Role.USER))
+                .roles(Collections.singletonList(role))
                 .build();
         memberRepository.save(member);
     }
 
-
     // 이름의 중복 검증
-    @Transactional(readOnly = true)
     private void validateDuplicateName(String username){
         Optional<Member> findMember = memberRepository.findByName(username);
         if (findMember.isPresent()) {
