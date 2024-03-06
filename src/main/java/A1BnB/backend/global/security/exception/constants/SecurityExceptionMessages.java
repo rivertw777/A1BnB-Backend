@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 public enum SecurityExceptionMessages {
 
     LOGIN_FAILED("로그인에 실패하였습니다. 올바른 정보를 입력 해주세요."),
-    UNAUTHORIZED("인증에 실패하였습니다. 로그인 해주세요."),
+    UNAUTHORIZED("인증이 필요합니다. 로그인해주세요."),
     NO_AUTHORITY("접근 권한이 없습니다."),
     MALFORMED_SIGNATURE("잘못된 JWT 서명입니다."),
     UNSUPPORTED_TOKEN("지원되지 않는 JWT 토큰입니다."),

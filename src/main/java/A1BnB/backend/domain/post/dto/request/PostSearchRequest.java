@@ -8,8 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 public record PostSearchRequest(String authorName, String location,
                                 @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss") LocalDateTime checkInDate,
                                 @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss") LocalDateTime checkOutDate,
-                                Double minPrice, Double maxPrice, List<String> amenities,
-                                Integer occupancy) {
+                                Double minPrice, Double maxPrice, List<String> amenities, Integer occupancy) {
     public PostSearchRequest {
     }
 }

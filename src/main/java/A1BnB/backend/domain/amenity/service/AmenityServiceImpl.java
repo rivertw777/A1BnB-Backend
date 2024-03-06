@@ -18,7 +18,7 @@ public class AmenityServiceImpl implements AmenityService {
 
     // Amenity 리스트 반환
     @Override
-    public List<Amenity> getAmenities(Map<String, Double> amenitiesInfo) {
+    public List<Amenity> saveAmenities(Map<String, Double> amenitiesInfo) {
         return amenitiesInfo
                 .entrySet()
                 .stream()

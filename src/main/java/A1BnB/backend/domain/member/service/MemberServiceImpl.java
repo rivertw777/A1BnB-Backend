@@ -33,12 +33,11 @@ public class MemberServiceImpl implements MemberService {
         String encodedPassword = passwordEncoder.encode(requestParam.password());
         // 권한 생성
         Role role = getMemberRole(requestParam.role());
-        System.out.println(role);
         saveMember(requestParam.name(), encodedPassword, role);
     }
 
     private Role getMemberRole(String role) {
-        if (role == "guest") {
+        if (role.equals("guest")) {
             return Role.GUEST;
         }
         return Role.HOST;

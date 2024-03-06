@@ -67,11 +67,11 @@ public class PhotoServiceImpl implements PhotoService {
             Map<String, Double> roomInfo = entry.getValue().get("room");
             Map<String, Double> amenitiesInfo = entry.getValue().get("amenities");
 
-            Room room = roomService.getRoom(roomInfo);
-            List<Amenity> amenities = amenityService.getAmenities(amenitiesInfo);
+            Room room = roomService.saveRoom(roomInfo);
+            List<Amenity> amenities = amenityService.saveAmenities(amenitiesInfo);
 
             Photo photo = savePhoto(imageUrl, room, amenities);
-            photoIdList.add(photo.getPhotoId());
+            photoIdList.add(photo.getId());
         }
         return photoIdList;
     }
@@ -99,14 +99,14 @@ public class PhotoServiceImpl implements PhotoService {
     @Override
     @Transactional(readOnly = true)
     public List<InferenceResultResponse> getInferenceResults(InferenceResultRequest requestParam) {
-        List<Photo> photos = getPhotos(requestParam.photoIdList());
+        List<Photo> photos = findPhotos(requestParam.photoIdList());
         return resultResponseMapper.toResultResponses(photos);
     }
 
     // Photo 리스트 반환
     @Transactional(readOnly = true)
-    public List<Photo> getPhotos(List<Long> photoIdList) {
-        return photoRepository.findAllByIdList(photoIdList);
+    public List<Photo> findPhotos(List<Long> photoIdList) {
+        return photoRepository.findAllByIdIn(photoIdList);
     }
 
     // 사진 정보 DTO 리스트 반환

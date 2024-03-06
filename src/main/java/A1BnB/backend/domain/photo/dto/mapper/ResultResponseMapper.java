@@ -18,7 +18,7 @@ public class ResultResponseMapper {
 
     public InferenceResultResponse toResultResponse(Photo photo) {
         return new InferenceResultResponse(
-                photo.getPhotoId(),
+                photo.getId(),
                 photo.getRoom().getType(),
                 photo.getDetectedUrl(),
                 getAmenityTypes(photo.getAmenities())

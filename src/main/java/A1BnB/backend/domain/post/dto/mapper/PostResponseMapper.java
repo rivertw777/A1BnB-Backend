@@ -17,17 +17,20 @@ public class PostResponseMapper {
     }
 
     public PostResponse toPostResponse(Post post) {
-        List<String> photoUrls = post.getPhotos().stream()
-                .map(Photo::getOriginalUrl)
-                .collect(Collectors.toList());
         return new PostResponse(
                 post.getPostId(),
                 post.getAuthor().getName(),
-                photoUrls,
+                getPhotoUrls(post),
                 post.getLocation(),
                 post.getPricePerNight(),
                 post.getLikeCount()
         );
+    }
+
+    private List<String> getPhotoUrls(Post post) {
+        return post.getPhotos().stream()
+                .map(Photo::getOriginalUrl)
+                .collect(Collectors.toList());
     }
 
 }

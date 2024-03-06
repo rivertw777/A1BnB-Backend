@@ -8,6 +8,7 @@ import A1BnB.backend.domain.post.dto.PostSearchResult;
 import A1BnB.backend.domain.post.dto.QPostSearchResult;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 
@@ -17,14 +18,13 @@ public class PostSearchRepositoryImpl implements PostSearchRepository {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<PostSearchResult> search(PostSearchRequest searchCondition) {
+    public List<PostSearchResult> search(PostSearchRequest searchCondition, List<LocalDateTime> searchDates) {
         return queryFactory
                 .select(new QPostSearchResult(
                         post.postId,
                         member.name,
                         post.location,
                         post.pricePerNight,
-                        post.availableDates,
                         post.maximumOccupancy
                 ))
                 .from(post)
@@ -34,7 +34,7 @@ public class PostSearchRepositoryImpl implements PostSearchRepository {
                         priceGoe(searchCondition.minPrice()),
                         priceLoe(searchCondition.maxPrice()),
                         amenitiesContains(searchCondition.amenities()),
-                        isOccupancySatisfied(searchCondition.occupancy())
+                        occupancyGoe(searchCondition.occupancy())
                 )
                 .fetch();
     }
@@ -73,8 +73,8 @@ public class PostSearchRepositoryImpl implements PostSearchRepository {
     }
 
     // 수용 인원 만족 여부
-    private BooleanExpression isOccupancySatisfied(int occupancy) {
-        return post.maximumOccupancy.goe(occupancy);
+    private BooleanExpression occupancyGoe(Integer occupancy) {
+        return occupancy == null ? null : post.maximumOccupancy.goe(occupancy);
     }
 
 }

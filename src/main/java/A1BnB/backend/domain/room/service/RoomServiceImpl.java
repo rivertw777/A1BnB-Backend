@@ -17,7 +17,7 @@ public class RoomServiceImpl implements RoomService {
 
     // Room 반환
     @Override
-    public Room getRoom(Map<String, Double> roomInfo) {
+    public Room saveRoom(Map<String, Double> roomInfo) {
         String roomType = roomInfo.keySet().iterator().next();
         Double probability = roomInfo.get(roomType);
         Room room = saveRoom(roomType, probability);

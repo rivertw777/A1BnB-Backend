@@ -1,7 +1,5 @@
 package A1BnB.backend.domain.postBook.service;
 
-import static A1BnB.backend.domain.member.exception.constants.MemberExceptionMessages.MEMBER_NAME_NOT_FOUND;
-
 import A1BnB.backend.domain.member.exception.MemberNotFoundException;
 import A1BnB.backend.domain.member.model.entity.Member;
 import A1BnB.backend.domain.post.model.entity.Post;
@@ -30,7 +28,7 @@ public class PostBookServiceImpl implements PostBookService {
     }
 
     private List<LocalDateTime> getBookedDates(LocalDateTime checkInDate, LocalDateTime checkOutDate) {
-        return Stream.iterate(checkInDate, date -> date.isBefore(checkOutDate.plusDays(1)), date -> date.plusDays(1))
+        return Stream.iterate(checkInDate, date -> date.isBefore(checkOutDate), date -> date.plusDays(1))
                 .collect(Collectors.toList());
     }
 
@@ -53,7 +51,7 @@ public class PostBookServiceImpl implements PostBookService {
 
     public PostBookInfo findPostBookInfo(Post post, Member currentMember){
         return postBookRepostiory.findByPostAndMember(post, currentMember)
-                .orElseThrow(()->new MemberNotFoundException(MEMBER_NAME_NOT_FOUND.getMessage()));
+                .orElseThrow(()->new MemberNotFoundException("예약 정보가 없다."));
     }
 
 }

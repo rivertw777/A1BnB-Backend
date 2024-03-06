@@ -1,5 +1,6 @@
 package A1BnB.backend.domain.post.model.entity;
 
+import A1BnB.backend.domain.date.model.entity.AvailableDate;
 import A1BnB.backend.domain.member.model.entity.Member;
 import A1BnB.backend.domain.photo.model.entity.Photo;
 import A1BnB.backend.domain.postBook.model.PostBookInfo;
@@ -16,7 +17,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AccessLevel;
@@ -44,8 +44,8 @@ public class Post extends BaseTimeEntity {
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<Photo> photos = new ArrayList<>();
 
-    @Column(name = "available_dates")
-    private List<LocalDateTime> availableDates;
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+    private List<AvailableDate> availableDates = new ArrayList<>();
 
     @Column(name = "PricePerNight")
     private Double pricePerNight;
@@ -65,14 +65,12 @@ public class Post extends BaseTimeEntity {
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<PostBookInfo> postBookInfos = new ArrayList<>();
 
-
     @Builder
-    public Post(Member author, String location, List<Photo> photos, List<LocalDateTime> availableDates,
-                Double pricePerNight, Integer maximumOccupancy, String caption) {
+    public Post(Member author, String location, List<Photo> photos, Double pricePerNight, Integer maximumOccupancy,
+                String caption) {
         setAuthor(author);
         this.location = location;
         setPhotos(photos);
-        this.availableDates = availableDates;
         this.pricePerNight = pricePerNight;
         this.maximumOccupancy = maximumOccupancy;
         this.caption = caption;
@@ -91,6 +89,10 @@ public class Post extends BaseTimeEntity {
         }
     }
 
+    public void setAvailableDates(AvailableDate availableDate) {
+        this.availableDates.add(availableDate);
+    }
+
     public void setPostLikeInfos(PostLikeInfo postLikeInfo){
         this.postLikeInfos.add(postLikeInfo);
     }
@@ -101,10 +103,6 @@ public class Post extends BaseTimeEntity {
 
     public void setPostBookInfos(PostBookInfo postBookInfo){
         this.postBookInfos.add(postBookInfo);
-    }
-
-    public void setAvailableDates(List<LocalDateTime> changedAvailableDates) {
-        this.availableDates = changedAvailableDates;
     }
 
 }

@@ -2,6 +2,7 @@ package A1BnB.backend.domain.post.service;
 
 import static A1BnB.backend.domain.member.exception.constants.MemberExceptionMessages.MEMBER_NAME_NOT_FOUND;
 
+import A1BnB.backend.domain.date.service.AvailableDateService;
 import A1BnB.backend.domain.member.exception.MemberNotFoundException;
 import A1BnB.backend.domain.member.service.MemberService;
 import A1BnB.backend.domain.photo.dto.PhotoInfo;
@@ -40,6 +41,7 @@ public class PostServiceImpl implements PostService {
     private final PhotoService photoService;
     private final PostLikeService postLikeService;
     private final PostBookService postBookService;
+    private final AvailableDateService availableDateService;
     private final PostResponseMapper postResponseMapper;
     private final PostDetailResponseMapper postDetailResponseMapper;
 
@@ -48,29 +50,31 @@ public class PostServiceImpl implements PostService {
     @Transactional
     public void registerPost(String username, PostUploadRequest requestParam) {
         Member currentMember = memberService.findMember(username);
-        List<Photo> photos = photoService.getPhotos(requestParam.photoIdList());
-        List<LocalDateTime> availableDates = initAvailableDates(requestParam.startDate(), requestParam.endDate());
-        savePost(requestParam, currentMember, photos, availableDates);
-    }
-
-    private List<LocalDateTime> initAvailableDates(LocalDateTime startDate, LocalDateTime endDate) {
-        return Stream.iterate(startDate, date -> !date.isAfter(endDate), date -> date.plusDays(1))
-                .collect(Collectors.toList());
+        List<Photo> photos = photoService.findPhotos(requestParam.photoIdList());
+        Post post = savePost(requestParam, currentMember, photos);
+        // 체크인 가능 날짜 저장
+        List<LocalDateTime> avaialableDates = getLocalDateTimeDates(requestParam.startDate(), requestParam.endDate());
+        availableDateService.saveAvailableDates(post, avaialableDates);
     }
 
     // Post 엔티티 저장
-    private void savePost(PostUploadRequest requestParam, Member currentMember, List<Photo> photos,
-                          List<LocalDateTime> availableDates) {
+    private Post savePost(PostUploadRequest requestParam, Member currentMember, List<Photo> photos) {
         Post post = Post.builder()
                 .author(currentMember)
                 .location(requestParam.location())
                 .photos(photos)
-                .availableDates(availableDates)
                 .pricePerNight(requestParam.pricePerNight())
                 .maximumOccupancy(requestParam.maximumOccupancy())
                 .caption(requestParam.caption())
                 .build();
         postRepository.save(post);
+        return post;
+    }
+
+    // 시작, 종료 날짜 모두 포함
+    private List<LocalDateTime> getLocalDateTimeDates(LocalDateTime startDate, LocalDateTime endDate) {
+        return Stream.iterate(startDate, date -> !date.isAfter(endDate), date -> date.plusDays(1))
+                .collect(Collectors.toList());
     }
 
     // 게시물 응답 DTO Page 반환
@@ -87,14 +91,15 @@ public class PostServiceImpl implements PostService {
     @Transactional(readOnly = true)
     public Page<PostResponse> searchByCondition(PostSearchRequest searchCondition, Pageable pageable) {
         // 게시물 검색
-        List<PostSearchResult> searchResults = postRepository.search(searchCondition);
+        List<LocalDateTime> searchDates = getLocalDateTimeDates(searchCondition.checkInDate(), searchCondition.checkOutDate());
+        List<PostSearchResult> searchResults = postRepository.search(searchCondition, searchDates);
         List<Long> postIdList = makePostIdList(searchResults);
         // 게시물 조회
         Page<Post> postPage = postRepository.findAllByIdList(postIdList, pageable);
         return postPage.map(postResponseMapper::toPostResponse);
     }
 
-    // postId 리스트 반환
+    // 추론 결과 postId 리스트 반환
     private List<Long> makePostIdList(List<PostSearchResult> searchResults){
         return searchResults.stream()
                 .map(PostSearchResult::postId)
@@ -107,6 +112,7 @@ public class PostServiceImpl implements PostService {
     public PostDetailResponse getPostDetail(String username, Long postId) {
         Post post = findPostByPostId(postId);
         List<PhotoInfo> photoInfoList = photoService.getPhotoInfoList(post.getPhotos());
+        // 인증 여부 확인
         Member currentMember = findMember(username);
         return postDetailResponseMapper.toPostDetailResponse(currentMember, post, photoInfoList);
     }
@@ -141,13 +147,9 @@ public class PostServiceImpl implements PostService {
     public void bookPost(String username, Long postId, PostBookRequest requestParam) {
         Post post = findPostByPostId(postId);
         Member currentMember = memberService.findMember(username);
+        // 리팩토링
         List<LocalDateTime> bookedDates = postBookService.bookPost(post, currentMember, requestParam.checkInDate(), requestParam.checkOutDate());
-        removeBookedDatesFromAvailable(post, post.getAvailableDates(), bookedDates);
-    }
-
-    private void removeBookedDatesFromAvailable(Post post, List<LocalDateTime> availableDates, List<LocalDateTime> bookedDates) {
-        availableDates.removeAll(bookedDates);
-        post.setAvailableDates(availableDates);
+        availableDateService.deleteAvailableDates(post, bookedDates);
     }
 
     @Override
@@ -155,12 +157,7 @@ public class PostServiceImpl implements PostService {
         Post post = findPostByPostId(postId);
         Member currentMember = memberService.findMember(username);
         List<LocalDateTime> bookedDates = postBookService.unbookPost(post, currentMember);
-        addBookedDatesToAvailable(post, post.getAvailableDates(), bookedDates);
-    }
-
-    private void addBookedDatesToAvailable(Post post, List<LocalDateTime> availableDates, List<LocalDateTime> bookedDates) {
-        availableDates.addAll(bookedDates);
-        post.setAvailableDates(availableDates);
+        availableDateService.saveAvailableDates(post, bookedDates);
     }
 
     // 게시물 단일 조회

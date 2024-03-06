@@ -1,6 +1,6 @@
-package A1BnB.backend.domain.amenity.model.entity;
+package A1BnB.backend.domain.date.model.entity;
 
-import A1BnB.backend.domain.photo.model.entity.Photo;
+import A1BnB.backend.domain.post.model.entity.Post;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -10,6 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,32 +18,31 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
-@Table(name = "ammenities")
+@Table(name = "available_dates")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Amenity {
+public class AvailableDate {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "type")
-    private String type;
-
-    @Column(name = "confidence")
-    private Double confidence;
-
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "photo_id")
-    private Photo photo;
+    @JoinColumn(name = "post_id")
+    private Post post;
+
+    @Column(name = "date")
+    private LocalDateTime date;
 
     @Builder
-    public Amenity(String type, Double confidence) {
-        this.type = type;
-        this.confidence = confidence;
+    public AvailableDate(Post post, LocalDateTime date) {
+        setPost(post);
+        this.date = date;
     }
 
-    public void setPhoto(Photo photo){
-        this.photo = photo;
+    public void setPost(Post post){
+        this.post = post;
+        post.setAvailableDates(this);
     }
 
 }
+

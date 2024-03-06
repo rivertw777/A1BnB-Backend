@@ -1,11 +1,14 @@
 package A1BnB.backend.domain.post.dto.mapper;
 
+import A1BnB.backend.domain.date.model.entity.AvailableDate;
 import A1BnB.backend.domain.member.model.entity.Member;
 import A1BnB.backend.domain.photo.dto.PhotoInfo;
 import A1BnB.backend.domain.post.dto.response.PostDetailResponse;
 import A1BnB.backend.domain.post.model.entity.Post;
 import A1BnB.backend.domain.postLike.repository.PostLikeRepository;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -20,12 +23,18 @@ public class PostDetailResponseMapper {
                 post.getAuthor().getName(),
                 photoInfoList,
                 post.getLocation(),
-                post.getAvailableDates(),
+                getLocalDateTimeDates(post),
                 post.getPricePerNight(),
                 checkLike(post, currentMember),
                 post.getMaximumOccupancy(),
                 post.getCaption()
         );
+    }
+
+    private List<LocalDateTime> getLocalDateTimeDates(Post post) {
+        return post.getAvailableDates().stream()
+                .map(AvailableDate::getDate)
+                .collect(Collectors.toList());
     }
 
     private boolean checkLike(Post post, Member currentMember) {
