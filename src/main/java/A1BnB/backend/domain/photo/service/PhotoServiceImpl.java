@@ -105,15 +105,15 @@ public class PhotoServiceImpl implements PhotoService {
 
     // Photo 리스트 반환
     @Transactional(readOnly = true)
-    public List<Photo> findPhotos(List<Long> photoIdList) {
-        return photoRepository.findAllByIdIn(photoIdList);
+    public List<Photo> findPhotos(List<Long> photoIds) {
+        return photoRepository.findAllByIdIn(photoIds);
     }
 
     // 사진 정보 DTO 리스트 반환
     @Override
     @Transactional(readOnly = true)
-    public List<PhotoInfo> getPhotoInfoList(List<Photo> photos) {
-        return photoInfoMapper.toPhotoInfoList(photos);
+    public List<PhotoInfo> getPhotoInfos(List<Photo> photos) {
+        return photoInfoMapper.toPhotoInfos(photos);
     }
 
 }

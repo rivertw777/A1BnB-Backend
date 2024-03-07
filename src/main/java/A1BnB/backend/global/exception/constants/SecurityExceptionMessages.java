@@ -1,4 +1,4 @@
-package A1BnB.backend.global.security.exception.constants;
+package A1BnB.backend.global.exception.constants;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -17,4 +17,5 @@ public enum SecurityExceptionMessages {
     EXPIRED_REFRESH_TOKEN("refresh 토큰이 만료되었습니다. 다시 로그인 해주세요.");
 
     private final String message;
+
 }

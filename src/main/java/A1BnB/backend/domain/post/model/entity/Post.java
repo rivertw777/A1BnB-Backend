@@ -48,10 +48,10 @@ public class Post extends BaseTimeEntity {
     @JoinColumn(name = "post_id")
     private List<Date> availableDates = new ArrayList<>();
 
-    @Column(name = "PricePerNight")
+    @Column(name = "price_per_night")
     private Double pricePerNight;
 
-    @Column(name = "maximumOccupancy")
+    @Column(name = "maximum_occupancy")
     private Integer maximumOccupancy;
 
     @Column(name = "caption")

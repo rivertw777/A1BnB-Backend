@@ -1,6 +1,6 @@
 package A1BnB.backend.global.security.config.handler;
 
-import static A1BnB.backend.global.security.exception.constants.SecurityExceptionMessages.NO_AUTHORITY;
+import static A1BnB.backend.global.exception.constants.SecurityExceptionMessages.NO_AUTHORITY;
 import static jakarta.servlet.http.HttpServletResponse.SC_FORBIDDEN;
 
 import A1BnB.backend.global.security.utils.ResponseWriter;

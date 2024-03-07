@@ -45,4 +45,5 @@ public class PostDetailResponseMapper {
         // 인증 O
         return postLikeRepository.findByPostAndMember(post, currentMember).isPresent();
     }
+
 }

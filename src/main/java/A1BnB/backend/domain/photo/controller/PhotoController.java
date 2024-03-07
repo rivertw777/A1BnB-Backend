@@ -54,7 +54,7 @@ public class PhotoController {
 
     // 분석 결과 반환
     @PostMapping("/results")
-    public List<InferenceResultResponse> getResults(@Valid @RequestBody InferenceResultRequest requestParam) {
+    public List<InferenceResultResponse> getInferenceResults(@Valid @RequestBody InferenceResultRequest requestParam) {
         return photoService.getInferenceResults(requestParam);
     }
 

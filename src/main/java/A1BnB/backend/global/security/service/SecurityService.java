@@ -1,12 +1,12 @@
 package A1BnB.backend.global.security.service;
 
-import static A1BnB.backend.domain.member.exception.constants.MemberExceptionMessages.MEMBER_NAME_NOT_FOUND;
-import static A1BnB.backend.global.security.exception.constants.SecurityExceptionMessages.EXPIRED_REFRESH_TOKEN;
+import static A1BnB.backend.global.exception.constants.MemberExceptionMessages.MEMBER_NAME_NOT_FOUND;
+import static A1BnB.backend.global.exception.constants.SecurityExceptionMessages.EXPIRED_REFRESH_TOKEN;
 
 import A1BnB.backend.domain.member.model.entity.Member;
 import A1BnB.backend.global.security.dto.TokenData;
 import A1BnB.backend.global.security.dto.AccessTokenResponse;
-import A1BnB.backend.global.security.exception.ExpiredJwtTokenException;
+import A1BnB.backend.global.exception.SecurityException;
 import A1BnB.backend.global.security.model.CustomUserDetails;
 import A1BnB.backend.global.security.utils.TokenProvider;
 import A1BnB.backend.global.redis.service.RedisService;
@@ -78,7 +78,7 @@ public class SecurityService implements UserDetailsService {
         String refreshToken = redisService.getRefreshToken(userName);
         // 조회 실패시 예외 처리
         if (refreshToken == null) {
-            throw new ExpiredJwtTokenException(EXPIRED_REFRESH_TOKEN.getMessage());
+            throw new SecurityException(EXPIRED_REFRESH_TOKEN.getMessage());
         }
         // 조회 성공시 토큰 재발급
         CustomUserDetails userDetails = loadUserByUsername(userName);

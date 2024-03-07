@@ -1,10 +1,9 @@
 package A1BnB.backend.domain.post.service;
 
-import static A1BnB.backend.domain.member.exception.constants.MemberExceptionMessages.MEMBER_NAME_NOT_FOUND;
+import static A1BnB.backend.global.exception.constants.PostExceptionMessages.POST_NOT_FOUND;
 
 import A1BnB.backend.domain.date.model.entity.Date;
 import A1BnB.backend.domain.date.service.DateService;
-import A1BnB.backend.domain.member.exception.MemberNotFoundException;
 import A1BnB.backend.domain.member.service.MemberService;
 import A1BnB.backend.domain.photo.dto.PhotoInfo;
 import A1BnB.backend.domain.photo.model.entity.Photo;
@@ -22,6 +21,7 @@ import A1BnB.backend.domain.post.dto.response.PostResponse;
 import A1BnB.backend.domain.post.dto.mapper.PostResponseMapper;
 import A1BnB.backend.domain.postBook.service.PostBookService;
 import A1BnB.backend.domain.postLike.service.PostLikeService;
+import A1BnB.backend.global.exception.PostException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -106,18 +106,17 @@ public class PostServiceImpl implements PostService {
     @Transactional(readOnly = true)
     public PostDetailResponse getPostDetail(String username, Long postId) {
         Post post = findPostByPostId(postId);
-        List<PhotoInfo> photoInfoList = photoService.getPhotoInfoList(post.getPhotos());
-        // 인증 여부 확인
-        Member currentMember = findMember(username);
-        return postDetailResponseMapper.toPostDetailResponse(currentMember, post, photoInfoList);
+        List<PhotoInfo> photoInfos = photoService.getPhotoInfos(post.getPhotos());
+
+        // 인증 O
+        if (username!=null) {
+            Member currentMember = memberService.findMember(username);
+            return postDetailResponseMapper.toPostDetailResponse(currentMember, post, photoInfos);
+        }
+        // 인증 X
+        return postDetailResponseMapper.toPostDetailResponse(null, post, photoInfos);
     }
 
-    private Member findMember(String username){
-        if (username!=null){
-            return memberService.findMember(username);
-        }
-        return null;
-    }
 
     @Override
     @Transactional
@@ -153,7 +152,7 @@ public class PostServiceImpl implements PostService {
     // 게시물 단일 조회
     public Post findPostByPostId(Long postId){
         return postRepository.findByPostId(postId)
-                .orElseThrow(()->new MemberNotFoundException(MEMBER_NAME_NOT_FOUND.getMessage()));
+                .orElseThrow(()->new PostException(POST_NOT_FOUND.getMessage()));
     }
 
 }

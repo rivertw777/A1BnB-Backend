@@ -1,12 +1,14 @@
 package A1BnB.backend.domain.postBook.service;
 
+import static A1BnB.backend.global.exception.constants.PostExceptionMessages.POST_BOOK_INFO_NOT_FOUND;
+
 import A1BnB.backend.domain.date.model.entity.Date;
 import A1BnB.backend.domain.date.service.DateService;
-import A1BnB.backend.domain.member.exception.MemberNotFoundException;
 import A1BnB.backend.domain.member.model.entity.Member;
 import A1BnB.backend.domain.post.model.entity.Post;
 import A1BnB.backend.domain.postBook.model.PostBookInfo;
 import A1BnB.backend.domain.postBook.repository.PostBookRepostiory;
+import A1BnB.backend.global.exception.PostException;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -53,9 +55,7 @@ public class PostBookServiceImpl implements PostBookService {
 
     private PostBookInfo findPostBookInfo(Post post, Member currentMember){
         return postBookRepostiory.findByPostAndMember(post, currentMember)
-                .orElseThrow(()->new MemberNotFoundException("예약 정보가 없다."));
+                .orElseThrow(()->new PostException(POST_BOOK_INFO_NOT_FOUND.getMessage()));
     }
-
-
 
 }

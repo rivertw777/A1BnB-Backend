@@ -1,12 +1,12 @@
 package A1BnB.backend.global.security.utils;
 
-import static A1BnB.backend.global.security.exception.constants.SecurityExceptionMessages.EXPIRED_ACCESS_TOKEN;
-import static A1BnB.backend.global.security.exception.constants.SecurityExceptionMessages.MALFORMED_SIGNATURE;
-import static A1BnB.backend.global.security.exception.constants.SecurityExceptionMessages.UNMATCHED_SIGNATURE;
-import static A1BnB.backend.global.security.exception.constants.SecurityExceptionMessages.UNSUPPORTED_TOKEN;
+import static A1BnB.backend.global.exception.constants.SecurityExceptionMessages.EXPIRED_ACCESS_TOKEN;
+import static A1BnB.backend.global.exception.constants.SecurityExceptionMessages.MALFORMED_SIGNATURE;
+import static A1BnB.backend.global.exception.constants.SecurityExceptionMessages.UNMATCHED_SIGNATURE;
+import static A1BnB.backend.global.exception.constants.SecurityExceptionMessages.UNSUPPORTED_TOKEN;
 
 import A1BnB.backend.global.security.dto.TokenData;
-import A1BnB.backend.global.security.exception.ExpiredJwtTokenException;
+import A1BnB.backend.global.exception.SecurityException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -80,7 +80,7 @@ public class TokenProvider {
         } catch (MalformedJwtException e) {
             throw new MalformedJwtException(MALFORMED_SIGNATURE.getMessage());
         } catch (ExpiredJwtException e) {
-            throw new ExpiredJwtTokenException(EXPIRED_ACCESS_TOKEN.getMessage());
+            throw new SecurityException(EXPIRED_ACCESS_TOKEN.getMessage());
         } catch (UnsupportedJwtException e) {
             throw new UnsupportedJwtException(UNSUPPORTED_TOKEN.getMessage());
         } catch (SignatureException e) {

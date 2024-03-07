@@ -1,12 +1,11 @@
 package A1BnB.backend.domain.member.service;
 
-import static A1BnB.backend.domain.member.exception.constants.MemberExceptionMessages.DUPLICATE_NAME;
-import static A1BnB.backend.domain.member.exception.constants.MemberExceptionMessages.MEMBER_NAME_NOT_FOUND;
+import static A1BnB.backend.global.exception.constants.MemberExceptionMessages.DUPLICATE_NAME;
+import static A1BnB.backend.global.exception.constants.MemberExceptionMessages.MEMBER_NAME_NOT_FOUND;
 
-import A1BnB.backend.domain.member.exception.MemberNotFoundException;
 import A1BnB.backend.domain.member.model.entity.Member;
 import A1BnB.backend.domain.member.dto.MemberSignupRequest;
-import A1BnB.backend.domain.member.exception.DuplicateNameException;
+import A1BnB.backend.global.exception.MemberException;
 import A1BnB.backend.domain.member.model.Role;
 import A1BnB.backend.domain.member.repository.MemberRepository;
 
@@ -57,7 +56,7 @@ public class MemberServiceImpl implements MemberService {
     private void validateDuplicateName(String username){
         Optional<Member> findMember = memberRepository.findByName(username);
         if (findMember.isPresent()) {
-            throw new DuplicateNameException(DUPLICATE_NAME.getMessage());
+            throw new MemberException(DUPLICATE_NAME.getMessage());
         }
     }
 
@@ -65,7 +64,7 @@ public class MemberServiceImpl implements MemberService {
     @Transactional(readOnly = true)
     public Member findMember(String username){
         return memberRepository.findByName(username)
-                .orElseThrow(()->new MemberNotFoundException(MEMBER_NAME_NOT_FOUND.getMessage()));
+                .orElseThrow(()->new MemberException(MEMBER_NAME_NOT_FOUND.getMessage()));
     }
 
 }

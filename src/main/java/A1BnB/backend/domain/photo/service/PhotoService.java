@@ -15,7 +15,7 @@ public interface PhotoService {
     List<String> uploadPhotos(PhotoUploadRequest requestParam) throws IOException;
     List<Long> savePhotos(String inferenceResult) throws JsonProcessingException;
     List<InferenceResultResponse> getInferenceResults(InferenceResultRequest requestParam);
-    List<Photo> findPhotos(List<Long> photoIdList);
-    List<PhotoInfo> getPhotoInfoList(List<Photo> photos);
+    List<Photo> findPhotos(List<Long> photoIds);
+    List<PhotoInfo> getPhotoInfos(List<Photo> photos);
 
 }

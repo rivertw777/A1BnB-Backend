@@ -5,7 +5,7 @@ import static A1BnB.backend.global.security.constants.JwtProperties.TOKEN_PREFIX
 import static jakarta.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
 import A1BnB.backend.global.security.dto.AccessTokenResponse;
-import A1BnB.backend.global.security.exception.ExpiredJwtTokenException;
+import A1BnB.backend.global.exception.SecurityException;
 import A1BnB.backend.global.security.utils.ResponseWriter;
 import A1BnB.backend.global.security.service.SecurityService;
 import jakarta.servlet.FilterChain;
@@ -46,7 +46,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
         // access 토큰 만료시
-        catch (ExpiredJwtTokenException e){
+        catch (SecurityException e){
             if (checkRefreshRequest(request, response, token)) {
                 return;
             }
@@ -69,7 +69,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
                responseWriter.writeAccessTokenResponse(response, accessTokenResponse);
                return true;
                // refresh 토큰 만료시
-           } catch (ExpiredJwtTokenException e) {
+           } catch (SecurityException e) {
                responseWriter.writeErrorResponse(response, SC_UNAUTHORIZED, e.getMessage());
                return true;
            }

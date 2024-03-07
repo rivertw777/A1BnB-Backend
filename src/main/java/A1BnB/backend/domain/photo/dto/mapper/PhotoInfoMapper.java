@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class PhotoInfoMapper {
-    public List<PhotoInfo> toPhotoInfoList(List<Photo> photos) {
+    public List<PhotoInfo> toPhotoInfos(List<Photo> photos) {
         return photos.stream()
                 .map(photo -> toPhotoInfo(photo))
                 .collect(Collectors.toList());

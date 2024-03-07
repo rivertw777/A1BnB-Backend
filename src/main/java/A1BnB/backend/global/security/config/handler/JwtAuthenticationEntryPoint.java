@@ -1,6 +1,6 @@
 package A1BnB.backend.global.security.config.handler;
 
-import static A1BnB.backend.global.security.exception.constants.SecurityExceptionMessages.UNAUTHORIZED;
+import static A1BnB.backend.global.exception.constants.SecurityExceptionMessages.UNAUTHORIZED;
 import static jakarta.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
 import A1BnB.backend.global.security.utils.ResponseWriter;
