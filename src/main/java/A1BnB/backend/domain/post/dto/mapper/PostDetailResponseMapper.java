@@ -1,6 +1,6 @@
 package A1BnB.backend.domain.post.dto.mapper;
 
-import A1BnB.backend.domain.date.model.entity.AvailableDate;
+import A1BnB.backend.domain.date.model.entity.Date;
 import A1BnB.backend.domain.member.model.entity.Member;
 import A1BnB.backend.domain.photo.dto.PhotoInfo;
 import A1BnB.backend.domain.post.dto.response.PostDetailResponse;
@@ -33,7 +33,7 @@ public class PostDetailResponseMapper {
 
     private List<LocalDateTime> getLocalDateTimeDates(Post post) {
         return post.getAvailableDates().stream()
-                .map(AvailableDate::getDate)
+                .map(Date::getLocalDateTime)
                 .collect(Collectors.toList());
     }
 

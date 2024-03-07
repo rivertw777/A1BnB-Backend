@@ -55,9 +55,9 @@ public class PostController {
 
     // 게시물 검색
     @PostMapping("/search")
-    public Page<PostResponse> searchByCondition(@Valid @RequestBody PostSearchRequest searchCondition,
+    public Page<PostResponse> searchByCondition(@Valid @RequestBody PostSearchRequest requestParam,
                                                 Pageable pageable) {
-        return postService.searchByCondition(searchCondition, pageable);
+        return postService.searchByCondition(requestParam, pageable);
     }
 
     // 게시물 좋아요

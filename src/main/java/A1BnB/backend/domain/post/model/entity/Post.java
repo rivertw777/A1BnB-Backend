@@ -1,6 +1,6 @@
 package A1BnB.backend.domain.post.model.entity;
 
-import A1BnB.backend.domain.date.model.entity.AvailableDate;
+import A1BnB.backend.domain.date.model.entity.Date;
 import A1BnB.backend.domain.member.model.entity.Member;
 import A1BnB.backend.domain.photo.model.entity.Photo;
 import A1BnB.backend.domain.postBook.model.PostBookInfo;
@@ -44,8 +44,9 @@ public class Post extends BaseTimeEntity {
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<Photo> photos = new ArrayList<>();
 
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
-    private List<AvailableDate> availableDates = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "post_id")
+    private List<Date> availableDates = new ArrayList<>();
 
     @Column(name = "PricePerNight")
     private Double pricePerNight;
@@ -67,7 +68,7 @@ public class Post extends BaseTimeEntity {
 
     @Builder
     public Post(Member author, String location, List<Photo> photos, Double pricePerNight, Integer maximumOccupancy,
-                String caption) {
+                String caption, List<Date> availableDates) {
         setAuthor(author);
         this.location = location;
         setPhotos(photos);
@@ -75,6 +76,7 @@ public class Post extends BaseTimeEntity {
         this.maximumOccupancy = maximumOccupancy;
         this.caption = caption;
         this.likeCount = 0;
+        setAvailableDates(availableDates);
     }
 
     public void setAuthor(Member author) {
@@ -89,8 +91,8 @@ public class Post extends BaseTimeEntity {
         }
     }
 
-    public void setAvailableDates(AvailableDate availableDate) {
-        this.availableDates.add(availableDate);
+    public void setAvailableDates(List<Date> availableDates) {
+        this.availableDates = availableDates;
     }
 
     public void setPostLikeInfos(PostLikeInfo postLikeInfo){

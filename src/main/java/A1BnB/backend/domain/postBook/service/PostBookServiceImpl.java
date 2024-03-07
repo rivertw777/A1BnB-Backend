@@ -1,5 +1,7 @@
 package A1BnB.backend.domain.postBook.service;
 
+import A1BnB.backend.domain.date.model.entity.Date;
+import A1BnB.backend.domain.date.service.DateService;
 import A1BnB.backend.domain.member.exception.MemberNotFoundException;
 import A1BnB.backend.domain.member.model.entity.Member;
 import A1BnB.backend.domain.post.model.entity.Post;
@@ -7,8 +9,6 @@ import A1BnB.backend.domain.postBook.model.PostBookInfo;
 import A1BnB.backend.domain.postBook.repository.PostBookRepostiory;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,40 +18,44 @@ import org.springframework.transaction.annotation.Transactional;
 public class PostBookServiceImpl implements PostBookService {
 
     private final PostBookRepostiory postBookRepostiory;
+    private final DateService dateService;
 
     @Override
     @Transactional
-    public List<LocalDateTime> bookPost(Post post, Member currentMember, LocalDateTime checkInDate, LocalDateTime checkOutDate) {
-        List<LocalDateTime> bookedDates = getBookedDates(checkInDate, checkOutDate);
-        savePostBookInfo(post, currentMember, bookedDates);
-        return bookedDates;
+    public void bookPost(Post post, Member currentMember, LocalDateTime checkInDate, LocalDateTime checkOutDate) {
+        savePostBookInfo(post, currentMember, checkInDate, checkOutDate);
+        // 게시물 예약 가능 날짜 - 예약 날짜
+        List<Date> availableDates = dateService.deleteFromAvailableDates(post.getAvailableDates(), checkInDate, checkOutDate);
+        post.setAvailableDates(availableDates);
     }
 
-    private List<LocalDateTime> getBookedDates(LocalDateTime checkInDate, LocalDateTime checkOutDate) {
-        return Stream.iterate(checkInDate, date -> date.isBefore(checkOutDate), date -> date.plusDays(1))
-                .collect(Collectors.toList());
-    }
-
-    private void savePostBookInfo (Post post, Member currentMember, List<LocalDateTime> bookedDates){
+    private void savePostBookInfo (Post post, Member currentMember, LocalDateTime checkInDate, LocalDateTime checkOutDate){
         PostBookInfo postBookInfo = PostBookInfo.builder()
                 .post(post)
                 .member(currentMember)
-                .bookedDates(bookedDates)
+                .checkInDate(checkInDate)
+                .checkOutDate(checkOutDate)
                 .build();
         postBookRepostiory.save(postBookInfo);
     }
 
     @Override
     @Transactional
-    public List<LocalDateTime> unbookPost(Post post, Member currentMember) {
-        List<LocalDateTime> bookedDates = findPostBookInfo(post, currentMember).getBookedDates();
+    public void unbookPost(Post post, Member currentMember) {
+        PostBookInfo postBookInfo = findPostBookInfo(post, currentMember);
+        LocalDateTime checkInDate = postBookInfo.getCheckInDate();
+        LocalDateTime checkOutDate = postBookInfo.getCheckOutDate();
         postBookRepostiory.deleteByPostAndMember(post, currentMember);
-        return bookedDates;
+        // 게시물 예약 가능 날짜 + 예약 취소 날짜
+        List<Date> availableDates = dateService.revertToAvailableDates(post.getAvailableDates(), checkInDate, checkOutDate);
+        post.setAvailableDates(availableDates);
     }
 
-    public PostBookInfo findPostBookInfo(Post post, Member currentMember){
+    private PostBookInfo findPostBookInfo(Post post, Member currentMember){
         return postBookRepostiory.findByPostAndMember(post, currentMember)
                 .orElseThrow(()->new MemberNotFoundException("예약 정보가 없다."));
     }
+
+
 
 }

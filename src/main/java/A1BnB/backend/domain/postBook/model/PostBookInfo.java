@@ -12,7 +12,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
-import java.util.List;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -29,21 +28,25 @@ public class PostBookInfo {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "postId")
+    @JoinColumn(name = "post_id")
     private Post post;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "memberId")
+    @JoinColumn(name = "member_id")
     private Member member;
 
-    @Column(name = "booked_dates")
-    private List<LocalDateTime> bookedDates;
+    @Column(name = "check_in_date")
+    private LocalDateTime checkInDate;
+
+    @Column(name = "check_out_date")
+    private LocalDateTime checkOutDate;
 
     @Builder
-    public PostBookInfo(Post post, Member member, List<LocalDateTime> bookedDates) {
+    public PostBookInfo(Post post, Member member, LocalDateTime checkInDate, LocalDateTime checkOutDate) {
         setPost(post);
         setMember(member);
-        this.bookedDates = bookedDates;
+        this.checkInDate = checkInDate;
+        this.checkOutDate = checkOutDate;
     }
 
     public void setPost(Post post){

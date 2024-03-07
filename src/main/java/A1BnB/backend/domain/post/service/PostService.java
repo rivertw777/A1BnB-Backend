@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 public interface PostService {
     void registerPost(String userName, PostUploadRequest requestParam);
     Page<PostResponse> getAllPosts(Pageable pageable);
-    Page<PostResponse> searchByCondition(PostSearchRequest searchCondition, Pageable pageable);
+    Page<PostResponse> searchByCondition(PostSearchRequest requestParam, Pageable pageable);
     PostDetailResponse getPostDetail(String username, Long postId);
     void likePost(String username, Long postId);
     void unlikePost(String username, Long postId);
