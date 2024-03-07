@@ -86,12 +86,19 @@ public class PostServiceImpl implements PostService {
     @Transactional(readOnly = true)
     public Page<PostResponse> searchByCondition(PostSearchRequest requestParam, Pageable pageable) {
         // 게시물 검색
-        List<LocalDateTime> searchDates = dateService.getLocalDateTimeDates(requestParam.checkInDate(), requestParam.checkOutDate());
+        List<LocalDateTime> searchDates = getSearchDates(requestParam.checkInDate(), requestParam.checkOutDate());
         List<PostSearchResult> searchResults = postRepository.search(requestParam, searchDates);
         List<Long> postIds = makePostIds(searchResults);
         // 게시물 조회 및 DTO 반환
         Page<Post> postPage = postRepository.findAllByIds(postIds, pageable);
         return postPage.map(postResponseMapper::toPostResponse);
+    }
+
+    private List<LocalDateTime> getSearchDates(LocalDateTime checkInDate, LocalDateTime checkOutDate){
+        if (checkInDate == null || checkOutDate == null){
+            return null;
+        }
+        return dateService.getLocalDateTimeDates(checkInDate, checkOutDate);
     }
 
     // 추론 결과 postId 리스트 반환

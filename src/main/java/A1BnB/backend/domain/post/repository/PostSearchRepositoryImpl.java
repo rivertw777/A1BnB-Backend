@@ -18,7 +18,7 @@ public class PostSearchRepositoryImpl implements PostSearchRepository {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<PostSearchResult> search(PostSearchRequest searchCondition, List<LocalDateTime> searchDates) {
+    public List<PostSearchResult> search(PostSearchRequest requestParam, List<LocalDateTime> searchDates) {
         return queryFactory
                 .select(new QPostSearchResult(
                         post.postId,
@@ -29,12 +29,13 @@ public class PostSearchRepositoryImpl implements PostSearchRepository {
                 ))
                 .from(post)
                 .leftJoin(post.author, member)
-                .where(memberNameEq(searchCondition.authorName()),
-                        locationEq(searchCondition.location()),
-                        priceGoe(searchCondition.minPrice()),
-                        priceLoe(searchCondition.maxPrice()),
-                        amenitiesContains(searchCondition.amenities()),
-                        occupancyGoe(searchCondition.occupancy())
+                .where(memberNameEq(requestParam.authorName()),
+                        locationEq(requestParam.location()),
+                        priceGoe(requestParam.minPrice()),
+                        priceLoe(requestParam.maxPrice()),
+                        amenitiesContains(requestParam.amenities()),
+                        occupancyGoe(requestParam.occupancy()),
+                        datesContains(searchDates)
                 )
                 .fetch();
     }
@@ -75,6 +76,19 @@ public class PostSearchRepositoryImpl implements PostSearchRepository {
     // 수용 인원 만족 여부
     private BooleanExpression occupancyGoe(Integer occupancy) {
         return occupancy == null ? null : post.maximumOccupancy.goe(occupancy);
+    }
+
+    // 날짜 포함 여부
+    private BooleanExpression datesContains(List<LocalDateTime> searchDates) {
+        if(searchDates == null || searchDates.isEmpty()) {
+            return null;
+        }
+        BooleanExpression expression = null;
+        for (LocalDateTime searchDate : searchDates){
+            BooleanExpression searchDateExpression = post.availableDates.any().localDateTime.eq(searchDate);
+            expression = expression == null ? searchDateExpression : expression.and(searchDateExpression);
+        }
+        return expression;
     }
 
 }

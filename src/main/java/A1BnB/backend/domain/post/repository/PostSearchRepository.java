@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface PostSearchRepository {
 
-    List<PostSearchResult> search(PostSearchRequest searchCondition, List<LocalDateTime> searchDates);
+    List<PostSearchResult> search(PostSearchRequest requestParam, List<LocalDateTime> searchDates);
 }
