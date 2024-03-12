@@ -8,17 +8,21 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+
+@ExtendWith(RedisTestContainerConfig.class)
 @SpringBootTest
 class RedisServiceTest {
-    final String KEY = "username";
-    final String VALUE = "refreshToken";
-    final Long DURATION = 6000L;
 
     @Autowired
     private RedisService redisService;
+
+    final String KEY = "username";
+    final String VALUE = "refreshToken";
+    final Long DURATION = 6000L;
 
     @BeforeEach
     void setUp() {
