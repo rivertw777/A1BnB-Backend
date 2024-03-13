@@ -7,7 +7,7 @@ build/
 !**/src/test/**/build/
 **/src/main/resources/env.properties
 **/src/main/resources/static/
-**/src/test/
+**/src/test/global/redis/
 
 ### STS ###
 .apt_generated
