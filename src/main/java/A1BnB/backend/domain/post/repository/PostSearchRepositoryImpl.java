@@ -4,13 +4,15 @@ import static A1BnB.backend.domain.member.model.entity.QMember.member;
 import static A1BnB.backend.domain.post.model.entity.QPost.post;
 
 import A1BnB.backend.domain.post.dto.request.PostSearchRequest;
-import A1BnB.backend.domain.post.dto.PostSearchResult;
-import A1BnB.backend.domain.post.dto.QPostSearchResult;
+import A1BnB.backend.domain.post.model.entity.Post;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 
 @RequiredArgsConstructor
 public class PostSearchRepositoryImpl implements PostSearchRepository {
@@ -18,18 +20,14 @@ public class PostSearchRepositoryImpl implements PostSearchRepository {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<PostSearchResult> search(PostSearchRequest requestParam, List<LocalDateTime> searchDates) {
-        return queryFactory
-                .select(new QPostSearchResult(
-                        post.postId,
-                        member.name,
-                        post.location,
-                        post.pricePerNight,
-                        post.maximumOccupancy
-                ))
+    public Page<Post> search(PostSearchRequest requestParam, List<LocalDateTime> searchDates, Pageable pageable) {
+        // 결과 목록 조회
+        List<Post> posts = queryFactory
+                .select(post)
                 .from(post)
                 .leftJoin(post.author, member)
-                .where(memberNameEq(requestParam.authorName()),
+                .where(
+                        memberNameEq(requestParam.authorName()),
                         locationEq(requestParam.location()),
                         priceGoe(requestParam.minPrice()),
                         priceLoe(requestParam.maxPrice()),
@@ -37,9 +35,11 @@ public class PostSearchRepositoryImpl implements PostSearchRepository {
                         occupancyGoe(requestParam.occupancy()),
                         datesContains(searchDates)
                 )
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
                 .fetch();
+        return new PageImpl<>(posts, pageable, posts.size());
     }
-
     // 작성자 이름 일치 여부
     private BooleanExpression memberNameEq(String memberName){
         return memberName == null ? null : member.name.eq(memberName);

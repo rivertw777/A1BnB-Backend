@@ -11,7 +11,6 @@ import A1BnB.backend.domain.photo.service.PhotoService;
 import A1BnB.backend.domain.post.dto.request.PostBookRequest;
 import A1BnB.backend.domain.post.dto.response.PostDetailResponse;
 import A1BnB.backend.domain.post.dto.request.PostSearchRequest;
-import A1BnB.backend.domain.post.dto.PostSearchResult;
 import A1BnB.backend.domain.post.dto.mapper.PostDetailResponseMapper;
 import A1BnB.backend.domain.post.model.entity.Post;
 import A1BnB.backend.domain.post.repository.PostRepository;
@@ -24,7 +23,6 @@ import A1BnB.backend.domain.postLike.service.PostLikeService;
 import A1BnB.backend.global.exception.PostException;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -76,6 +74,7 @@ public class PostServiceImpl implements PostService {
     @Override
     @Transactional(readOnly = true)
     public Page<PostResponse> getAllPosts(Pageable pageable) {
+        System.out.println(pageable);
         Page<Post> postPage = postRepository.findAll(pageable);
         // 게시물 응답 DTO 반환
         return postPage.map(postResponseMapper::toPostResponse);
@@ -87,25 +86,18 @@ public class PostServiceImpl implements PostService {
     public Page<PostResponse> searchByCondition(PostSearchRequest requestParam, Pageable pageable) {
         // 게시물 검색
         List<LocalDateTime> searchDates = getSearchDates(requestParam.checkInDate(), requestParam.checkOutDate());
-        List<PostSearchResult> searchResults = postRepository.search(requestParam, searchDates);
-        List<Long> postIds = makePostIds(searchResults);
-        // 게시물 조회 및 DTO 반환
-        Page<Post> postPage = postRepository.findAllByIds(postIds, pageable);
+        System.out.println(requestParam.checkInDate());
+        System.out.println(requestParam.checkOutDate());
+        System.out.println(searchDates);
+        Page<Post> postPage = postRepository.search(requestParam, searchDates, pageable);
         return postPage.map(postResponseMapper::toPostResponse);
     }
 
-    private List<LocalDateTime> getSearchDates(LocalDateTime checkInDate, LocalDateTime checkOutDate){
+     List<LocalDateTime> getSearchDates(LocalDateTime checkInDate, LocalDateTime checkOutDate){
         if (checkInDate == null || checkOutDate == null){
             return null;
         }
         return dateService.getLocalDateTimeDates(checkInDate, checkOutDate);
-    }
-
-    // 추론 결과 postId 리스트 반환
-    private List<Long> makePostIds(List<PostSearchResult> searchResults){
-        return searchResults.stream()
-                .map(PostSearchResult::postId)
-                .collect(Collectors.toList());
     }
 
     // 게시물 상세 DTO 반환
