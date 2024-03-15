@@ -24,6 +24,8 @@ import A1BnB.backend.global.exception.PostException;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -48,6 +50,7 @@ public class PostServiceImpl implements PostService {
     // 게시물 등록
     @Override
     @Transactional
+    @CacheEvict(cacheNames = "findPosts", allEntries = true)
     public void registerPost(String username, PostUploadRequest requestParam) {
         Member currentMember = memberService.findMember(username);
         List<Photo> photos = photoService.findPhotos(requestParam.photoIdList());
@@ -73,8 +76,8 @@ public class PostServiceImpl implements PostService {
     // 게시물 응답 DTO Page 반환
     @Override
     @Transactional(readOnly = true)
+    @Cacheable(cacheNames = "findPosts", keyGenerator = "cachingKeyGenerator")
     public Page<PostResponse> getAllPosts(Pageable pageable) {
-        System.out.println(pageable);
         Page<Post> postPage = postRepository.findAll(pageable);
         // 게시물 응답 DTO 반환
         return postPage.map(postResponseMapper::toPostResponse);
@@ -86,9 +89,6 @@ public class PostServiceImpl implements PostService {
     public Page<PostResponse> searchByCondition(PostSearchRequest requestParam, Pageable pageable) {
         // 게시물 검색
         List<LocalDateTime> searchDates = getSearchDates(requestParam.checkInDate(), requestParam.checkOutDate());
-        System.out.println(requestParam.checkInDate());
-        System.out.println(requestParam.checkOutDate());
-        System.out.println(searchDates);
         Page<Post> postPage = postRepository.search(requestParam, searchDates, pageable);
         return postPage.map(postResponseMapper::toPostResponse);
     }
