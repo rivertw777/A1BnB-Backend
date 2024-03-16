@@ -106,7 +106,6 @@ public class PostServiceImpl implements PostService {
     public PostDetailResponse getPostDetail(String username, Long postId) {
         Post post = findPostByPostId(postId);
         List<PhotoInfo> photoInfos = photoService.getPhotoInfos(post.getPhotos());
-
         // 인증 O
         if (username!=null) {
             Member currentMember = memberService.findMember(username);
@@ -142,6 +141,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    @Transactional
     public void unbookPost(String username, Long postId) {
         Post post = findPostByPostId(postId);
         Member currentMember = memberService.findMember(username);

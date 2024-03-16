@@ -23,5 +23,6 @@ public class JwtAccessDeniedHandler implements AccessDeniedHandler {
                        AccessDeniedException accessDeniedException) throws IOException {
         responseWriter.writeErrorResponse(response, SC_FORBIDDEN, NO_AUTHORITY.getMessage());
     }
+
 }
 
