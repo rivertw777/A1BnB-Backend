@@ -29,8 +29,6 @@ public class TokenProvider {
     private final Long accessTokenExpiration;
     private final Long refreshTokenExpiration;
 
-    private static final String AUTHORITIES_KEY = "auth";
-
     public TokenProvider(@Value("${jwt.secret}") String secretKey,
                          @Value("${jwt.access.expiration}") String accessTokenExpiration,
                          @Value("${jwt.refresh.expiration}") String refreshTokenExpiration) {
@@ -46,7 +44,6 @@ public class TokenProvider {
         // access 토큰 생성
         String accessToken = Jwts.builder()
                 .setSubject(userDetails.getUsername())
-                .claim(AUTHORITIES_KEY, userDetails.getAuthorities())
                 .setExpiration(new Date(now + accessTokenExpiration))
                 .signWith(jwtSecretKey, SignatureAlgorithm.HS256)
                 .compact();
