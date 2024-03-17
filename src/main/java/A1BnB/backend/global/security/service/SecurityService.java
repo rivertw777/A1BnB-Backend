@@ -9,7 +9,7 @@ import A1BnB.backend.global.security.dto.AccessTokenResponse;
 import A1BnB.backend.global.exception.SecurityException;
 import A1BnB.backend.global.security.model.CustomUserDetails;
 import A1BnB.backend.global.security.utils.TokenProvider;
-import A1BnB.backend.global.redis.service.RedisService;
+import A1BnB.backend.global.redis.service.RefreshTokenService;
 import A1BnB.backend.domain.member.repository.MemberRepository;
 import io.jsonwebtoken.Claims;
 import jakarta.transaction.Transactional;
@@ -27,7 +27,7 @@ public class SecurityService implements UserDetailsService {
 
     private final MemberRepository memberRepository;
     private final TokenProvider tokenProvider;
-    private final RedisService redisService;
+    private final RefreshTokenService refreshTokenService;
 
     @Value("${jwt.refresh.expiration}")
     private String refreshTokenExpiration;
@@ -53,7 +53,7 @@ public class SecurityService implements UserDetailsService {
     @Transactional
     private void setRefreshTokenInRedis(String username, TokenData tokenData){
         String refreshToken = tokenData.refreshToken();
-        redisService.setRefreshToken(username, refreshToken, Long.valueOf(refreshTokenExpiration));
+        refreshTokenService.setRefreshToken(username, refreshToken, Long.valueOf(refreshTokenExpiration));
     }
 
     // 인증 정보 반환
@@ -75,7 +75,7 @@ public class SecurityService implements UserDetailsService {
     public AccessTokenResponse refreshAccessToken(String accessToken) {
         // redis에서 refresh 토큰 조회
         String userName = tokenProvider.parseClaims(accessToken).getSubject();
-        String refreshToken = redisService.getRefreshToken(userName);
+        String refreshToken = refreshTokenService.getRefreshToken(userName);
         // 조회 실패시 예외 처리
         if (refreshToken == null) {
             throw new SecurityException(EXPIRED_REFRESH_TOKEN.getMessage());
@@ -87,7 +87,7 @@ public class SecurityService implements UserDetailsService {
 
     // 로그아웃
     public void logout(String username){
-        redisService.deleteRefreshToken(username);
+        refreshTokenService.deleteRefreshToken(username);
     }
 
 }

@@ -54,6 +54,8 @@ public class SecurityConfig {
                         .requestMatchers(antMatcher(HttpMethod.POST, "/api/posts")).hasRole("HOST")
                         // 게시물 조회
                         .requestMatchers(antMatcher(HttpMethod.GET, "/api/posts")).permitAll()
+                        // 게시물 좋아요 수 조회
+                        .requestMatchers(antMatcher(HttpMethod.GET, "/api/posts/{\\d+}/like/count")).permitAll()
                         // 게시물 상세 조회
                         .requestMatchers(antMatcher(HttpMethod.GET, "/api/posts/{\\d+}")).permitAll()
                         // 게시물 검색

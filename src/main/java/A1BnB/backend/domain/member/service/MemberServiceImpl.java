@@ -30,24 +30,15 @@ public class MemberServiceImpl implements MemberService {
         validateDuplicateName(requestParam.name());
         // 비밀번호 인코딩
         String encodedPassword = passwordEncoder.encode(requestParam.password());
-        // 권한 생성
-        Role role = getMemberRole(requestParam.role());
-        saveMember(requestParam.name(), encodedPassword, role);
-    }
-
-    private Role getMemberRole(String role) {
-        if (role.equals("guest")) {
-            return Role.GUEST;
-        }
-        return Role.HOST;
+        saveMember(requestParam.name(), encodedPassword);
     }
 
     // Member 엔티티 저장
-    private void saveMember(String username, String encodedPassword, Role role) {
+    private void saveMember(String username, String encodedPassword) {
         Member member = Member.builder()
                 .name(username)
                 .password(encodedPassword)
-                .roles(Collections.singletonList(role))
+                .roles(Collections.singletonList(Role.HOST))
                 .build();
         memberRepository.save(member);
     }
