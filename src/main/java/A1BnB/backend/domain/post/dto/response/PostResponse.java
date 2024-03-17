@@ -5,7 +5,7 @@ import java.util.List;
 
 // 게시물 응답
 public record PostResponse(Long postId, String authorName, List<String> photoUrls, String location,
-                           Double pricePerNight, Integer likeCount) implements Serializable {
+                           Double pricePerNight) implements Serializable {
     public PostResponse {
     }
 }

@@ -60,9 +60,6 @@ public class Post extends BaseTimeEntity {
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<PostLikeInfo> postLikeInfos = new ArrayList<>();
 
-    @Column(name = "like_count")
-    private Integer likeCount;
-
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<PostBookInfo> postBookInfos = new ArrayList<>();
 
@@ -75,7 +72,6 @@ public class Post extends BaseTimeEntity {
         this.pricePerNight = pricePerNight;
         this.maximumOccupancy = maximumOccupancy;
         this.caption = caption;
-        this.likeCount = 0;
         setAvailableDates(availableDates);
     }
 
@@ -97,10 +93,6 @@ public class Post extends BaseTimeEntity {
 
     public void setPostLikeInfos(PostLikeInfo postLikeInfo){
         this.postLikeInfos.add(postLikeInfo);
-    }
-
-    public void setLikeCount(Integer changedLikeCount) {
-        this.likeCount = changedLikeCount;
     }
 
     public void setPostBookInfos(PostBookInfo postBookInfo){

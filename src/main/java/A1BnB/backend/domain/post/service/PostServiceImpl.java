@@ -21,6 +21,7 @@ import A1BnB.backend.domain.post.dto.mapper.PostResponseMapper;
 import A1BnB.backend.domain.postBook.service.PostBookService;
 import A1BnB.backend.domain.postLike.service.PostLikeService;
 import A1BnB.backend.global.exception.PostException;
+import A1BnB.backend.global.redis.service.PostLikeCountService;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -43,6 +44,7 @@ public class PostServiceImpl implements PostService {
     private final PostLikeService postLikeService;
     private final PostBookService postBookService;
     private final DateService dateService;
+    private final PostLikeCountService postLikeCountService;
 
     private final PostResponseMapper postResponseMapper;
     private final PostDetailResponseMapper postDetailResponseMapper;
@@ -55,11 +57,12 @@ public class PostServiceImpl implements PostService {
         Member currentMember = memberService.findMember(username);
         List<Photo> photos = photoService.findPhotos(requestParam.photoIdList());
         List<Date> availableDates = dateService.getDates(requestParam.startDate(), requestParam.endDate());
-        savePost(requestParam, currentMember, photos, availableDates);
+        Post post = savePost(requestParam, currentMember, photos, availableDates);
+        postLikeCountService.initCount(post.getPostId());
     }
 
     // Post 엔티티 저장
-    private void savePost(PostUploadRequest requestParam, Member currentMember, List<Photo> photos,
+    private Post savePost(PostUploadRequest requestParam, Member currentMember, List<Photo> photos,
                           List<Date> availableDates) {
         Post post = Post.builder()
                 .author(currentMember)
@@ -71,6 +74,7 @@ public class PostServiceImpl implements PostService {
                 .availableDates(availableDates)
                 .build();
         postRepository.save(post);
+        return post;
     }
 
     // 게시물 응답 DTO Page 반환
@@ -115,13 +119,13 @@ public class PostServiceImpl implements PostService {
         return postDetailResponseMapper.toPostDetailResponse(null, post, photoInfos);
     }
 
-
     @Override
     @Transactional
     public void likePost(String username, Long postId) {
         Post post = findPostByPostId(postId);
         Member currentMember = memberService.findMember(username);
         postLikeService.likePost(post, currentMember);
+        postLikeCountService.increaseCount(postId);
     }
 
     @Override
@@ -130,6 +134,7 @@ public class PostServiceImpl implements PostService {
         Post post = findPostByPostId(postId);
         Member currentMember = memberService.findMember(username);
         postLikeService.unlikePost(post, currentMember);
+        postLikeCountService.decreaseCount(postId);
     }
 
     @Override

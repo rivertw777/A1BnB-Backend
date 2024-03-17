@@ -22,14 +22,12 @@ public class PostLikeServiceImpl implements PostLikeService {
                 .member(currentMember)
                 .build();
         postLikeRepository.save(postLikeInfo);
-        post.setLikeCount(post.getLikeCount()+1);
     }
 
     @Override
     @Transactional
     public void unlikePost(Post post, Member currentMember) {
         postLikeRepository.deleteByPostAndMember(post, currentMember);
-        post.setLikeCount(post.getLikeCount()-1);
     }
 
 }

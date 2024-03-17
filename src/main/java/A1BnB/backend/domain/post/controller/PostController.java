@@ -4,8 +4,10 @@ import A1BnB.backend.domain.post.dto.request.PostBookRequest;
 import A1BnB.backend.domain.post.dto.response.PostDetailResponse;
 import A1BnB.backend.domain.post.dto.request.PostSearchRequest;
 import A1BnB.backend.domain.post.dto.request.PostUploadRequest;
+import A1BnB.backend.domain.post.dto.response.PostLikeCountResponse;
 import A1BnB.backend.domain.post.dto.response.PostResponse;
 import A1BnB.backend.domain.post.service.PostService;
+import A1BnB.backend.global.redis.service.PostLikeCountService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -26,6 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class PostController {
 
     private final PostService postService;
+    private final PostLikeCountService postLikeCountService;
 
     // 게시물 업로드
     @PostMapping
@@ -39,6 +42,7 @@ public class PostController {
     public Page<PostResponse> getAllPosts(Pageable pageable) {
         return postService.getAllPosts(pageable);
     }
+
 
     // 게시물 상세 조회 (인증 X)
     @GetMapping("/{postId}")
@@ -72,6 +76,13 @@ public class PostController {
     public void unlikePost(@AuthenticationPrincipal(expression = "username") String username,
                          @Valid @PathVariable("postId") Long postId) {
         postService.unlikePost(username, postId);
+    }
+
+    // 게시물 좋아요 수
+    @GetMapping("/{postId}/like/count")
+    public PostLikeCountResponse getLikeCount(@Valid @PathVariable("postId") Long postId) {
+        Integer likeCount = postLikeCountService.getCount(postId);
+        return new PostLikeCountResponse(likeCount);
     }
 
     // 숙소 예약
