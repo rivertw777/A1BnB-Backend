@@ -30,6 +30,7 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -63,6 +64,17 @@ public class PostServiceImpl implements PostService {
         List<Date> availableDates = dateService.getDates(requestParam.startDate(), requestParam.endDate());
         Post post = savePost(requestParam, currentMember, photos, availableDates);
         postLikeCountService.initCount(post.getPostId());
+    }
+
+    // 게시물 삭제
+    @Override
+    @Caching(evict = {
+            @CacheEvict(cacheNames = "findPosts", allEntries = true),
+            @CacheEvict(cacheNames = "PostDetail", key= "#p0")
+    })
+    public void deletePost(Long postId) {
+        postRepository.deleteById(postId);
+        postLikeCountService.deleteCount(postId);
     }
 
     // Post 엔티티 저장

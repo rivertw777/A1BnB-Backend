@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 @Service
 public interface PostService {
     void registerPost(String username, PostUploadRequest requestParam);
+    void deletePost(Long postId);
     Page<PostResponse> getAllPosts(Pageable pageable);
     Page<PostResponse> searchByCondition(PostSearchRequest requestParam, Pageable pageable);
     PostDetailResponse getPostDetail(Long postId);

@@ -37,6 +37,12 @@ public class PostLikeCountService {
         return Integer.parseInt(count);
     }
 
+    // 좋아요 수 삭제
+    public void deleteCount(Long postId) {
+        redisTemplate.delete("postLikeCount:" + postId);
+        redisTemplate.opsForZSet().remove("postLikeRanking", String.valueOf(postId));
+    }
+
     // 게시물 좋아요 순위 조회
     public List<Long> getRanking(Pageable pageable) {
         int pageNumber = pageable.getPageNumber();

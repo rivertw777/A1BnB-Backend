@@ -8,7 +8,6 @@ import A1BnB.backend.domain.post.dto.response.PostLikeCheckResponse;
 import A1BnB.backend.domain.post.dto.response.PostLikeCountResponse;
 import A1BnB.backend.domain.post.dto.response.PostResponse;
 import A1BnB.backend.domain.post.service.PostService;
-import A1BnB.backend.global.redis.service.PostLikeCountService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -35,6 +34,12 @@ public class PostController {
     public void uploadPost(@AuthenticationPrincipal(expression = "username") String username,
                            @Valid @ModelAttribute PostUploadRequest requestParam) {
         postService.registerPost(username, requestParam);
+    }
+
+    // 게시물 삭제
+    @DeleteMapping("/{postId}")
+    public void deletePost(@Valid @PathVariable("postId") Long postId){
+        postService.deletePost(postId);
     }
 
     // 게시물 전체 조회
