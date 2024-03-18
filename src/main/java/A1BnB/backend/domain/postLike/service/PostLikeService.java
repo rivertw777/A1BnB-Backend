@@ -8,4 +8,5 @@ import org.springframework.stereotype.Service;
 public interface PostLikeService {
     void likePost(Post post, Member currentMember);
     void unlikePost(Post post, Member currentMember);
+    boolean findByPostAndMember(Post post, Member currentMember);
 }

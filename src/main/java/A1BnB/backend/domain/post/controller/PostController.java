@@ -4,6 +4,7 @@ import A1BnB.backend.domain.post.dto.request.PostBookRequest;
 import A1BnB.backend.domain.post.dto.response.PostDetailResponse;
 import A1BnB.backend.domain.post.dto.request.PostSearchRequest;
 import A1BnB.backend.domain.post.dto.request.PostUploadRequest;
+import A1BnB.backend.domain.post.dto.response.PostLikeCheckResponse;
 import A1BnB.backend.domain.post.dto.response.PostLikeCountResponse;
 import A1BnB.backend.domain.post.dto.response.PostResponse;
 import A1BnB.backend.domain.post.service.PostService;
@@ -44,17 +45,17 @@ public class PostController {
     }
 
 
-    // 게시물 상세 조회 (인증 X)
+    // 게시물 상세 조회
     @GetMapping("/{postId}")
-    public PostDetailResponse getPostDetail(@Valid @PathVariable("postId") Long postId){
-        return postService.getPostDetail(null, postId);
+    public PostDetailResponse getPostDetail(@Valid @PathVariable("postId") Long postId) {
+        return postService.getPostDetail(postId);
     }
 
-    // 게시물 상세 조회 (인증 O)
-    @PostMapping("/{postId}")
-    public PostDetailResponse getPostDetailWithAuth(@AuthenticationPrincipal(expression = "username") String username,
-                                                    @Valid @PathVariable("postId") Long postId){
-        return postService.getPostDetail(username, postId);
+    // 회원 게시물 좋아요 여부 확인
+    @GetMapping("/{postId}/like/check")
+    public PostLikeCheckResponse checkLike(@AuthenticationPrincipal(expression = "username") String username,
+                                           @Valid @PathVariable("postId") Long postId) {
+        return postService.checkLike(username, postId);
     }
 
     // 게시물 검색
@@ -98,6 +99,12 @@ public class PostController {
     public void unbookPost(@AuthenticationPrincipal(expression = "username") String username,
                           @Valid @PathVariable("postId") Long postId) {
         postService.unbookPost(username, postId);
+    }
+
+    // 게시물 인기순 조회
+    @GetMapping("like")
+    public Page<PostResponse> getlikeRanking(Pageable pageable) {
+        return postService.getLikeRanking(pageable);
     }
 
 }

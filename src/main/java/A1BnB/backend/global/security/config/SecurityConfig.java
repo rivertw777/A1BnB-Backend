@@ -60,6 +60,8 @@ public class SecurityConfig {
                         .requestMatchers(antMatcher(HttpMethod.GET, "/api/posts/{\\d+}")).permitAll()
                         // 게시물 검색
                         .requestMatchers(antMatcher(HttpMethod.POST, "/api/posts/search")).permitAll()
+                        // 게시물 인기순 조회
+                        .requestMatchers(antMatcher(HttpMethod.POST, "/api/posts/like")).permitAll()
                         .requestMatchers("/swagger-ui/**", "/swagger-resources/**", "/v3/api-docs/**").permitAll()
                         .anyRequest().authenticated()
                 );

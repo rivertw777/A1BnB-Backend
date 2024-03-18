@@ -35,6 +35,7 @@ public class PostSearchRepositoryImpl implements PostSearchRepository {
                         occupancyGoe(requestParam.occupancy()),
                         datesContains(searchDates)
                 )
+                .orderBy(post.createdAt.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();

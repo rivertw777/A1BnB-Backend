@@ -12,6 +12,7 @@ import A1BnB.backend.domain.post.dto.request.PostBookRequest;
 import A1BnB.backend.domain.post.dto.response.PostDetailResponse;
 import A1BnB.backend.domain.post.dto.request.PostSearchRequest;
 import A1BnB.backend.domain.post.dto.mapper.PostDetailResponseMapper;
+import A1BnB.backend.domain.post.dto.response.PostLikeCheckResponse;
 import A1BnB.backend.domain.post.model.entity.Post;
 import A1BnB.backend.domain.post.repository.PostRepository;
 import A1BnB.backend.domain.member.model.entity.Member;
@@ -24,10 +25,12 @@ import A1BnB.backend.global.exception.PostException;
 import A1BnB.backend.global.redis.service.PostLikeCountService;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -77,7 +80,7 @@ public class PostServiceImpl implements PostService {
         return post;
     }
 
-    // 게시물 응답 DTO Page 반환
+    // 게시물 DTO Page 반환
     @Override
     @Transactional(readOnly = true)
     @Cacheable(cacheNames = "findPosts", keyGenerator = "cachingKeyGenerator")
@@ -87,7 +90,7 @@ public class PostServiceImpl implements PostService {
         return postPage.map(postResponseMapper::toPostResponse);
     }
 
-    // 게시물 검색 응답 DTO Page 반환
+    // 게시물 검색 DTO Page 반환
     @Override
     @Transactional(readOnly = true)
     public Page<PostResponse> searchByCondition(PostSearchRequest requestParam, Pageable pageable) {
@@ -107,18 +110,23 @@ public class PostServiceImpl implements PostService {
     // 게시물 상세 DTO 반환
     @Override
     @Transactional(readOnly = true)
-    public PostDetailResponse getPostDetail(String username, Long postId) {
+    public PostDetailResponse getPostDetail(Long postId) {
         Post post = findPostByPostId(postId);
         List<PhotoInfo> photoInfos = photoService.getPhotoInfos(post.getPhotos());
-        // 인증 O
-        if (username!=null) {
-            Member currentMember = memberService.findMember(username);
-            return postDetailResponseMapper.toPostDetailResponse(currentMember, post, photoInfos);
-        }
-        // 인증 X
-        return postDetailResponseMapper.toPostDetailResponse(null, post, photoInfos);
+        return postDetailResponseMapper.toPostDetailResponse(post, photoInfos);
     }
 
+    // 게시물 좋아요 여부
+    @Override
+    @Transactional(readOnly = true)
+    public PostLikeCheckResponse checkLike(String username, Long postId) {
+        Post post = findPostByPostId(postId);
+        Member currentMember = memberService.findMember(username);
+        boolean likeCheck = postLikeService.findByPostAndMember(post, currentMember);
+        return new PostLikeCheckResponse(likeCheck);
+    }
+
+    // 게시물 좋아요
     @Override
     @Transactional
     public void likePost(String username, Long postId) {
@@ -128,6 +136,7 @@ public class PostServiceImpl implements PostService {
         postLikeCountService.increaseCount(postId);
     }
 
+    // 게시물 좋아요 취소
     @Override
     @Transactional
     public void unlikePost(String username, Long postId) {
@@ -137,6 +146,7 @@ public class PostServiceImpl implements PostService {
         postLikeCountService.decreaseCount(postId);
     }
 
+    // 게시물 예약
     @Override
     @Transactional
     public void bookPost(String username, Long postId, PostBookRequest requestParam) {
@@ -145,12 +155,28 @@ public class PostServiceImpl implements PostService {
         postBookService.bookPost(post, currentMember, requestParam.checkInDate(), requestParam.checkOutDate());
     }
 
+    // 게시물 예약 취소
     @Override
     @Transactional
     public void unbookPost(String username, Long postId) {
         Post post = findPostByPostId(postId);
         Member currentMember = memberService.findMember(username);
         postBookService.unbookPost(post, currentMember);
+    }
+
+    // 게시물 인기순 DTO Page 반환
+    @Override
+    public Page<PostResponse> getLikeRanking(Pageable pageable) {
+        List<Long> postIds = postLikeCountService.getRanking(pageable);
+        List<Post> posts = postRepository.findAllByPostIdIn(postIds);
+        // 순서 정리
+        Page<Post> postPage = new PageImpl<>(postIds.stream()
+                .map(postId -> posts.stream()
+                        .filter(post -> post.getPostId().equals(postId))
+                        .findFirst()
+                        .orElse(null))
+                .collect(Collectors.toList()));
+        return postPage.map(postResponseMapper::toPostResponse);
     }
 
     // 게시물 단일 조회

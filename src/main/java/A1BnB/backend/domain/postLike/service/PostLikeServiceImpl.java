@@ -30,4 +30,10 @@ public class PostLikeServiceImpl implements PostLikeService {
         postLikeRepository.deleteByPostAndMember(post, currentMember);
     }
 
+    @Override
+    @Transactional
+    public boolean findByPostAndMember(Post post, Member currentMember) {
+        return postLikeRepository.findByPostAndMember(post, currentMember).isPresent();
+    }
+
 }
