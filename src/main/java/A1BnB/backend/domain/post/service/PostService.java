@@ -5,6 +5,7 @@ import A1BnB.backend.domain.post.dto.response.PostDetailResponse;
 import A1BnB.backend.domain.post.dto.request.PostSearchRequest;
 import A1BnB.backend.domain.post.dto.request.PostUploadRequest;
 import A1BnB.backend.domain.post.dto.response.PostLikeCheckResponse;
+import A1BnB.backend.domain.post.dto.response.PostLikeCountResponse;
 import A1BnB.backend.domain.post.dto.response.PostResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,4 +23,5 @@ public interface PostService {
     void bookPost(String username, Long postId, PostBookRequest requestParam);
     void unbookPost(String username, Long postId);
     Page<PostResponse> getLikeRanking(Pageable pageable);
+    PostLikeCountResponse getLikeCount(Long postId);
 }

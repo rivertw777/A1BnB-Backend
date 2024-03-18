@@ -29,7 +29,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class PostController {
 
     private final PostService postService;
-    private final PostLikeCountService postLikeCountService;
 
     // 게시물 업로드
     @PostMapping
@@ -82,8 +81,7 @@ public class PostController {
     // 게시물 좋아요 수
     @GetMapping("/{postId}/like/count")
     public PostLikeCountResponse getLikeCount(@Valid @PathVariable("postId") Long postId) {
-        Integer likeCount = postLikeCountService.getCount(postId);
-        return new PostLikeCountResponse(likeCount);
+        return postService.getLikeCount(postId);
     }
 
     // 숙소 예약

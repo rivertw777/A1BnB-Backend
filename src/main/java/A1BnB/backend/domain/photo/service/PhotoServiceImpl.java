@@ -58,6 +58,7 @@ public class PhotoServiceImpl implements PhotoService {
 
     // 사진 저장, PhotoId 리스트 반환
     @Override
+    @Transactional
     public List<Long> savePhotos(String inferenceResult) throws JsonProcessingException {
         Map<String, Map<String, Map<String, Double>>> parsedData = jsonParser.parseInferenceResult(inferenceResult);
 
@@ -77,7 +78,6 @@ public class PhotoServiceImpl implements PhotoService {
     }
 
     // Photo 엔티티 저장
-    @Transactional
     private Photo savePhoto(String imageUrl, Room room, List<Amenity> amenities) {
         Photo photo = Photo.builder()
                 .originalUrl(imageUrl)
@@ -111,7 +111,6 @@ public class PhotoServiceImpl implements PhotoService {
 
     // 사진 정보 DTO 리스트 반환
     @Override
-    @Transactional(readOnly = true)
     public List<PhotoInfo> getPhotoInfos(List<Photo> photos) {
         return photoInfoMapper.toPhotoInfos(photos);
     }

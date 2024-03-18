@@ -13,6 +13,7 @@ import A1BnB.backend.domain.post.dto.response.PostDetailResponse;
 import A1BnB.backend.domain.post.dto.request.PostSearchRequest;
 import A1BnB.backend.domain.post.dto.mapper.PostDetailResponseMapper;
 import A1BnB.backend.domain.post.dto.response.PostLikeCheckResponse;
+import A1BnB.backend.domain.post.dto.response.PostLikeCountResponse;
 import A1BnB.backend.domain.post.model.entity.Post;
 import A1BnB.backend.domain.post.repository.PostRepository;
 import A1BnB.backend.domain.member.model.entity.Member;
@@ -100,7 +101,7 @@ public class PostServiceImpl implements PostService {
         return postPage.map(postResponseMapper::toPostResponse);
     }
 
-     List<LocalDateTime> getSearchDates(LocalDateTime checkInDate, LocalDateTime checkOutDate){
+     private List<LocalDateTime> getSearchDates(LocalDateTime checkInDate, LocalDateTime checkOutDate){
         if (checkInDate == null || checkOutDate == null){
             return null;
         }
@@ -179,8 +180,14 @@ public class PostServiceImpl implements PostService {
         return postPage.map(postResponseMapper::toPostResponse);
     }
 
+    @Override
+    public PostLikeCountResponse getLikeCount(Long postId) {
+        Integer likeCount = postLikeCountService.getCount(postId);
+        return new PostLikeCountResponse(likeCount);
+    }
+
     // 게시물 단일 조회
-    public Post findPostByPostId(Long postId){
+    private Post findPostByPostId(Long postId){
         return postRepository.findByPostId(postId)
                 .orElseThrow(()->new PostException(POST_NOT_FOUND.getMessage()));
     }
