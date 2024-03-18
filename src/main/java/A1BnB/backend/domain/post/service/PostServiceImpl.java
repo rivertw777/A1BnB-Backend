@@ -111,6 +111,7 @@ public class PostServiceImpl implements PostService {
     // 게시물 상세 DTO 반환
     @Override
     @Transactional(readOnly = true)
+    @Cacheable(cacheNames = "PostDetail", key= "#p0")
     public PostDetailResponse getPostDetail(Long postId) {
         Post post = findPostByPostId(postId);
         List<PhotoInfo> photoInfos = photoService.getPhotoInfos(post.getPhotos());
@@ -150,6 +151,7 @@ public class PostServiceImpl implements PostService {
     // 게시물 예약
     @Override
     @Transactional
+    @CacheEvict(cacheNames = "PostDetail", key= "#p1")
     public void bookPost(String username, Long postId, PostBookRequest requestParam) {
         Post post = findPostByPostId(postId);
         Member currentMember = memberService.findMember(username);
@@ -159,6 +161,7 @@ public class PostServiceImpl implements PostService {
     // 게시물 예약 취소
     @Override
     @Transactional
+    @CacheEvict(cacheNames = "PostDetail", key= "#p1")
     public void unbookPost(String username, Long postId) {
         Post post = findPostByPostId(postId);
         Member currentMember = memberService.findMember(username);
