@@ -3,13 +3,18 @@ package A1BnB.backend.domain.member.service;
 import static A1BnB.backend.global.exception.constants.MemberExceptionMessages.DUPLICATE_NAME;
 import static A1BnB.backend.global.exception.constants.MemberExceptionMessages.MEMBER_NAME_NOT_FOUND;
 
+import A1BnB.backend.domain.member.dto.response.MyPostReservationResponse;
 import A1BnB.backend.domain.member.model.entity.Member;
-import A1BnB.backend.domain.member.dto.MemberSignupRequest;
+import A1BnB.backend.domain.member.dto.request.MemberSignupRequest;
+import A1BnB.backend.domain.post.dto.mapper.PostResponseMapper;
+import A1BnB.backend.domain.post.dto.response.PostResponse;
+import A1BnB.backend.domain.post.model.entity.Post;
 import A1BnB.backend.global.exception.MemberException;
 import A1BnB.backend.domain.member.model.Role;
 import A1BnB.backend.domain.member.repository.MemberRepository;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,6 +27,9 @@ public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
+
+    private final PostResponseMapper postResponseMapper;
+
 
     // 회원 가입
     @Override
@@ -56,6 +64,20 @@ public class MemberServiceImpl implements MemberService {
     public Member findMember(String username){
         return memberRepository.findByName(username)
                 .orElseThrow(()->new MemberException(MEMBER_NAME_NOT_FOUND.getMessage()));
+    }
+
+    @Override
+    @Transactional
+    public List<PostResponse> findMyPosts(String username) {
+        Member currentMember = findMember(username);
+        List<Post> posts = currentMember.getPosts();
+        return postResponseMapper.toPostResponses(posts);
+    }
+
+    @Override
+    @Transactional
+    public List<MyPostReservationResponse> findPostReservations(String username) {
+        return null;
     }
 
 }

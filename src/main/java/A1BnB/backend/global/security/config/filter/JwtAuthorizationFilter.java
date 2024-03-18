@@ -4,7 +4,7 @@ import static A1BnB.backend.global.security.constants.JwtProperties.HEADER_STRIN
 import static A1BnB.backend.global.security.constants.JwtProperties.TOKEN_PREFIX;
 import static jakarta.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
-import A1BnB.backend.global.security.dto.AccessTokenResponse;
+import A1BnB.backend.global.security.dto.response.AccessTokenResponse;
 import A1BnB.backend.global.exception.SecurityException;
 import A1BnB.backend.global.security.utils.ResponseWriter;
 import A1BnB.backend.global.security.service.SecurityService;

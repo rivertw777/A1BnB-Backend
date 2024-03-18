@@ -1,4 +1,4 @@
-package A1BnB.backend.domain.member.dto;
+package A1BnB.backend.global.security.dto.request;
 
 import jakarta.validation.constraints.NotNull;
 
