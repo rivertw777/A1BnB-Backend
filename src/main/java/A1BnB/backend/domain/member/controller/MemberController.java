@@ -1,6 +1,7 @@
 package A1BnB.backend.domain.member.controller;
 
 import A1BnB.backend.domain.member.dto.request.MemberSignupRequest;
+import A1BnB.backend.domain.member.dto.response.NearestCheckInDateResponse;
 import A1BnB.backend.domain.member.dto.response.GuestReservationResponse;
 import A1BnB.backend.domain.member.dto.response.SettleAmountResponse;
 import A1BnB.backend.domain.member.service.MemberService;
@@ -28,26 +29,32 @@ public class MemberController {
         memberService.registerUser(requestParam);
     }
 
-    // 내 정산 금액 조회
+    // 내 정산 금액 조회 (호스트)
     @GetMapping("/amount")
     public SettleAmountResponse findMySettlementAmount(@AuthenticationPrincipal(expression = "username") String username) {
         return memberService.findMySettlementAmount(username);
     }
 
-    // 내 게시물 조회
+    // 내 게시물 조회 (호스트)
     @GetMapping("/posts")
     public List<PostResponse> findMyPosts(@AuthenticationPrincipal(expression = "username") String username) {
         return memberService.findMyPosts(username);
     }
 
-    // 내 게시물 예약 내역 조회 (호스트)
+    // 예약 내역 조회 (호스트)
     @GetMapping("/reservations/host")
     public List<GuestReservationResponse> findHostReservations(
             @AuthenticationPrincipal(expression = "username") String username) {
         return memberService.findHostReservations(username);
     }
 
-    // 내 예약 내역 조회 (게스트)
+    // 가장 가까운 체크인 예정 날짜 조회 (게스트)
+    @GetMapping("/checkin")
+    public NearestCheckInDateResponse findNearestCheckInDate(@AuthenticationPrincipal(expression = "username") String username) {
+        return memberService.findNearestCheckInDate(username);
+    }
+
+    // 예약 내역 조회 (게스트)
     @GetMapping("/reservations/guest")
     public List<GuestReservationResponse> findGuestReservations(
             @AuthenticationPrincipal(expression = "username") String username) {

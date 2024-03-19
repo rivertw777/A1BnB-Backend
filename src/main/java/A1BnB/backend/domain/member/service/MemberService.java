@@ -1,6 +1,7 @@
 package A1BnB.backend.domain.member.service;
 
 import A1BnB.backend.domain.member.dto.request.MemberSignupRequest;
+import A1BnB.backend.domain.member.dto.response.NearestCheckInDateResponse;
 import A1BnB.backend.domain.member.dto.response.GuestReservationResponse;
 import A1BnB.backend.domain.member.dto.response.SettleAmountResponse;
 import A1BnB.backend.domain.member.model.entity.Member;
@@ -15,6 +16,7 @@ public interface MemberService {
     SettleAmountResponse findMySettlementAmount(String username);
     List<PostResponse> findMyPosts(String username);
     List<GuestReservationResponse> findHostReservations(String username);
+    NearestCheckInDateResponse findNearestCheckInDate(String username);
     List<GuestReservationResponse> findGuestReservations(String username);
     List<PostResponse> findMyLikePosts(String username);
 }

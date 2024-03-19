@@ -3,6 +3,8 @@ package A1BnB.backend.domain.member.service;
 import static A1BnB.backend.global.exception.constants.MemberExceptionMessages.DUPLICATE_NAME;
 import static A1BnB.backend.global.exception.constants.MemberExceptionMessages.MEMBER_NAME_NOT_FOUND;
 
+import A1BnB.backend.domain.date.service.DateService;
+import A1BnB.backend.domain.member.dto.response.NearestCheckInDateResponse;
 import A1BnB.backend.domain.member.dto.response.GuestReservationResponse;
 import A1BnB.backend.domain.member.dto.response.SettleAmountResponse;
 import A1BnB.backend.domain.member.model.entity.Member;
@@ -18,6 +20,7 @@ import A1BnB.backend.global.exception.MemberException;
 import A1BnB.backend.domain.member.model.Role;
 import A1BnB.backend.domain.member.repository.MemberRepository;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -35,6 +38,7 @@ public class MemberServiceImpl implements MemberService {
 
     private final PostBookService postBookService;
     private final PostLikeService postLikeService;
+    private final DateService dateService;
 
     private final PostResponseMapper postResponseMapper;
 
@@ -73,14 +77,14 @@ public class MemberServiceImpl implements MemberService {
                 .orElseThrow(()->new MemberException(MEMBER_NAME_NOT_FOUND.getMessage()));
     }
 
-    // 내 정산 금액 조회
+    // 내 정산 금액 조회 (호스트)
     @Override
     public SettleAmountResponse findMySettlementAmount(String username) {
         Member currentMember = findMember(username);
         return new SettleAmountResponse(currentMember.getSettlementAmount());
     }
 
-    // 내 게시물 조회
+    // 내 게시물 조회 (호스트)
     @Override
     @Transactional(readOnly = true)
     public List<PostResponse> findMyPosts(String username) {
@@ -89,7 +93,7 @@ public class MemberServiceImpl implements MemberService {
         return postResponseMapper.toPostResponses(posts);
     }
 
-    // 내 게시물 예약 내역 조회 (호스트)
+    // 예약 내역 조회 (호스트)
     @Override
     @Transactional(readOnly = true)
     public List<GuestReservationResponse> findHostReservations(String username) {
@@ -103,7 +107,16 @@ public class MemberServiceImpl implements MemberService {
         return null;
     }
 
-    // 내 예약 내역 조회 (게스트)
+    // 가장 가까운 체크인 예정 날짜 조회 (게스트)
+    @Override
+    public NearestCheckInDateResponse findNearestCheckInDate(String username) {
+        Member currentMember = findMember(username);
+        List<PostBookInfo> postBookInfos = postBookService.findByMember(currentMember);
+        LocalDateTime nearestCheckInDate = dateService.getNearestCheckInDate(postBookInfos);
+        return new NearestCheckInDateResponse(nearestCheckInDate);
+    }
+
+    // 예약 내역 조회 (게스트)
     @Override
     @Transactional(readOnly = true)
     public List<GuestReservationResponse> findGuestReservations(String username) {

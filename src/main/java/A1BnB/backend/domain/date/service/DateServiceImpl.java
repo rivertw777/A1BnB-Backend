@@ -2,7 +2,9 @@ package A1BnB.backend.domain.date.service;
 
 import A1BnB.backend.domain.date.model.entity.Date;
 import A1BnB.backend.domain.date.repository.DateRepository;
+import A1BnB.backend.domain.postBook.model.PostBookInfo;
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -63,6 +65,17 @@ public class DateServiceImpl implements DateService {
         List<LocalDateTime> canceledDates = getLocalDateTimeDates(checkInDate, checkOutDate);
         availableDates.addAll(canceledDates);
         return saveDates(availableDates);
+    }
+
+    // 현재 날짜 이후의 체크인 날짜 중 가장 가까운 날짜
+    @Override
+    public LocalDateTime getNearestCheckInDate(List<PostBookInfo> postBookInfos) {
+        LocalDateTime now = LocalDateTime.now();
+        return postBookInfos.stream()
+                .map(PostBookInfo::getCheckInDate)
+                .filter(date -> date.isAfter(now))
+                .min(Comparator.naturalOrder())
+                .orElse(null);
     }
 
     private List<LocalDateTime> getLocalDateTimeDates(List<Date> dates) {
