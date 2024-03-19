@@ -5,13 +5,15 @@ import A1BnB.backend.domain.postBook.model.PostBookInfo;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
+import java.util.Comparator;
 
 @Component
 public class HostReservationResponseMapper {
 
     public List<HostReservationResponse> toReservationResponses(List<PostBookInfo> postBookInfos) {
         return postBookInfos.stream()
-                .map(postBookInfo -> toReservationResponse(postBookInfo))
+                .sorted(Comparator.comparing(PostBookInfo::getId).reversed()) // 역순 정렬
+                .map(this::toReservationResponse)
                 .collect(Collectors.toList());
     }
 
@@ -26,5 +28,5 @@ public class HostReservationResponseMapper {
                 postBookInfo.getPaymentAmount()
         );
     }
-
 }
+
