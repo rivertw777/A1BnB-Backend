@@ -28,52 +28,52 @@ public class PostBookServiceImpl implements PostBookService {
     public void bookPost(Post post, Member currentMember, PostBookRequest postBookRequest) {
         LocalDateTime checkInDate = postBookRequest.checkInDate();
         LocalDateTime checkOutDate = postBookRequest.checkOutDate();
-        savePostBookInfo(post, currentMember, checkInDate, checkOutDate);
+        savePostBookInfo(post, currentMember, postBookRequest);
         // 게시물 예약 가능 날짜 - 예약 날짜
         List<Date> availableDates = dateService.deleteFromAvailableDates(post.getAvailableDates(), checkInDate, checkOutDate);
         // 게시물 예약 가능 날짜 변경
         post.setAvailableDates(availableDates);
         // 호스트 정산 금액 추가
-        Member host = post.getAuthor();
+        Member host = post.getHost();
         host.addAmount(postBookRequest.paymentAmount());
     }
 
-    private void savePostBookInfo (Post post, Member currentMember, LocalDateTime checkInDate, LocalDateTime checkOutDate){
+    private void savePostBookInfo (Post post, Member currentMember, PostBookRequest postBookRequest){
         PostBookInfo postBookInfo = PostBookInfo.builder()
                 .post(post)
-                .member(currentMember)
-                .checkInDate(checkInDate)
-                .checkOutDate(checkOutDate)
+                .guest(currentMember)
+                .checkInDate(postBookRequest.checkInDate())
+                .checkOutDate(postBookRequest.checkOutDate())
+                .paymentAmount(postBookRequest.paymentAmount())
                 .build();
         postBookRepostiory.save(postBookInfo);
     }
 
     @Override
     @Transactional
-    public void unbookPost(Post post, Member currentMember) {
-        PostBookInfo postBookInfo = findPostBookInfo(post, currentMember);
+    public void unbookPost(Post post, Member currentMember, Long bookId) {
+        PostBookInfo postBookInfo = findPostBookInfo(bookId);
         LocalDateTime checkInDate = postBookInfo.getCheckInDate();
         LocalDateTime checkOutDate = postBookInfo.getCheckOutDate();
         Integer paymentAmount = postBookInfo.getPaymentAmount();
-        postBookRepostiory.deleteByPostAndMember(post, currentMember);
+        postBookRepostiory.deleteById(bookId);
         // 게시물 예약 가능 날짜 + 예약 취소 날짜
         List<Date> availableDates = dateService.revertToAvailableDates(post.getAvailableDates(), checkInDate, checkOutDate);
         // 게시물 예약 가능 날짜 변경
         post.setAvailableDates(availableDates);
         // 호스트 정산 금액 차감
-        Member host = post.getAuthor();
-        host.subAmount(paymentAmount);
+        post.getHost().subAmount(paymentAmount);
     }
 
-    private PostBookInfo findPostBookInfo(Post post, Member currentMember){
-        return postBookRepostiory.findByPostAndMember(post, currentMember)
+    private PostBookInfo findPostBookInfo(Long bookId){
+        return postBookRepostiory.findById(bookId)
                 .orElseThrow(()->new PostException(POST_BOOK_INFO_NOT_FOUND.getMessage()));
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<PostBookInfo> findByMember(Member currentMember){
-        return postBookRepostiory.findByMember(currentMember);
+    public List<PostBookInfo> findByGuest(Member currentMember){
+        return postBookRepostiory.findByGuest(currentMember);
     }
 
     @Override

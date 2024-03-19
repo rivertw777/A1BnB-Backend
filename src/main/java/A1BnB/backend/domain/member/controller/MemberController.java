@@ -1,6 +1,7 @@
 package A1BnB.backend.domain.member.controller;
 
 import A1BnB.backend.domain.member.dto.request.MemberSignupRequest;
+import A1BnB.backend.domain.member.dto.response.HostReservationResponse;
 import A1BnB.backend.domain.member.dto.response.NearestCheckInDateResponse;
 import A1BnB.backend.domain.member.dto.response.GuestReservationResponse;
 import A1BnB.backend.domain.member.dto.response.SettleAmountResponse;
@@ -30,39 +31,39 @@ public class MemberController {
     }
 
     // 내 정산 금액 조회 (호스트)
-    @GetMapping("/amount")
-    public SettleAmountResponse findMySettlementAmount(@AuthenticationPrincipal(expression = "username") String username) {
-        return memberService.findMySettlementAmount(username);
+    @GetMapping("hosts/amount")
+    public SettleAmountResponse findSettlementAmount(@AuthenticationPrincipal(expression = "username") String username) {
+        return memberService.findSettlementAmount(username);
     }
 
     // 내 게시물 조회 (호스트)
-    @GetMapping("/posts")
+    @GetMapping("hosts/posts")
     public List<PostResponse> findMyPosts(@AuthenticationPrincipal(expression = "username") String username) {
         return memberService.findMyPosts(username);
     }
 
     // 예약 내역 조회 (호스트)
-    @GetMapping("/reservations/host")
-    public List<GuestReservationResponse> findHostReservations(
+    @GetMapping("hosts/reservations")
+    public List<HostReservationResponse> findHostReservations(
             @AuthenticationPrincipal(expression = "username") String username) {
         return memberService.findHostReservations(username);
     }
 
     // 가장 가까운 체크인 예정 날짜 조회 (게스트)
-    @GetMapping("/checkin")
+    @GetMapping("guests/checkin")
     public NearestCheckInDateResponse findNearestCheckInDate(@AuthenticationPrincipal(expression = "username") String username) {
         return memberService.findNearestCheckInDate(username);
     }
 
     // 예약 내역 조회 (게스트)
-    @GetMapping("/reservations/guest")
+    @GetMapping("guests/reservations")
     public List<GuestReservationResponse> findGuestReservations(
             @AuthenticationPrincipal(expression = "username") String username) {
         return memberService.findGuestReservations(username);
     }
 
     // 좋아요 게시물 조회 (게스트)
-    @GetMapping("/posts/like")
+    @GetMapping("guests/posts")
     public List<PostResponse> findMyLikePosts(@AuthenticationPrincipal(expression = "username") String username) {
         return memberService.findMyLikePosts(username);
     }

@@ -38,13 +38,13 @@ public class Member {
     @Column(name = "roles")
     private List<Role> roles = new ArrayList<>();
 
-    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "host", cascade = CascadeType.ALL)
     private List<Post> posts = new ArrayList<>();
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<PostLikeInfo> postLikeInfos = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "guest", cascade = CascadeType.ALL)
     private List<PostBookInfo> postBookInfos = new ArrayList<>();
 
     @Column(name = "settlement_amount")

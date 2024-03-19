@@ -32,11 +32,11 @@ public class Post extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long postId;
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "author_id")
-    private Member author;
+    @JoinColumn(name = "host_id")
+    private Member host;
 
     @Column(name = "location", length = 100)
     private String location;
@@ -64,9 +64,9 @@ public class Post extends BaseTimeEntity {
     private List<PostBookInfo> postBookInfos = new ArrayList<>();
 
     @Builder
-    public Post(Member author, String location, List<Photo> photos, Integer pricePerNight, Integer maximumOccupancy,
+    public Post(Member host, String location, List<Photo> photos, Integer pricePerNight, Integer maximumOccupancy,
                 String caption, List<Date> availableDates) {
-        setAuthor(author);
+        setHost(host);
         this.location = location;
         setPhotos(photos);
         this.pricePerNight = pricePerNight;
@@ -75,9 +75,9 @@ public class Post extends BaseTimeEntity {
         setAvailableDates(availableDates);
     }
 
-    public void setAuthor(Member author) {
-        this.author = author;
-        author.setPost(this);
+    public void setHost(Member host) {
+        this.host = host;
+        host.setPost(this);
     }
 
     public void setPhotos(List<Photo> photos){

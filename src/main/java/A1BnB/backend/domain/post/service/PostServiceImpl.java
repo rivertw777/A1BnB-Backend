@@ -63,7 +63,7 @@ public class PostServiceImpl implements PostService {
         List<Photo> photos = photoService.findPhotos(requestParam.photoIdList());
         List<Date> availableDates = dateService.getDates(requestParam.startDate(), requestParam.endDate());
         Post post = savePost(requestParam, currentMember, photos, availableDates);
-        postLikeCountService.initCount(post.getPostId());
+        postLikeCountService.initCount(post.getId());
     }
 
     // 게시물 삭제
@@ -81,7 +81,7 @@ public class PostServiceImpl implements PostService {
     private Post savePost(PostUploadRequest requestParam, Member currentMember, List<Photo> photos,
                           List<Date> availableDates) {
         Post post = Post.builder()
-                .author(currentMember)
+                .host(currentMember)
                 .location(requestParam.location())
                 .photos(photos)
                 .pricePerNight(requestParam.pricePerNight())
@@ -125,7 +125,7 @@ public class PostServiceImpl implements PostService {
     @Transactional(readOnly = true)
     @Cacheable(cacheNames = "PostDetail", key= "#p0")
     public PostDetailResponse getPostDetail(Long postId) {
-        Post post = findPostByPostId(postId);
+        Post post = findPostById(postId);
         List<PhotoInfo> photoInfos = photoService.getPhotoInfos(post.getPhotos());
         return postDetailResponseMapper.toPostDetailResponse(post, photoInfos);
     }
@@ -134,7 +134,7 @@ public class PostServiceImpl implements PostService {
     @Override
     @Transactional(readOnly = true)
     public PostLikeCheckResponse checkLike(String username, Long postId) {
-        Post post = findPostByPostId(postId);
+        Post post = findPostById(postId);
         Member currentMember = memberService.findMember(username);
         boolean likeCheck = postLikeService.findByPostAndMember(post, currentMember);
         return new PostLikeCheckResponse(likeCheck);
@@ -144,7 +144,7 @@ public class PostServiceImpl implements PostService {
     @Override
     @Transactional
     public void likePost(String username, Long postId) {
-        Post post = findPostByPostId(postId);
+        Post post = findPostById(postId);
         Member currentMember = memberService.findMember(username);
         postLikeService.likePost(post, currentMember);
         postLikeCountService.increaseCount(postId);
@@ -154,7 +154,7 @@ public class PostServiceImpl implements PostService {
     @Override
     @Transactional
     public void unlikePost(String username, Long postId) {
-        Post post = findPostByPostId(postId);
+        Post post = findPostById(postId);
         Member currentMember = memberService.findMember(username);
         postLikeService.unlikePost(post, currentMember);
         postLikeCountService.decreaseCount(postId);
@@ -165,7 +165,7 @@ public class PostServiceImpl implements PostService {
     @Transactional
     @CacheEvict(cacheNames = "PostDetail", key= "#p1")
     public void bookPost(String username, Long postId, PostBookRequest requestParam) {
-        Post post = findPostByPostId(postId);
+        Post post = findPostById(postId);
         Member currentMember = memberService.findMember(username);
         postBookService.bookPost(post, currentMember, requestParam);
     }
@@ -174,21 +174,21 @@ public class PostServiceImpl implements PostService {
     @Override
     @Transactional
     @CacheEvict(cacheNames = "PostDetail", key= "#p1")
-    public void unbookPost(String username, Long postId) {
-        Post post = findPostByPostId(postId);
+    public void unbookPost(String username, Long postId, Long bookId) {
+        Post post = findPostById(postId);
         Member currentMember = memberService.findMember(username);
-        postBookService.unbookPost(post, currentMember);
+        postBookService.unbookPost(post, currentMember, bookId);
     }
 
     // 게시물 인기순 DTO Page 반환
     @Override
     public Page<PostResponse> getLikeRanking(Pageable pageable) {
         List<Long> postIds = postLikeCountService.getRanking(pageable);
-        List<Post> posts = postRepository.findAllByPostIdIn(postIds);
+        List<Post> posts = postRepository.findAllByIdIn(postIds);
         // 순서 정리
         Page<Post> postPage = new PageImpl<>(postIds.stream()
                 .map(postId -> posts.stream()
-                        .filter(post -> post.getPostId().equals(postId))
+                        .filter(post -> post.getId().equals(postId))
                         .findFirst()
                         .orElse(null))
                 .collect(Collectors.toList()));
@@ -202,8 +202,8 @@ public class PostServiceImpl implements PostService {
     }
 
     // 게시물 단일 조회
-    private Post findPostByPostId(Long postId){
-        return postRepository.findByPostId(postId)
+    private Post findPostById(Long postId){
+        return postRepository.findById(postId)
                 .orElseThrow(()->new PostException(POST_NOT_FOUND.getMessage()));
     }
 

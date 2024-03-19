@@ -16,7 +16,7 @@ public class PostDetailResponseMapper {
 
     public PostDetailResponse toPostDetailResponse(Post post, List<PhotoInfo> photoInfoList) {
         return new PostDetailResponse(
-                post.getAuthor().getName(),
+                post.getHost().getName(),
                 photoInfoList,
                 post.getLocation(),
                 getLocalDateTimeDates(post),

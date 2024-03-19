@@ -18,8 +18,8 @@ public class PostResponseMapper {
 
     public PostResponse toPostResponse(Post post) {
         return new PostResponse(
-                post.getPostId(),
-                post.getAuthor().getName(),
+                post.getId(),
+                post.getHost().getName(),
                 getPhotoUrls(post),
                 post.getLocation(),
                 post.getPricePerNight()

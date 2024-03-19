@@ -1,6 +1,7 @@
 package A1BnB.backend.domain.member.service;
 
 import A1BnB.backend.domain.member.dto.request.MemberSignupRequest;
+import A1BnB.backend.domain.member.dto.response.HostReservationResponse;
 import A1BnB.backend.domain.member.dto.response.NearestCheckInDateResponse;
 import A1BnB.backend.domain.member.dto.response.GuestReservationResponse;
 import A1BnB.backend.domain.member.dto.response.SettleAmountResponse;
@@ -13,9 +14,9 @@ import org.springframework.stereotype.Service;
 public interface MemberService {
     void registerUser(MemberSignupRequest signupParam);
     Member findMember(String name);
-    SettleAmountResponse findMySettlementAmount(String username);
+    SettleAmountResponse findSettlementAmount(String username);
     List<PostResponse> findMyPosts(String username);
-    List<GuestReservationResponse> findHostReservations(String username);
+    List<HostReservationResponse> findHostReservations(String username);
     NearestCheckInDateResponse findNearestCheckInDate(String username);
     List<GuestReservationResponse> findGuestReservations(String username);
     List<PostResponse> findMyLikePosts(String username);

@@ -25,9 +25,9 @@ public class PostSearchRepositoryImpl implements PostSearchRepository {
         List<Post> posts = queryFactory
                 .select(post)
                 .from(post)
-                .leftJoin(post.author, member)
+                .leftJoin(post.host, member)
                 .where(
-                        memberNameEq(requestParam.authorName()),
+                        memberNameEq(requestParam.hostName()),
                         locationEq(requestParam.location()),
                         priceGoe(requestParam.minPrice()),
                         priceLoe(requestParam.maxPrice()),

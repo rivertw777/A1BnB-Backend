@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 @Service
 public interface PostBookService {
     void bookPost(Post post, Member currentMember, PostBookRequest postBookRequest);
-    void unbookPost(Post post, Member currentMember);
-    List<PostBookInfo> findByMember(Member currentMember);
+    void unbookPost(Post post, Member currentMember, Long bookId);
+    List<PostBookInfo> findByGuest(Member currentMember);
     List<PostBookInfo> findByPosts(List<Post> posts);
 }

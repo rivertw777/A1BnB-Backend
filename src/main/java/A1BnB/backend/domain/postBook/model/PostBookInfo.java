@@ -32,8 +32,8 @@ public class PostBookInfo {
     private Post post;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
-    private Member member;
+    @JoinColumn(name = "guest_id")
+    private Member guest;
 
     @Column(name = "check_in_date")
     private LocalDateTime checkInDate;
@@ -45,10 +45,10 @@ public class PostBookInfo {
     private Integer paymentAmount;
 
     @Builder
-    public PostBookInfo(Post post, Member member, LocalDateTime checkInDate, LocalDateTime checkOutDate,
+    public PostBookInfo(Post post, Member guest, LocalDateTime checkInDate, LocalDateTime checkOutDate,
                         Integer paymentAmount) {
         setPost(post);
-        setMember(member);
+        setGuest(guest);
         this.checkInDate = checkInDate;
         this.checkOutDate = checkOutDate;
         this.paymentAmount = paymentAmount;
@@ -59,9 +59,9 @@ public class PostBookInfo {
         post.setPostBookInfos(this);
     }
 
-    public void setMember(Member member){
-        this.member = member;
-        member.setPostBookInfos(this);
+    public void setGuest(Member guest){
+        this.guest = guest;
+        guest.setPostBookInfos(this);
     }
 
 }

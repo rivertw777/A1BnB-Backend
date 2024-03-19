@@ -98,10 +98,10 @@ public class PostController {
     }
 
     // 게시물 예약 취소
-    @DeleteMapping("/{postId}/book")
+    @DeleteMapping("/{postId}/book/{bookId}")
     public void unbookPost(@AuthenticationPrincipal(expression = "username") String username,
-                          @Valid @PathVariable("postId") Long postId) {
-        postService.unbookPost(username, postId);
+                          @Valid @PathVariable("postId") Long postId, @Valid @PathVariable("bookId") Long bookId) {
+        postService.unbookPost(username, postId, bookId);
     }
 
     // 게시물 인기순 조회

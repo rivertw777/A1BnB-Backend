@@ -22,7 +22,7 @@ public interface PostService {
     void likePost(String username, Long postId);
     void unlikePost(String username, Long postId);
     void bookPost(String username, Long postId, PostBookRequest requestParam);
-    void unbookPost(String username, Long postId);
+    void unbookPost(String username, Long postId, Long bookId);
     Page<PostResponse> getLikeRanking(Pageable pageable);
     PostLikeCountResponse getLikeCount(Long postId);
 }

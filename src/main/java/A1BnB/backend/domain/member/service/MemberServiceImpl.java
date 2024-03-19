@@ -4,6 +4,9 @@ import static A1BnB.backend.global.exception.constants.MemberExceptionMessages.D
 import static A1BnB.backend.global.exception.constants.MemberExceptionMessages.MEMBER_NAME_NOT_FOUND;
 
 import A1BnB.backend.domain.date.service.DateService;
+import A1BnB.backend.domain.member.dto.mapper.GuestReservationResponseMapper;
+import A1BnB.backend.domain.member.dto.mapper.HostReservationResponseMapper;
+import A1BnB.backend.domain.member.dto.response.HostReservationResponse;
 import A1BnB.backend.domain.member.dto.response.NearestCheckInDateResponse;
 import A1BnB.backend.domain.member.dto.response.GuestReservationResponse;
 import A1BnB.backend.domain.member.dto.response.SettleAmountResponse;
@@ -20,10 +23,11 @@ import A1BnB.backend.global.exception.MemberException;
 import A1BnB.backend.domain.member.model.Role;
 import A1BnB.backend.domain.member.repository.MemberRepository;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -41,6 +45,8 @@ public class MemberServiceImpl implements MemberService {
     private final DateService dateService;
 
     private final PostResponseMapper postResponseMapper;
+    private final GuestReservationResponseMapper guestReservationResponseMapper;
+    private final HostReservationResponseMapper hostReservationResponseMapper;
 
     // 회원 가입
     @Override
@@ -71,6 +77,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     // 이름으로 찾아서 반환
+    @Override
     @Transactional(readOnly = true)
     public Member findMember(String username){
         return memberRepository.findByName(username)
@@ -79,7 +86,8 @@ public class MemberServiceImpl implements MemberService {
 
     // 내 정산 금액 조회 (호스트)
     @Override
-    public SettleAmountResponse findMySettlementAmount(String username) {
+    @Transactional(readOnly = true)
+    public SettleAmountResponse findSettlementAmount(String username) {
         Member currentMember = findMember(username);
         return new SettleAmountResponse(currentMember.getSettlementAmount());
     }
@@ -96,23 +104,20 @@ public class MemberServiceImpl implements MemberService {
     // 예약 내역 조회 (호스트)
     @Override
     @Transactional(readOnly = true)
-    public List<GuestReservationResponse> findHostReservations(String username) {
+    public List<HostReservationResponse> findHostReservations(String username) {
         Member currentMember = findMember(username);
         List<Post> posts = currentMember.getPosts();
         List<PostBookInfo> postBookInfos = postBookService.findByPosts(posts);
-
-        for(PostBookInfo a : postBookInfos){
-            System.out.println(a.getMember().getName());
-        }
-        return null;
+        return hostReservationResponseMapper.toReservationResponses(postBookInfos);
     }
 
     // 가장 가까운 체크인 예정 날짜 조회 (게스트)
     @Override
+    @Transactional(readOnly = true)
     public NearestCheckInDateResponse findNearestCheckInDate(String username) {
         Member currentMember = findMember(username);
-        List<PostBookInfo> postBookInfos = postBookService.findByMember(currentMember);
-        LocalDateTime nearestCheckInDate = dateService.getNearestCheckInDate(postBookInfos);
+        List<PostBookInfo> postBookInfos = postBookService.findByGuest(currentMember);
+        LocalDate nearestCheckInDate = dateService.getNearestCheckInDate(postBookInfos);
         return new NearestCheckInDateResponse(nearestCheckInDate);
     }
 
@@ -121,23 +126,20 @@ public class MemberServiceImpl implements MemberService {
     @Transactional(readOnly = true)
     public List<GuestReservationResponse> findGuestReservations(String username) {
         Member currentMember = findMember(username);
-        List<PostBookInfo> postBookInfos = postBookService.findByMember(currentMember);
-
-        for(PostBookInfo a : postBookInfos){
-            System.out.println(a.getMember().getName());
-        }
-        return null;
+        List<PostBookInfo> postBookInfos = postBookService.findByGuest(currentMember);
+        return guestReservationResponseMapper.toReservationResponses(postBookInfos);
     }
 
     // 좋아요 게시물 조회 (게스트)
     @Override
+    @Transactional(readOnly = true)
     public List<PostResponse> findMyLikePosts(String username) {
         Member currentMember = findMember(username);
         List<PostLikeInfo> postLikeInfos = postLikeService.findByMember(currentMember);
-        for (PostLikeInfo a : postLikeInfos) {
-            System.out.println(a.getPost().getPostId());
-        }
-        return null;
+        List<Post> posts = postLikeInfos.stream()
+                .map(postLikeInfo -> postLikeInfo.getPost())
+                .collect(Collectors.toList());
+        return postResponseMapper.toPostResponses(posts);
     }
 
 }
