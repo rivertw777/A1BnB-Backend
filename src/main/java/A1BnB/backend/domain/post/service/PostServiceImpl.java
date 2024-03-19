@@ -167,7 +167,7 @@ public class PostServiceImpl implements PostService {
     public void bookPost(String username, Long postId, PostBookRequest requestParam) {
         Post post = findPostByPostId(postId);
         Member currentMember = memberService.findMember(username);
-        postBookService.bookPost(post, currentMember, requestParam.checkInDate(), requestParam.checkOutDate());
+        postBookService.bookPost(post, currentMember, requestParam);
     }
 
     // 게시물 예약 취소

@@ -52,12 +52,12 @@ public class PostSearchRepositoryImpl implements PostSearchRepository {
     }
 
     // 최소 가격 만족 여부
-    private BooleanExpression priceGoe(Double minPrice){
+    private BooleanExpression priceGoe(Integer minPrice){
         return minPrice == null ? null : post.pricePerNight.goe(minPrice);
     }
 
     // 최대 가격 만족 여부
-    private BooleanExpression priceLoe(Double maxPrice){
+    private BooleanExpression priceLoe(Integer maxPrice){
         return maxPrice == null ? null : post.pricePerNight.loe(maxPrice);
     }
 

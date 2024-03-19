@@ -49,7 +49,7 @@ public class Post extends BaseTimeEntity {
     private List<Date> availableDates = new ArrayList<>();
 
     @Column(name = "price_per_night")
-    private Double pricePerNight;
+    private Integer pricePerNight;
 
     @Column(name = "maximum_occupancy")
     private Integer maximumOccupancy;
@@ -64,7 +64,7 @@ public class Post extends BaseTimeEntity {
     private List<PostBookInfo> postBookInfos = new ArrayList<>();
 
     @Builder
-    public Post(Member author, String location, List<Photo> photos, Double pricePerNight, Integer maximumOccupancy,
+    public Post(Member author, String location, List<Photo> photos, Integer pricePerNight, Integer maximumOccupancy,
                 String caption, List<Date> availableDates) {
         setAuthor(author);
         this.location = location;

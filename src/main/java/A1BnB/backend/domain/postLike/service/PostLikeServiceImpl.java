@@ -4,6 +4,7 @@ import A1BnB.backend.domain.member.model.entity.Member;
 import A1BnB.backend.domain.post.model.entity.Post;
 import A1BnB.backend.domain.postLike.model.entity.PostLikeInfo;
 import A1BnB.backend.domain.postLike.repository.PostLikeRepository;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,6 +35,11 @@ public class PostLikeServiceImpl implements PostLikeService {
     @Transactional
     public boolean findByPostAndMember(Post post, Member currentMember) {
         return postLikeRepository.findByPostAndMember(post, currentMember).isPresent();
+    }
+
+    @Override
+    public List<PostLikeInfo> findByMember(Member currentMember) {
+        return postLikeRepository.findByMember(currentMember);
     }
 
 }

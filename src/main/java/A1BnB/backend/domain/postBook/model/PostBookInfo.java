@@ -41,12 +41,17 @@ public class PostBookInfo {
     @Column(name = "check_out_date")
     private LocalDateTime checkOutDate;
 
+    @Column(name = "payment_amount")
+    private Integer paymentAmount;
+
     @Builder
-    public PostBookInfo(Post post, Member member, LocalDateTime checkInDate, LocalDateTime checkOutDate) {
+    public PostBookInfo(Post post, Member member, LocalDateTime checkInDate, LocalDateTime checkOutDate,
+                        Integer paymentAmount) {
         setPost(post);
         setMember(member);
         this.checkInDate = checkInDate;
         this.checkOutDate = checkOutDate;
+        this.paymentAmount = paymentAmount;
     }
 
     public void setPost(Post post){

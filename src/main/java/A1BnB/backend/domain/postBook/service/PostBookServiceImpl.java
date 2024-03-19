@@ -5,6 +5,7 @@ import static A1BnB.backend.global.exception.constants.PostExceptionMessages.POS
 import A1BnB.backend.domain.date.model.entity.Date;
 import A1BnB.backend.domain.date.service.DateService;
 import A1BnB.backend.domain.member.model.entity.Member;
+import A1BnB.backend.domain.post.dto.request.PostBookRequest;
 import A1BnB.backend.domain.post.model.entity.Post;
 import A1BnB.backend.domain.postBook.model.PostBookInfo;
 import A1BnB.backend.domain.postBook.repository.PostBookRepostiory;
@@ -24,11 +25,17 @@ public class PostBookServiceImpl implements PostBookService {
 
     @Override
     @Transactional
-    public void bookPost(Post post, Member currentMember, LocalDateTime checkInDate, LocalDateTime checkOutDate) {
+    public void bookPost(Post post, Member currentMember, PostBookRequest postBookRequest) {
+        LocalDateTime checkInDate = postBookRequest.checkInDate();
+        LocalDateTime checkOutDate = postBookRequest.checkOutDate();
         savePostBookInfo(post, currentMember, checkInDate, checkOutDate);
         // 게시물 예약 가능 날짜 - 예약 날짜
         List<Date> availableDates = dateService.deleteFromAvailableDates(post.getAvailableDates(), checkInDate, checkOutDate);
+        // 게시물 예약 가능 날짜 변경
         post.setAvailableDates(availableDates);
+        // 호스트 정산 금액 추가
+        Member host = post.getAuthor();
+        host.addAmount(postBookRequest.paymentAmount());
     }
 
     private void savePostBookInfo (Post post, Member currentMember, LocalDateTime checkInDate, LocalDateTime checkOutDate){
@@ -47,15 +54,32 @@ public class PostBookServiceImpl implements PostBookService {
         PostBookInfo postBookInfo = findPostBookInfo(post, currentMember);
         LocalDateTime checkInDate = postBookInfo.getCheckInDate();
         LocalDateTime checkOutDate = postBookInfo.getCheckOutDate();
+        Integer paymentAmount = postBookInfo.getPaymentAmount();
         postBookRepostiory.deleteByPostAndMember(post, currentMember);
         // 게시물 예약 가능 날짜 + 예약 취소 날짜
         List<Date> availableDates = dateService.revertToAvailableDates(post.getAvailableDates(), checkInDate, checkOutDate);
+        // 게시물 예약 가능 날짜 변경
         post.setAvailableDates(availableDates);
+        // 호스트 정산 금액 차감
+        Member host = post.getAuthor();
+        host.subAmount(paymentAmount);
     }
 
     private PostBookInfo findPostBookInfo(Post post, Member currentMember){
         return postBookRepostiory.findByPostAndMember(post, currentMember)
                 .orElseThrow(()->new PostException(POST_BOOK_INFO_NOT_FOUND.getMessage()));
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<PostBookInfo> findByMember(Member currentMember){
+        return postBookRepostiory.findByMember(currentMember);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<PostBookInfo> findByPosts(List<Post> posts) {
+        return postBookRepostiory.findByPosts(posts);
     }
 
 }

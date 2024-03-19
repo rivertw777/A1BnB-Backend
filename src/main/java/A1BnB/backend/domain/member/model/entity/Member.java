@@ -47,11 +47,15 @@ public class Member {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<PostBookInfo> postBookInfos = new ArrayList<>();
 
+    @Column(name = "settlement_amount")
+    private Integer settlementAmount;
+
     @Builder
     public Member(String name, String password, List<Role> roles) {
         this.name = name;
         this.password = password;
         this.roles = roles;
+        this.settlementAmount = 0;
     }
 
     public void setPost(Post post){
@@ -66,4 +70,11 @@ public class Member {
         this.postBookInfos.add(postBookInfo);
     }
 
+    public void addAmount(Integer paymentAmount) {
+        this.settlementAmount += paymentAmount;
+    }
+
+    public void subAmount(Integer paymentAmount) {
+        this.settlementAmount -= paymentAmount;
+    }
 }
