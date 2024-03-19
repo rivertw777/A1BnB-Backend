@@ -5,7 +5,9 @@ import static A1BnB.backend.global.exception.constants.MemberExceptionMessages.M
 
 import A1BnB.backend.domain.date.service.DateService;
 import A1BnB.backend.domain.member.dto.mapper.GuestReservationResponseMapper;
+import A1BnB.backend.domain.member.dto.mapper.HostPostResponseMapper;
 import A1BnB.backend.domain.member.dto.mapper.HostReservationResponseMapper;
+import A1BnB.backend.domain.member.dto.response.HostPostResponse;
 import A1BnB.backend.domain.member.dto.response.HostReservationResponse;
 import A1BnB.backend.domain.member.dto.response.NearestCheckInDateResponse;
 import A1BnB.backend.domain.member.dto.response.GuestReservationResponse;
@@ -47,6 +49,7 @@ public class MemberServiceImpl implements MemberService {
     private final PostResponseMapper postResponseMapper;
     private final GuestReservationResponseMapper guestReservationResponseMapper;
     private final HostReservationResponseMapper hostReservationResponseMapper;
+    private final HostPostResponseMapper hostPostResponseMapper;
 
     // 회원 가입
     @Override
@@ -95,10 +98,10 @@ public class MemberServiceImpl implements MemberService {
     // 내 게시물 조회 (호스트)
     @Override
     @Transactional(readOnly = true)
-    public List<PostResponse> findMyPosts(String username) {
+    public List<HostPostResponse> findHostPosts(String username) {
         Member currentMember = findMember(username);
         List<Post> posts = currentMember.getPosts();
-        return postResponseMapper.toPostResponses(posts);
+        return hostPostResponseMapper.toPostResponses(posts);
     }
 
     // 예약 내역 조회 (호스트)
@@ -133,7 +136,7 @@ public class MemberServiceImpl implements MemberService {
     // 좋아요 게시물 조회 (게스트)
     @Override
     @Transactional(readOnly = true)
-    public List<PostResponse> findMyLikePosts(String username) {
+    public List<PostResponse> findLikePosts(String username) {
         Member currentMember = findMember(username);
         List<PostLikeInfo> postLikeInfos = postLikeService.findByMember(currentMember);
         List<Post> posts = postLikeInfos.stream()
