@@ -48,7 +48,6 @@ public class PostController {
         return postService.getAllPosts(pageable);
     }
 
-
     // 게시물 상세 조회
     @GetMapping("/{postId}")
     public PostDetailResponse getPostDetail(@Valid @PathVariable("postId") Long postId) {

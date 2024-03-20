@@ -21,21 +21,21 @@ public class DateServiceImpl implements DateService {
 
     @Override
     @Transactional
-    public List<Date> getDates(LocalDateTime startDate, LocalDateTime endDate) {
-        List<LocalDateTime> localDateTimes = getLocalDateTimeDates(startDate, endDate);
+    public List<Date> getDates(LocalDateTime checkInDate, LocalDateTime checkOutDate) {
+        List<LocalDateTime> localDateTimes = getLocalDateTimeDates(checkInDate, checkOutDate);
         return saveDates(localDateTimes);
+    }
+
+    // 체크인 ~ 체크아웃 날짜
+    @Override
+    public List<LocalDateTime> getLocalDateTimeDates(LocalDateTime checkInDate, LocalDateTime checkOutDate) {
+        return Stream.iterate(checkInDate, date -> date.isBefore(checkOutDate), date -> date.plusDays(1))
+                .collect(Collectors.toList());
     }
 
     private List<Date> saveDates(List<LocalDateTime> localDateTimes) {
         return localDateTimes.stream()
                 .map(this::saveDate)
-                .collect(Collectors.toList());
-    }
-
-    // 시작, 종료 날짜 모두 포함한 기간
-    @Override
-    public List<LocalDateTime> getLocalDateTimeDates(LocalDateTime startDate, LocalDateTime endDate) {
-        return Stream.iterate(startDate, date -> !date.isAfter(endDate), date -> date.plusDays(1))
                 .collect(Collectors.toList());
     }
 
@@ -47,33 +47,7 @@ public class DateServiceImpl implements DateService {
         return date;
     }
 
-
-    // 게시물 예약 가능 날짜 - 예약 날짜
-    @Override
-    @Transactional
-    public List<Date> deleteFromAvailableDates(List<Date> dates, LocalDateTime checkInDate, LocalDateTime checkOutDate) {
-        List<LocalDateTime> availableDates = getLocalDateTimeDates(dates);
-        List<LocalDateTime> bookedDates = getLocalDateTimeDates(checkInDate, checkOutDate);
-        availableDates.removeAll(bookedDates);
-        return saveDates(availableDates);
-    }
-
-    // 게시물 예약 가능 날짜 + 예약 취소 날짜
-    @Override
-    @Transactional
-    public List<Date> revertToAvailableDates(List<Date> dates, LocalDateTime checkInDate, LocalDateTime checkOutDate) {
-        List<LocalDateTime> availableDates = getLocalDateTimeDates(dates);
-        List<LocalDateTime> canceledDates = getLocalDateTimeDates(checkInDate, checkOutDate);
-        availableDates.addAll(canceledDates);
-        return saveDates(availableDates);
-    }
-
-    private List<LocalDateTime> getLocalDateTimeDates(List<Date> dates) {
-        return dates.stream()
-                .map(Date::getLocalDateTime)
-                .collect(Collectors.toList());
-    }
-
+    // 가장 가까운 예약 날짜
     @Override
     public LocalDate getNearestCheckInDate(List<PostBookInfo> postBookInfos) {
         LocalDate now = LocalDate.now();
@@ -84,6 +58,5 @@ public class DateServiceImpl implements DateService {
                 .min(Comparator.naturalOrder())
                 .orElse(null);
     }
-
 
 }

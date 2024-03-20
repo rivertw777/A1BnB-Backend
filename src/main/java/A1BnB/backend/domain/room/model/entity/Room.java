@@ -32,7 +32,7 @@ public class Room {
     private Double probability;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "photo_id")
+    @JoinColumn(name = "photoId")
     private Photo photo;
 
     @Builder

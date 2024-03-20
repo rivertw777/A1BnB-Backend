@@ -10,7 +10,6 @@ import A1BnB.backend.domain.post.model.entity.Post;
 import A1BnB.backend.domain.postBook.model.PostBookInfo;
 import A1BnB.backend.domain.postBook.repository.PostBookRepostiory;
 import A1BnB.backend.global.exception.PostException;
-import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,24 +25,20 @@ public class PostBookServiceImpl implements PostBookService {
     @Override
     @Transactional
     public void bookPost(Post post, Member currentMember, PostBookRequest postBookRequest) {
-        LocalDateTime checkInDate = postBookRequest.checkInDate();
-        LocalDateTime checkOutDate = postBookRequest.checkOutDate();
-        savePostBookInfo(post, currentMember, postBookRequest);
-        // 게시물 예약 가능 날짜 - 예약 날짜
-        List<Date> availableDates = dateService.deleteFromAvailableDates(post.getAvailableDates(), checkInDate, checkOutDate);
-        // 게시물 예약 가능 날짜 변경
-        post.setAvailableDates(availableDates);
+        List<Date> bookedDates = dateService.getDates(postBookRequest.checkInDate(), postBookRequest.checkOutDate());
+        savePostBookInfo(post, currentMember, postBookRequest, bookedDates);
         // 호스트 정산 금액 추가
-        Member host = post.getHost();
-        host.addAmount(postBookRequest.paymentAmount());
+        post.getHost().addAmount(postBookRequest.paymentAmount());
     }
 
-    private void savePostBookInfo (Post post, Member currentMember, PostBookRequest postBookRequest){
+    private void savePostBookInfo (Post post, Member currentMember, PostBookRequest postBookRequest,
+                                   List<Date> bookedDates){
         PostBookInfo postBookInfo = PostBookInfo.builder()
                 .post(post)
                 .guest(currentMember)
                 .checkInDate(postBookRequest.checkInDate())
                 .checkOutDate(postBookRequest.checkOutDate())
+                .bookedDates(bookedDates)
                 .paymentAmount(postBookRequest.paymentAmount())
                 .build();
         postBookRepostiory.save(postBookInfo);
@@ -53,14 +48,8 @@ public class PostBookServiceImpl implements PostBookService {
     @Transactional
     public void unbookPost(Post post, Member currentMember, Long bookId) {
         PostBookInfo postBookInfo = findPostBookInfo(bookId);
-        LocalDateTime checkInDate = postBookInfo.getCheckInDate();
-        LocalDateTime checkOutDate = postBookInfo.getCheckOutDate();
         Integer paymentAmount = postBookInfo.getPaymentAmount();
-        postBookRepostiory.deleteById(bookId);
-        // 게시물 예약 가능 날짜 + 예약 취소 날짜
-        List<Date> availableDates = dateService.revertToAvailableDates(post.getAvailableDates(), checkInDate, checkOutDate);
-        // 게시물 예약 가능 날짜 변경
-        post.setAvailableDates(availableDates);
+        postBookRepostiory.delete(postBookInfo);
         // 호스트 정산 금액 차감
         post.getHost().subAmount(paymentAmount);
     }

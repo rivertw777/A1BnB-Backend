@@ -1,7 +1,9 @@
 package A1BnB.backend.domain.postBook.model;
 
+import A1BnB.backend.domain.date.model.entity.Date;
 import A1BnB.backend.domain.member.model.entity.Member;
 import A1BnB.backend.domain.post.model.entity.Post;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -10,15 +12,18 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "post_book_info")
+@Table(name = "postBookInfos")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PostBookInfo {
@@ -28,29 +33,33 @@ public class PostBookInfo {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "post_id")
+    @JoinColumn(name = "postId")
     private Post post;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "guest_id")
+    @JoinColumn(name = "guestId")
     private Member guest;
 
-    @Column(name = "check_in_date")
+    @Column(name = "checkInDate")
     private LocalDateTime checkInDate;
 
-    @Column(name = "check_out_date")
+    @Column(name = "checkOutDate")
     private LocalDateTime checkOutDate;
 
-    @Column(name = "payment_amount")
+    @OneToMany(mappedBy = "postBookInfo", cascade = CascadeType.ALL)
+    private List<Date> bookedDates = new ArrayList<>();
+
+    @Column(name = "paymentAmount")
     private Integer paymentAmount;
 
     @Builder
     public PostBookInfo(Post post, Member guest, LocalDateTime checkInDate, LocalDateTime checkOutDate,
-                        Integer paymentAmount) {
+                        List<Date> bookedDates, Integer paymentAmount) {
         setPost(post);
         setGuest(guest);
         this.checkInDate = checkInDate;
         this.checkOutDate = checkOutDate;
+        setBookedDates(bookedDates);
         this.paymentAmount = paymentAmount;
     }
 
@@ -62,6 +71,13 @@ public class PostBookInfo {
     public void setGuest(Member guest){
         this.guest = guest;
         guest.setPostBookInfos(this);
+    }
+
+    public void setBookedDates(List<Date> bookedDates) {
+        this.bookedDates = bookedDates;
+        for (Date date : bookedDates) {
+            date.setPostBookInfo(this);
+        }
     }
 
 }

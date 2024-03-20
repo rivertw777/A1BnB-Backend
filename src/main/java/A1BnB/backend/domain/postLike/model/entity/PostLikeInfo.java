@@ -16,7 +16,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "post_like_info")
+@Table(name = "postLikeInfos")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PostLikeInfo {
@@ -31,12 +31,12 @@ public class PostLikeInfo {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "memberId")
-    private Member member;
+    private Member guest;
 
     @Builder
-    public PostLikeInfo(Post post, Member member) {
+    public PostLikeInfo(Post post, Member guest) {
         setPost(post);
-        setMember(member);
+        setGuest(guest);
     }
 
     public void setPost(Post post){
@@ -44,9 +44,9 @@ public class PostLikeInfo {
         post.setPostLikeInfos(this);
     }
 
-    public void setMember(Member member){
-        this.member = member;
-        member.setPostLikeInfos(this);
+    public void setGuest(Member guest){
+        this.guest = guest;
+        guest.setPostLikeInfos(this);
     }
 
 }

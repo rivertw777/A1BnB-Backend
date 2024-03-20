@@ -2,7 +2,6 @@ package A1BnB.backend.domain.post.service;
 
 import static A1BnB.backend.global.exception.constants.PostExceptionMessages.POST_NOT_FOUND;
 
-import A1BnB.backend.domain.date.model.entity.Date;
 import A1BnB.backend.domain.date.service.DateService;
 import A1BnB.backend.domain.member.service.MemberService;
 import A1BnB.backend.domain.photo.dto.PhotoInfo;
@@ -61,8 +60,7 @@ public class PostServiceImpl implements PostService {
     public void registerPost(String username, PostUploadRequest requestParam) {
         Member currentMember = memberService.findMember(username);
         List<Photo> photos = photoService.findPhotos(requestParam.photoIdList());
-        List<Date> availableDates = dateService.getDates(requestParam.startDate(), requestParam.endDate());
-        Post post = savePost(requestParam, currentMember, photos, availableDates);
+        Post post = savePost(requestParam, currentMember, photos);
         postLikeCountService.initCount(post.getId());
     }
 
@@ -78,8 +76,7 @@ public class PostServiceImpl implements PostService {
     }
 
     // Post 엔티티 저장
-    private Post savePost(PostUploadRequest requestParam, Member currentMember, List<Photo> photos,
-                          List<Date> availableDates) {
+    private Post savePost(PostUploadRequest requestParam, Member currentMember, List<Photo> photos) {
         Post post = Post.builder()
                 .host(currentMember)
                 .location(requestParam.location())
@@ -87,7 +84,6 @@ public class PostServiceImpl implements PostService {
                 .pricePerNight(requestParam.pricePerNight())
                 .maximumOccupancy(requestParam.maximumOccupancy())
                 .caption(requestParam.caption())
-                .availableDates(availableDates)
                 .build();
         postRepository.save(post);
         return post;
@@ -107,7 +103,6 @@ public class PostServiceImpl implements PostService {
     @Override
     @Transactional(readOnly = true)
     public Page<PostResponse> searchByCondition(PostSearchRequest requestParam, Pageable pageable) {
-        // 게시물 검색
         List<LocalDateTime> searchDates = getSearchDates(requestParam.checkInDate(), requestParam.checkOutDate());
         Page<Post> postPage = postRepository.search(requestParam, searchDates, pageable);
         return postPage.map(postResponseMapper::toPostResponse);
@@ -195,6 +190,7 @@ public class PostServiceImpl implements PostService {
         return postPage.map(postResponseMapper::toPostResponse);
     }
 
+    // 좋아요 수 반환
     @Override
     public PostLikeCountResponse getLikeCount(Long postId) {
         Integer likeCount = postLikeCountService.getCount(postId);

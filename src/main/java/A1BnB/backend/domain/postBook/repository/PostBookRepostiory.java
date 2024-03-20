@@ -12,5 +12,4 @@ public interface PostBookRepostiory extends  JpaRepository<PostBookInfo, Long> {
     List<PostBookInfo> findByGuest(Member guest);
     @Query("SELECT pbi FROM PostBookInfo pbi WHERE pbi.post IN :posts")
     List<PostBookInfo> findByPosts(@Param("posts") List<Post> posts);
-    void deleteByPostAndGuest(Post post, Member guest);
 }

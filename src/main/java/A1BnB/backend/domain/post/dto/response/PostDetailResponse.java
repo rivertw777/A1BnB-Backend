@@ -7,7 +7,7 @@ import java.util.List;
 
 // 게시물 상세 응답
 public record PostDetailResponse(String hostName, List<PhotoInfo> photoInfoList, String location,
-                                 List<LocalDateTime> availableDates, Integer pricePerNight,
+                                 List<LocalDateTime> unavailableDates, Integer pricePerNight,
                                  Integer maximumOccupancy, String caption) implements Serializable {
     public PostDetailResponse {
     }

@@ -19,15 +19,16 @@ public class PostDetailResponseMapper {
                 post.getHost().getName(),
                 photoInfoList,
                 post.getLocation(),
-                getLocalDateTimeDates(post),
+                getUnavailableDates(post),
                 post.getPricePerNight(),
                 post.getMaximumOccupancy(),
                 post.getCaption()
         );
     }
 
-    private List<LocalDateTime> getLocalDateTimeDates(Post post) {
-        return post.getAvailableDates().stream()
+    private List<LocalDateTime> getUnavailableDates(Post post) {
+        return post.getPostBookInfos().stream()
+                .flatMap(postBookInfo -> postBookInfo.getBookedDates().stream())
                 .map(Date::getLocalDateTime)
                 .collect(Collectors.toList());
     }

@@ -16,7 +16,6 @@ import A1BnB.backend.domain.member.dto.response.GuestReservationResponse;
 import A1BnB.backend.domain.member.dto.response.SettleAmountResponse;
 import A1BnB.backend.domain.member.model.entity.Member;
 import A1BnB.backend.domain.member.dto.request.MemberSignupRequest;
-import A1BnB.backend.domain.post.dto.mapper.PostResponseMapper;
 import A1BnB.backend.domain.post.model.entity.Post;
 import A1BnB.backend.domain.postBook.model.PostBookInfo;
 import A1BnB.backend.domain.postBook.service.PostBookService;
@@ -47,7 +46,6 @@ public class MemberServiceImpl implements MemberService {
     private final PostLikeService postLikeService;
     private final DateService dateService;
 
-    private final PostResponseMapper postResponseMapper;
     private final GuestReservationResponseMapper guestReservationResponseMapper;
     private final HostReservationResponseMapper hostReservationResponseMapper;
     private final HostPostResponseMapper hostPostResponseMapper;

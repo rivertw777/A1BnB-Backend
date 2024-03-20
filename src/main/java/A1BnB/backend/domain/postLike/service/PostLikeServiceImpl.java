@@ -20,7 +20,7 @@ public class PostLikeServiceImpl implements PostLikeService {
     public void likePost(Post post, Member currentMember) {
         PostLikeInfo postLikeInfo = PostLikeInfo.builder()
                 .post(post)
-                .member(currentMember)
+                .guest(currentMember)
                 .build();
         postLikeRepository.save(postLikeInfo);
     }
@@ -28,18 +28,18 @@ public class PostLikeServiceImpl implements PostLikeService {
     @Override
     @Transactional
     public void unlikePost(Post post, Member currentMember) {
-        postLikeRepository.deleteByPostAndMember(post, currentMember);
+        postLikeRepository.deleteByPostAndGuest(post, currentMember);
     }
 
     @Override
     @Transactional
     public boolean findByPostAndMember(Post post, Member currentMember) {
-        return postLikeRepository.findByPostAndMember(post, currentMember).isPresent();
+        return postLikeRepository.findByPostAndGuest(post, currentMember).isPresent();
     }
 
     @Override
     public List<PostLikeInfo> findByMember(Member currentMember) {
-        return postLikeRepository.findByMember(currentMember);
+        return postLikeRepository.findByGuest(currentMember);
     }
 
 }

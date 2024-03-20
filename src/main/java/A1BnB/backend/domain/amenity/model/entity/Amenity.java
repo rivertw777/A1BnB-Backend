@@ -32,7 +32,7 @@ public class Amenity {
     private Double confidence;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "photo_id")
+    @JoinColumn(name = "photoId")
     private Photo photo;
 
     @Builder

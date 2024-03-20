@@ -5,7 +5,9 @@ import static A1BnB.backend.domain.post.model.entity.QPost.post;
 
 import A1BnB.backend.domain.post.dto.request.PostSearchRequest;
 import A1BnB.backend.domain.post.model.entity.Post;
+import A1BnB.backend.domain.postBook.model.QPostBookInfo;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -33,7 +35,7 @@ public class PostSearchRepositoryImpl implements PostSearchRepository {
                         priceLoe(requestParam.maxPrice()),
                         amenitiesContains(requestParam.amenities()),
                         occupancyGoe(requestParam.occupancy()),
-                        datesContains(searchDates)
+                        datesNotContains(searchDates)
                 )
                 .orderBy(post.createdAt.desc())
                 .offset(pageable.getOffset())
@@ -79,17 +81,18 @@ public class PostSearchRepositoryImpl implements PostSearchRepository {
         return occupancy == null ? null : post.maximumOccupancy.goe(occupancy);
     }
 
-    // 날짜 포함 여부
-    private BooleanExpression datesContains(List<LocalDateTime> searchDates) {
-        if(searchDates == null || searchDates.isEmpty()) {
+    // 날짜 포함 여부를 확인하여, 해당 날짜에 예약이 없는 Post만 조회
+    private BooleanExpression datesNotContains(List<LocalDateTime> searchDates) {
+        if (searchDates == null || searchDates.isEmpty()) {
             return null;
         }
-        BooleanExpression expression = null;
-        for (LocalDateTime searchDate : searchDates){
-            BooleanExpression searchDateExpression = post.availableDates.any().localDateTime.eq(searchDate);
-            expression = expression == null ? searchDateExpression : expression.and(searchDateExpression);
-        }
-        return expression;
+
+        QPostBookInfo subPostBookInfo = new QPostBookInfo("subPostBookInfo");
+
+        return JPAExpressions.selectFrom(subPostBookInfo)
+                .where(subPostBookInfo.post.eq(post),
+                        subPostBookInfo.bookedDates.any().localDateTime.in(searchDates))
+                .notExists();
     }
 
 }

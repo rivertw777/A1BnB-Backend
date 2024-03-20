@@ -1,6 +1,5 @@
 package A1BnB.backend.domain.post.model.entity;
 
-import A1BnB.backend.domain.date.model.entity.Date;
 import A1BnB.backend.domain.member.model.entity.Member;
 import A1BnB.backend.domain.photo.model.entity.Photo;
 import A1BnB.backend.domain.postBook.model.PostBookInfo;
@@ -35,7 +34,7 @@ public class Post extends BaseTimeEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "host_id")
+    @JoinColumn(name = "hostId")
     private Member host;
 
     @Column(name = "location", length = 100)
@@ -44,14 +43,10 @@ public class Post extends BaseTimeEntity {
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<Photo> photos = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "post_id")
-    private List<Date> availableDates = new ArrayList<>();
-
-    @Column(name = "price_per_night")
+    @Column(name = "pricePerNight")
     private Integer pricePerNight;
 
-    @Column(name = "maximum_occupancy")
+    @Column(name = "maximumOccupancy")
     private Integer maximumOccupancy;
 
     @Column(name = "caption")
@@ -65,14 +60,13 @@ public class Post extends BaseTimeEntity {
 
     @Builder
     public Post(Member host, String location, List<Photo> photos, Integer pricePerNight, Integer maximumOccupancy,
-                String caption, List<Date> availableDates) {
+                String caption) {
         setHost(host);
         this.location = location;
         setPhotos(photos);
         this.pricePerNight = pricePerNight;
         this.maximumOccupancy = maximumOccupancy;
         this.caption = caption;
-        setAvailableDates(availableDates);
     }
 
     public void setHost(Member host) {
@@ -85,10 +79,6 @@ public class Post extends BaseTimeEntity {
         for (Photo photo : photos) {
             photo.setPost(this);
         }
-    }
-
-    public void setAvailableDates(List<Date> availableDates) {
-        this.availableDates = availableDates;
     }
 
     public void setPostLikeInfos(PostLikeInfo postLikeInfo){
