@@ -7,15 +7,16 @@ import A1BnB.backend.domain.date.service.DateService;
 import A1BnB.backend.domain.member.dto.mapper.GuestReservationResponseMapper;
 import A1BnB.backend.domain.member.dto.mapper.HostPostResponseMapper;
 import A1BnB.backend.domain.member.dto.mapper.HostReservationResponseMapper;
+import A1BnB.backend.domain.member.dto.mapper.LikePostResponseMapper;
 import A1BnB.backend.domain.member.dto.response.HostPostResponse;
 import A1BnB.backend.domain.member.dto.response.HostReservationResponse;
+import A1BnB.backend.domain.member.dto.response.LikePostResponse;
 import A1BnB.backend.domain.member.dto.response.NearestCheckInDateResponse;
 import A1BnB.backend.domain.member.dto.response.GuestReservationResponse;
 import A1BnB.backend.domain.member.dto.response.SettleAmountResponse;
 import A1BnB.backend.domain.member.model.entity.Member;
 import A1BnB.backend.domain.member.dto.request.MemberSignupRequest;
 import A1BnB.backend.domain.post.dto.mapper.PostResponseMapper;
-import A1BnB.backend.domain.post.dto.response.PostResponse;
 import A1BnB.backend.domain.post.model.entity.Post;
 import A1BnB.backend.domain.postBook.model.PostBookInfo;
 import A1BnB.backend.domain.postBook.service.PostBookService;
@@ -50,6 +51,7 @@ public class MemberServiceImpl implements MemberService {
     private final GuestReservationResponseMapper guestReservationResponseMapper;
     private final HostReservationResponseMapper hostReservationResponseMapper;
     private final HostPostResponseMapper hostPostResponseMapper;
+    private final LikePostResponseMapper likePostResponseMapper;
 
     // 회원 가입
     @Override
@@ -136,13 +138,13 @@ public class MemberServiceImpl implements MemberService {
     // 좋아요 게시물 조회 (게스트)
     @Override
     @Transactional(readOnly = true)
-    public List<PostResponse> findLikePosts(String username) {
+    public List<LikePostResponse> findLikePosts(String username) {
         Member currentMember = findMember(username);
         List<PostLikeInfo> postLikeInfos = postLikeService.findByMember(currentMember);
         List<Post> posts = postLikeInfos.stream()
                 .map(postLikeInfo -> postLikeInfo.getPost())
                 .collect(Collectors.toList());
-        return postResponseMapper.toPostResponses(posts);
+        return likePostResponseMapper.toPostResponses(posts);
     }
 
 }

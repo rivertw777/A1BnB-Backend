@@ -3,11 +3,11 @@ package A1BnB.backend.domain.member.controller;
 import A1BnB.backend.domain.member.dto.request.MemberSignupRequest;
 import A1BnB.backend.domain.member.dto.response.HostPostResponse;
 import A1BnB.backend.domain.member.dto.response.HostReservationResponse;
+import A1BnB.backend.domain.member.dto.response.LikePostResponse;
 import A1BnB.backend.domain.member.dto.response.NearestCheckInDateResponse;
 import A1BnB.backend.domain.member.dto.response.GuestReservationResponse;
 import A1BnB.backend.domain.member.dto.response.SettleAmountResponse;
 import A1BnB.backend.domain.member.service.MemberService;
-import A1BnB.backend.domain.post.dto.response.PostResponse;
 import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -65,7 +65,7 @@ public class MemberController {
 
     // 좋아요 게시물 조회 (게스트)
     @GetMapping("guests/posts")
-    public List<PostResponse> findLikePosts(@AuthenticationPrincipal(expression = "username") String username) {
+    public List<LikePostResponse> findLikePosts(@AuthenticationPrincipal(expression = "username") String username) {
         return memberService.findLikePosts(username);
     }
 
