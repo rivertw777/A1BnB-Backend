@@ -2,10 +2,10 @@ package A1BnB.backend.domain.photo.service;
 
 import A1BnB.backend.domain.amenity.model.entity.Amenity;
 import A1BnB.backend.domain.amenity.service.AmenityService;
-import A1BnB.backend.domain.photo.dto.InferenceResultRequest;
+import A1BnB.backend.domain.photo.dto.request.InferenceResultRequest;
 import A1BnB.backend.domain.photo.dto.PhotoInfo;
-import A1BnB.backend.domain.photo.dto.PhotoUploadRequest;
-import A1BnB.backend.domain.photo.dto.InferenceResultResponse;
+import A1BnB.backend.domain.photo.dto.request.PhotoUploadRequest;
+import A1BnB.backend.domain.photo.dto.response.InferenceResultResponse;
 import A1BnB.backend.domain.photo.dto.mapper.PhotoInfoMapper;
 import A1BnB.backend.domain.photo.dto.mapper.ResultResponseMapper;
 import A1BnB.backend.domain.photo.model.entity.Photo;

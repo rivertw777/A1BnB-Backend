@@ -1,4 +1,4 @@
-package A1BnB.backend.global.utils;
+package A1BnB.backend.global.redis.utils;
 
 import org.springframework.cache.interceptor.KeyGenerator;
 import org.springframework.data.domain.Pageable;

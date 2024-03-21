@@ -1,8 +1,8 @@
 package A1BnB.backend.domain.photo.controller;
 
-import A1BnB.backend.domain.photo.dto.PhotoUploadRequest;
-import A1BnB.backend.domain.photo.dto.InferenceResultRequest;
-import A1BnB.backend.domain.photo.dto.InferenceResultResponse;
+import A1BnB.backend.domain.photo.dto.request.PhotoUploadRequest;
+import A1BnB.backend.domain.photo.dto.request.InferenceResultRequest;
+import A1BnB.backend.domain.photo.dto.response.InferenceResultResponse;
 import A1BnB.backend.domain.photo.service.PhotoService;
 import jakarta.validation.Valid;
 import java.io.IOException;

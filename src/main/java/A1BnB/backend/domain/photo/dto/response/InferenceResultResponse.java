@@ -1,4 +1,4 @@
-package A1BnB.backend.domain.photo.dto;
+package A1BnB.backend.domain.photo.dto.response;
 
 import java.util.List;
 
