@@ -62,7 +62,10 @@ public class SecurityConfig {
                         .requestMatchers(antMatcher(HttpMethod.POST, "/api/posts/search")).permitAll()
                         // 게시물 인기순 조회
                         .requestMatchers(antMatcher(HttpMethod.POST, "/api/posts/like")).permitAll()
+                        // Swagger
                         .requestMatchers("/swagger-ui/**", "/swagger-resources/**", "/v3/api-docs/**").permitAll()
+                        // 웹소켓
+                        .requestMatchers("/ws/**").permitAll()
                         .anyRequest().authenticated()
                 );
         return http.build();

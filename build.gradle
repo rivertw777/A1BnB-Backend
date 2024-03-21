@@ -82,6 +82,12 @@ dependencies {
 	// Retry
 	implementation 'org.springframework.retry:spring-retry'
 
+	// Websocket
+	implementation 'org.springframework.boot:spring-boot-starter-websocket'
+
+	// Websocket Security
+	implementation 'org.springframework.security:spring-security-messaging'
+
 }
 
 tasks.named('test') {
