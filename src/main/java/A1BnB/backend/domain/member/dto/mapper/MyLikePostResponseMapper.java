@@ -1,23 +1,22 @@
 package A1BnB.backend.domain.member.dto.mapper;
 
-import A1BnB.backend.domain.member.dto.response.HostPostResponse;
-import A1BnB.backend.domain.member.dto.response.LikePostResponse;
+import A1BnB.backend.domain.member.dto.response.MyLikePostResponse;
 import A1BnB.backend.domain.post.model.entity.Post;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 
 @Component
-public class LikePostResponseMapper {
+public class MyLikePostResponseMapper {
 
-    public List<LikePostResponse> toPostResponses(List<Post> posts) {
+    public List<MyLikePostResponse> toPostResponses(List<Post> posts) {
         return posts.stream()
                 .map(post -> toPostResponse(post))
                 .collect(Collectors.toList());
     }
 
-    public LikePostResponse toPostResponse(Post post) {
-        return new LikePostResponse(
+    public MyLikePostResponse toPostResponse(Post post) {
+        return new MyLikePostResponse(
                 post.getId(),
                 post.getHost().getName(),
                 post.getPhotos().get(0).getOriginalUrl(),

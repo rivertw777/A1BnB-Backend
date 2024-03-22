@@ -69,12 +69,12 @@ public class Post extends BaseTimeEntity {
         this.caption = caption;
     }
 
-    public void setHost(Member host) {
+    private void setHost(Member host) {
         this.host = host;
         host.setPost(this);
     }
 
-    public void setPhotos(List<Photo> photos){
+    private void setPhotos(List<Photo> photos){
         this.photos = photos;
         for (Photo photo : photos) {
             photo.setPost(this);

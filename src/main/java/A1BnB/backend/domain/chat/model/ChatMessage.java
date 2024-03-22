@@ -1,6 +1,6 @@
 package A1BnB.backend.domain.chat.model;
 
-import A1BnB.backend.domain.photo.model.entity.Photo;
+import A1BnB.backend.global.model.entity.BaseTimeEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @Table(name = "chatMessages")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ChatMessage {
+public class ChatMessage extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,13 +32,19 @@ public class ChatMessage {
     @Column(name = "sender")
     private String sender;
 
-    @Column(name = "receiver")
-    private String receiver;
+    @Column(name = "message")
+    private String message;
 
     @Builder
-    public ChatMessage(String sender, String receiver) {
+    public ChatMessage(ChatRoom chatRoom, String sender, String message) {
+        setChatRoom(chatRoom);
         this.sender = sender;
-        this.receiver = receiver;
+        this.message = message;
+    }
+
+    private void setChatRoom(ChatRoom chatRoom) {
+        this.chatRoom = chatRoom;
+        chatRoom.setChatMessages(this);
     }
 
 }

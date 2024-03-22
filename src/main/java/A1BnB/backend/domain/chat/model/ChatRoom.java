@@ -44,4 +44,8 @@ public class ChatRoom {
         receiver.joinChatRooms(this);
     }
 
+    public void setChatMessages(ChatMessage chatMessage){
+        this.chatMessages.add(chatMessage);
+    }
+
 }
