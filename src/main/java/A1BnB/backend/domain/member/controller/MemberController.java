@@ -1,9 +1,11 @@
 package A1BnB.backend.domain.member.controller;
 
+import A1BnB.backend.domain.member.dto.request.CkeckSameMemberRequest;
 import A1BnB.backend.domain.member.dto.request.MemberSignupRequest;
+import A1BnB.backend.domain.member.dto.response.CheckSameMemberResponse;
 import A1BnB.backend.domain.member.dto.response.HostPostResponse;
 import A1BnB.backend.domain.member.dto.response.HostReservationResponse;
-import A1BnB.backend.domain.member.dto.response.LikePostResponse;
+import A1BnB.backend.domain.member.dto.response.MyLikePostResponse;
 import A1BnB.backend.domain.member.dto.response.NearestCheckInDateResponse;
 import A1BnB.backend.domain.member.dto.response.GuestReservationResponse;
 import A1BnB.backend.domain.member.dto.response.SettleAmountResponse;
@@ -65,8 +67,15 @@ public class MemberController {
 
     // 좋아요 게시물 조회 (게스트)
     @GetMapping("guests/posts")
-    public List<LikePostResponse> findLikePosts(@AuthenticationPrincipal(expression = "username") String username) {
+    public List<MyLikePostResponse> findLikePosts(@AuthenticationPrincipal(expression = "username") String username) {
         return memberService.findLikePosts(username);
+    }
+
+    // 동일 인물인지 판별
+    @PostMapping("same")
+    public CheckSameMemberResponse ckeckSameMember(@AuthenticationPrincipal(expression = "username") String username,
+                                                   @Valid @RequestBody CkeckSameMemberRequest requestParam) {
+        return memberService.checkSameMember(username, requestParam);
     }
 
 }

@@ -7,10 +7,12 @@ import A1BnB.backend.domain.date.service.DateService;
 import A1BnB.backend.domain.member.dto.mapper.GuestReservationResponseMapper;
 import A1BnB.backend.domain.member.dto.mapper.HostPostResponseMapper;
 import A1BnB.backend.domain.member.dto.mapper.HostReservationResponseMapper;
-import A1BnB.backend.domain.member.dto.mapper.LikePostResponseMapper;
+import A1BnB.backend.domain.member.dto.mapper.MyLikePostResponseMapper;
+import A1BnB.backend.domain.member.dto.request.CkeckSameMemberRequest;
+import A1BnB.backend.domain.member.dto.response.CheckSameMemberResponse;
 import A1BnB.backend.domain.member.dto.response.HostPostResponse;
 import A1BnB.backend.domain.member.dto.response.HostReservationResponse;
-import A1BnB.backend.domain.member.dto.response.LikePostResponse;
+import A1BnB.backend.domain.member.dto.response.MyLikePostResponse;
 import A1BnB.backend.domain.member.dto.response.NearestCheckInDateResponse;
 import A1BnB.backend.domain.member.dto.response.GuestReservationResponse;
 import A1BnB.backend.domain.member.dto.response.SettleAmountResponse;
@@ -49,7 +51,7 @@ public class MemberServiceImpl implements MemberService {
     private final GuestReservationResponseMapper guestReservationResponseMapper;
     private final HostReservationResponseMapper hostReservationResponseMapper;
     private final HostPostResponseMapper hostPostResponseMapper;
-    private final LikePostResponseMapper likePostResponseMapper;
+    private final MyLikePostResponseMapper myLikePostResponseMapper;
 
     // 회원 가입
     @Override
@@ -136,13 +138,20 @@ public class MemberServiceImpl implements MemberService {
     // 좋아요 게시물 조회 (게스트)
     @Override
     @Transactional(readOnly = true)
-    public List<LikePostResponse> findLikePosts(String username) {
+    public List<MyLikePostResponse> findLikePosts(String username) {
         Member currentMember = findMember(username);
         List<PostLikeInfo> postLikeInfos = postLikeService.findByMember(currentMember);
         List<Post> posts = postLikeInfos.stream()
                 .map(postLikeInfo -> postLikeInfo.getPost())
                 .collect(Collectors.toList());
-        return likePostResponseMapper.toPostResponses(posts);
+        return myLikePostResponseMapper.toPostResponses(posts);
+    }
+
+    // 동일 인물인지 판별
+    @Override
+    public CheckSameMemberResponse checkSameMember(String username, CkeckSameMemberRequest requestParam) {
+        boolean isSameMember = username.equals(requestParam.memberName());
+        return new CheckSameMemberResponse(isSameMember);
     }
 
 }
