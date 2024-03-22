@@ -31,6 +31,8 @@ public class ChatController {
         messagingTemplate.convertAndSend(destination, requestParam);
     }
 
+
+    // 방 정보 조회
     @PostMapping("api/chats")
     @ResponseBody
     public ChatRoomResponse getRoomInfo(@AuthenticationPrincipal(expression = "username") String username,

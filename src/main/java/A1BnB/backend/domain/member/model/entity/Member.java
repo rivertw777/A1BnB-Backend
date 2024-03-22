@@ -1,5 +1,6 @@
 package A1BnB.backend.domain.member.model.entity;
 
+import A1BnB.backend.domain.chat.model.ChatRoom;
 import A1BnB.backend.domain.member.model.Role;
 import A1BnB.backend.domain.post.model.entity.Post;
 import A1BnB.backend.domain.postBook.model.PostBookInfo;
@@ -10,10 +11,13 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -50,6 +54,9 @@ public class Member {
     @Column(name = "settlementAmount")
     private Integer settlementAmount;
 
+    @ManyToMany(mappedBy = "participants", cascade = CascadeType.ALL)
+    private Set<ChatRoom> chatRooms = new HashSet<>();
+
     @Builder
     public Member(String name, String password, List<Role> roles) {
         this.name = name;
@@ -76,5 +83,9 @@ public class Member {
 
     public void subAmount(Integer paymentAmount) {
         this.settlementAmount -= paymentAmount;
+    }
+
+    public void joinChatRooms(ChatRoom chatRoom){
+        this.chatRooms.add(chatRoom);
     }
 }
