@@ -112,7 +112,7 @@ public class PhotoServiceImpl implements PhotoService {
     // 사진 정보 DTO 리스트 반환
     @Override
     public List<PhotoInfo> getPhotoInfos(List<Photo> photos) {
-        return photoInfoMapper.toPhotoInfos(photos);
+        return photoInfoMapper.toPhotoInfoList(photos);
     }
 
 }

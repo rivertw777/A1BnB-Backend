@@ -1,6 +1,9 @@
 package A1BnB.backend.domain.chat.dto.response;
 
-public record ChatRoomResponse(Long roomId) {
+import A1BnB.backend.domain.chat.dto.ChatMessageInfo;
+import java.util.List;
+
+public record ChatRoomResponse(Long roomId, List<ChatMessageInfo> messageInfoList) {
     public ChatRoomResponse {
     }
 }

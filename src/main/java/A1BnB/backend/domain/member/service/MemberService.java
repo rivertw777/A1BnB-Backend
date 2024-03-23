@@ -24,4 +24,5 @@ public interface MemberService {
     List<GuestReservationResponse> findGuestReservations(String username);
     List<MyLikePostResponse> findLikePosts(String username);
     CheckSameMemberResponse checkSameMember(String username, CkeckSameMemberRequest requestParam);
+    void deleteAllMember();
 }

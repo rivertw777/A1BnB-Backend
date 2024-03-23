@@ -1,7 +1,7 @@
 package A1BnB.backend.domain.chat.service;
 
-import static A1BnB.backend.global.exception.constants.MemberExceptionMessages.MEMBER_NAME_NOT_FOUND;
-
+import A1BnB.backend.domain.chat.dto.ChatMessageInfo;
+import A1BnB.backend.domain.chat.dto.mapper.ChatMessageInfoMapper;
 import A1BnB.backend.domain.chat.dto.mapper.MyChatRoomResponseMapper;
 import A1BnB.backend.domain.chat.dto.request.ChatRequest;
 import A1BnB.backend.domain.chat.dto.request.FindChatRoomRequest;
@@ -13,9 +13,7 @@ import A1BnB.backend.domain.chat.repository.ChatMessageRepository;
 import A1BnB.backend.domain.chat.repository.ChatRoomRepository;
 import A1BnB.backend.domain.member.model.entity.Member;
 import A1BnB.backend.domain.member.service.MemberService;
-import A1BnB.backend.global.exception.MemberException;
 import java.util.List;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +28,7 @@ public class ChatService {
     private final MemberService memberService;
 
     private final MyChatRoomResponseMapper myChatRoomResponseMapper;
+    private final ChatMessageInfoMapper chatMessageInfoMapper;
 
     @Transactional
     public void saveMessage(String username, ChatRequest requestParam) {
@@ -40,7 +39,7 @@ public class ChatService {
         ChatRoom chatRoom = findChatRoom(requestParam.roomId());
         ChatMessage chatMessage = ChatMessage.builder()
                 .chatRoom(chatRoom)
-                .sender(username)
+                .senderName(username)
                 .message(requestParam.message())
                 .build();
         chatMessageRepository.save(chatMessage);
@@ -59,7 +58,8 @@ public class ChatService {
 
         ChatRoom chatRoom = chatRoomRepository.findChatRoomByParticipants(receiver, sender)
                 .orElseGet(() -> saveChatRoom(sender, receiver));
-        return new ChatRoomResponse(chatRoom.getId());
+        List<ChatMessageInfo> chatMessageInfoList = chatMessageInfoMapper.toMessageInfoList(chatRoom.getChatMessages());
+        return new ChatRoomResponse(chatRoom.getId(), chatMessageInfoList);
     }
 
     // 방 생성 시, sender: 나, receiver: 상대

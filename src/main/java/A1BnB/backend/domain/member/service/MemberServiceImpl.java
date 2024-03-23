@@ -154,4 +154,9 @@ public class MemberServiceImpl implements MemberService {
         return new CheckSameMemberResponse(isSameMember);
     }
 
+    @Override
+    public void deleteAllMember() {
+        memberRepository.deleteAll();
+    }
+
 }
