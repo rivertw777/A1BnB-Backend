@@ -55,7 +55,7 @@ public class PostController {
     }
 
     // 회원 게시물 좋아요 여부 확인
-    @GetMapping("/{postId}/like/check")
+    @GetMapping("/{postId}/like")
     public PostLikeCheckResponse checkLike(@AuthenticationPrincipal(expression = "username") String username,
                                            @Valid @PathVariable("postId") Long postId) {
         return postService.checkLike(username, postId);
