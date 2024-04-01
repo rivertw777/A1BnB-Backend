@@ -26,21 +26,24 @@
     <td><img src="https://user-images.githubusercontent.com/112257466/209078356-d9120e3d-9498-4ee4-a38d-139a263910f4.png" width="15px" alt="_icon" />&nbsp;&nbsp;<b>MySQL</td>
   </tr>
   <tr>
-    <td>&nbsp;&nbsp;<b>Redis</td>
+    <td><b>Redis</td>
   </tr>
   
   <tr>
-    <td rowspan="11" align="center"><b>Infra</td>
-    <td><img src="https://miro.medium.com/v2/resize:fit:393/1*BCgeXMygZAH_xXzKG8vvQQ.png" width="15px" alt="_icon" />&nbsp;&nbsp;<b>AWS Fargate</td>
+    <td rowspan="6" align="center"><b>Infra</td>
+    <td><b>AWS EC2</td>
   </tr>
   <tr>
     <td><img src="https://seeklogo.com/images/A/aws-rds-relational-database-service-logo-99EA3E8EA4-seeklogo.com.png" width="15px" alt="_icon" />&nbsp;&nbsp;<b>AWS RDS</td>
   </tr>
   <tr>
-    <td><img src="https://www.tsmean.com/assets/img/the-ultimate-aws-lambda-tutorial-for-nodejs/aws-lambda-logo.svg" width="15px" alt="_icon" />&nbsp;&nbsp;<b>AWS Lambda</td>
+    <td><b>AWS ElastiCache</td>
   </tr>
-    <tr>
+  <tr>
     <td><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Amazon-S3-Logo.svg/1200px-Amazon-S3-Logo.svg.png" width="15px" alt="_icon" />&nbsp;&nbsp;<b>AWS S3</td>
+  </tr>
+  <tr>
+    <td><img src="https://www.tsmean.com/assets/img/the-ultimate-aws-lambda-tutorial-for-nodejs/aws-lambda-logo.svg" width="15px" alt="_icon" />&nbsp;&nbsp;<b>AWS Lambda</td>
   </tr>
   <tr>
     <td><img src="https://iconape.com/wp-content/files/kz/370585/svg/aws-api-gateway-logo-icon-png-svg.png" width="15px" alt="_icon" />&nbsp;&nbsp;<b>AWS Api Gateway</td>
