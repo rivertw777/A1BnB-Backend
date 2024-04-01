@@ -11,7 +11,7 @@
 <table border=""4>
   <!-- Backend Stack -->
   <tr>
-    <td rowspan="5" align="center"><b>BE</td>
+    <td rowspan="1" align="center"><b>BE</td>
     <td><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/Kotlin_Icon.svg/2048px-Kotlin_Icon.svg.png" width="15px" alt="_icon" />&nbsp;&nbsp;<b>Kotlin</td>
   </tr>
   <tr>
