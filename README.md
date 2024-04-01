@@ -20,6 +20,11 @@
     <td rowspan="1" align="center"><b>FE</td>
     <td><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/2300px-React-icon.svg.png" width="15px" alt="_icon" />&nbsp;&nbsp;<b>React.js</td>
   </tr>
+
+  <tr>
+    <td rowspan="1" align="center"><b>DB</td>
+    <td><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/2300px-React-icon.svg.png" width="15px" alt="_icon" />&nbsp;&nbsp;<b>React.js</td>
+  </tr>
   
   <tr>
     <td rowspan="11" align="center"><b>Infra</td>
