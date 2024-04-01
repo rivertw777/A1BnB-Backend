@@ -14,8 +14,18 @@
 <table border=""4>
 
   <tr>
-    <td rowspan="1" align="center"><b>BE</td>
-    <td><img src="https://user-images.githubusercontent.com/112257466/209075280-78be8487-7d6a-485c-92a8-d6677f0caab9.png" width="15px" alt="_icon" />&nbsp;&nbsp;<b>Spring Boot</td>
+    <td rowspan="1" align="center"><b>Front Repo</td>
+    <td><b>Spring Boot</td>
+  </tr>
+	    
+  <tr>
+    <td rowspan="1" align="center"><b>D</td>
+    <td><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/2300px-React-icon.svg.png" width="15px" alt="_icon" />&nbsp;&nbsp;<b>React.js</td>
+  </tr>
+	    
+  <tr>
+    <td rowspan="1" align="center"><b>FE</td>
+    <td><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/2300px-React-icon.svg.png" width="15px" alt="_icon" />&nbsp;&nbsp;<b>React.js</td>
   </tr>
   
 </table>
