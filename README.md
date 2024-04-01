@@ -1,6 +1,6 @@
 # 🖥 A1BnB Renewal 
 <div align="center">
-  http://52.79.51.120:3000
+  배포 링크: <b>http://52.79.51.120:3000
 </div>
 
 ## 🛠️&nbsp;&nbsp;&nbsp;소개&nbsp;&nbsp;&nbsp;
