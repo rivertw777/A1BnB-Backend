@@ -11,12 +11,10 @@
 <table border=""4>
   <tr>
     <td rowspan="5" align="center"><b>BE</td>
-    <td><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/Kotlin_Icon.svg/2048px-Kotlin_Icon.svg.png" width="15px" alt="_icon" />&nbsp;&nbsp;<b>Kotlin</td>
   </tr>
   <tr>
     <td><img src="https://user-images.githubusercontent.com/112257466/209075280-78be8487-7d6a-485c-92a8-d6677f0caab9.png" width="15px" alt="_icon" />&nbsp;&nbsp;<b>Spring Boot</td>
     <tr>
-	<td><img src="https://user-images.githubusercontent.com/112257466/209075280-78be8487-7d6a-485c-92a8-d6677f0caab9.png" width="15px" alt="_icon" />&nbsp;&nbsp;<b>Spring Security</td>
     <tr>
     <td><img src="https://user-images.githubusercontent.com/112257466/209076523-777fe02a-455f-48a0-a4b1-aeb9fff17b10.png" width="14px" alt="_icon" />&nbsp;&nbsp;<b>Spring Data JPA</td>
 	</tr>
