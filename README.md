@@ -12,8 +12,6 @@
   <!-- Backend Stack -->
   <tr>
     <td rowspan="1" align="center"><b>BE</td>
-  </tr>
-  <tr>
     <td><img src="https://user-images.githubusercontent.com/112257466/209075280-78be8487-7d6a-485c-92a8-d6677f0caab9.png" width="15px" alt="_icon" />&nbsp;&nbsp;<b>Spring Boot</td>
   </tr>
 
