@@ -39,7 +39,9 @@
 
   <tr>
     <td rowspan="2" align="center"><b>개발 일지</td>
-    <td>https://velog.io/@nickygod/series/SpringReact-AI-%EB%93%B1%EB%A1%9D-%EC%9B%B9%EC%84%9C%EB%B9%84%EC%8A%A4</td>
+    <td>
+      <a href="https://velog.io/@nickygod/series/SpringReact-AI-%EB%93%B1%EB%A1%9D-%EC%9B%B9%EC%84%9C%EB%B9%84%EC%8A%A4">A1BnB</a>  
+    </td>
   </tr>
 	    
   <tr>
