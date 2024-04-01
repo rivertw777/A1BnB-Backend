@@ -1,6 +1,5 @@
-
+# 🖥 A1BnB Renewal
 <div align="center">
-  # 🖥 A1BnB Renewal
   팀프로젝트 A1BnB를 진행하며 아쉬웠던 점을 개인적으로 새로운 기술 스택 및 기능 구현을 추가하여 재구현하였습니다.
   http://52.79.51.120:3000
 </div>
