@@ -1,5 +1,8 @@
 package A1BnB.backend.domain.member.controller;
 
+import A1BnB.backend.domain.member.dto.request.FindChatRoomRequest;
+import A1BnB.backend.domain.member.dto.response.ChatRoomResponse;
+import A1BnB.backend.domain.member.dto.response.MyChatRoomResponse;
 import A1BnB.backend.domain.member.dto.request.CkeckSameMemberRequest;
 import A1BnB.backend.domain.member.dto.request.MemberSignupRequest;
 import A1BnB.backend.domain.member.dto.response.CheckSameMemberResponse;
@@ -77,6 +80,19 @@ public class MemberController {
     public CheckSameMemberResponse ckeckSameMember(@AuthenticationPrincipal(expression = "username") String username,
                                                    @Valid @RequestBody CkeckSameMemberRequest requestParam) {
         return memberService.checkSameMember(username, requestParam);
+    }
+
+    // 채팅방 정보 조회
+    @PostMapping("chats")
+    public ChatRoomResponse getRoomInfo(@AuthenticationPrincipal(expression = "username") String username,
+                                        @Valid @RequestBody FindChatRoomRequest requestParam) {
+        return memberService.findRoom(username, requestParam);
+    }
+
+    // 내 채팅방 조회
+    @GetMapping("chats")
+    public List<MyChatRoomResponse> findMyChatRooms(@AuthenticationPrincipal(expression = "username") String username) {
+        return memberService.findMyChatRooms(username);
     }
 
     // 전체 회원 삭제

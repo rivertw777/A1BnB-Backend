@@ -3,6 +3,14 @@ package A1BnB.backend.domain.member.service;
 import static A1BnB.backend.global.exception.constants.MemberExceptionMessages.DUPLICATE_NAME;
 import static A1BnB.backend.global.exception.constants.MemberExceptionMessages.MEMBER_NAME_NOT_FOUND;
 
+import A1BnB.backend.domain.member.dto.ChatMessageInfo;
+import A1BnB.backend.domain.member.dto.mapper.ChatMessageInfoMapper;
+import A1BnB.backend.domain.member.dto.request.FindChatRoomRequest;
+import A1BnB.backend.domain.member.dto.response.ChatRoomResponse;
+import A1BnB.backend.domain.chat.model.ChatRoom;
+import A1BnB.backend.domain.chat.service.ChatService;
+import A1BnB.backend.domain.member.dto.mapper.MyChatRoomResponseMapper;
+import A1BnB.backend.domain.member.dto.response.MyChatRoomResponse;
 import A1BnB.backend.domain.date.service.DateService;
 import A1BnB.backend.domain.member.dto.mapper.GuestReservationResponseMapper;
 import A1BnB.backend.domain.member.dto.mapper.HostPostResponseMapper;
@@ -47,11 +55,14 @@ public class MemberServiceImpl implements MemberService {
     private final PostBookService postBookService;
     private final PostLikeService postLikeService;
     private final DateService dateService;
+    private final ChatService chatService;
 
     private final GuestReservationResponseMapper guestReservationResponseMapper;
     private final HostReservationResponseMapper hostReservationResponseMapper;
     private final HostPostResponseMapper hostPostResponseMapper;
     private final MyLikePostResponseMapper myLikePostResponseMapper;
+    private final MyChatRoomResponseMapper myChatRoomResponseMapper;
+    private final ChatMessageInfoMapper chatMessageInfoMapper;
 
     // 회원 가입
     @Override
@@ -152,6 +163,26 @@ public class MemberServiceImpl implements MemberService {
     public CheckSameMemberResponse checkSameMember(String username, CkeckSameMemberRequest requestParam) {
         boolean isSameMember = username.equals(requestParam.memberName());
         return new CheckSameMemberResponse(isSameMember);
+    }
+
+
+    // 수신자 송신자로 방 조회, 없다면 새로 생성
+    @Override
+    @Transactional
+    public ChatRoomResponse findRoom(String username, FindChatRoomRequest requestParam) {
+        Member receiver = findMember(requestParam.receiverName());
+        Member sender = findMember(username);
+        ChatRoom chatRoom = chatService.findChatRoomByParticipants(receiver, sender);
+        List<ChatMessageInfo> chatMessageInfoList = chatMessageInfoMapper.toMessageInfoList(chatRoom.getChatMessages());
+        return new ChatRoomResponse(chatRoom.getId(), chatMessageInfoList);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<MyChatRoomResponse> findMyChatRooms(String username) {
+        Member currentMember = findMember(username);
+        List<ChatRoom> chatRooms = chatService.findByParticipants(currentMember);
+        return myChatRoomResponseMapper.toRoomResponses(chatRooms, currentMember);
     }
 
     @Override

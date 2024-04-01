@@ -1,6 +1,6 @@
-package A1BnB.backend.domain.chat.dto.mapper;
+package A1BnB.backend.domain.member.dto.mapper;
 
-import A1BnB.backend.domain.chat.dto.ChatMessageInfo;
+import A1BnB.backend.domain.member.dto.ChatMessageInfo;
 import A1BnB.backend.domain.chat.model.ChatMessage;
 import java.util.Comparator;
 import java.util.List;

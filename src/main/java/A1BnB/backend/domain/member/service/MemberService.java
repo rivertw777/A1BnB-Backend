@@ -1,5 +1,8 @@
 package A1BnB.backend.domain.member.service;
 
+import A1BnB.backend.domain.member.dto.request.FindChatRoomRequest;
+import A1BnB.backend.domain.member.dto.response.ChatRoomResponse;
+import A1BnB.backend.domain.member.dto.response.MyChatRoomResponse;
 import A1BnB.backend.domain.member.dto.request.CkeckSameMemberRequest;
 import A1BnB.backend.domain.member.dto.request.MemberSignupRequest;
 import A1BnB.backend.domain.member.dto.response.CheckSameMemberResponse;
@@ -24,5 +27,7 @@ public interface MemberService {
     List<GuestReservationResponse> findGuestReservations(String username);
     List<MyLikePostResponse> findLikePosts(String username);
     CheckSameMemberResponse checkSameMember(String username, CkeckSameMemberRequest requestParam);
+    ChatRoomResponse findRoom(String username, FindChatRoomRequest requestParam);
+    List<MyChatRoomResponse> findMyChatRooms(String username);
     void deleteAllMember();
 }

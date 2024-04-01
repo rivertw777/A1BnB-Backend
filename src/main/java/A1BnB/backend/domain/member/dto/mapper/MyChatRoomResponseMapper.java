@@ -1,6 +1,6 @@
-package A1BnB.backend.domain.chat.dto.mapper;
+package A1BnB.backend.domain.member.dto.mapper;
 
-import A1BnB.backend.domain.chat.dto.response.MyChatRoomResponse;
+import A1BnB.backend.domain.member.dto.response.MyChatRoomResponse;
 import A1BnB.backend.domain.chat.model.ChatMessage;
 import A1BnB.backend.domain.chat.model.ChatRoom;
 import A1BnB.backend.domain.chat.repository.ChatMessageRepository;

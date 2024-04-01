@@ -1,4 +1,4 @@
-package A1BnB.backend.domain.chat.dto;
+package A1BnB.backend.domain.member.dto;
 
 import java.time.LocalDateTime;
 
