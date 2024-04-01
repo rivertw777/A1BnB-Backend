@@ -15,15 +15,11 @@
     <td><img src="https://user-images.githubusercontent.com/112257466/209075280-78be8487-7d6a-485c-92a8-d6677f0caab9.png" width="15px" alt="_icon" />&nbsp;&nbsp;<b>Spring Boot</td>
   </tr>
 
-  
   <tr>
-    <td rowspan="3" align="center"><b>FE</td>
-    <td><img src="https://static-00.iconduck.com/assets.00/nextjs-icon-512x512-y563b8iq.png" width="15px" alt="_icon" />&nbsp;&nbsp;<b>Next.js</td>
-  </tr>
-  <tr>
+    <td rowspan="1" align="center"><b>FE</td>
     <td><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/2300px-React-icon.svg.png" width="15px" alt="_icon" />&nbsp;&nbsp;<b>React.js</td>
-    <tr>
-	<td><img src="https://i.namu.wiki/i/6BCaly_IHOsGCno5SofR4NCvQZQp7JzBSaPrRXivLldaA-Rbuceh1oDMN6LfUuZiScaR2eBK7-sGgB-xae_YWA.webp" width="15px" alt="_icon" />&nbsp;&nbsp;<b>TypeScript</td>
+  </tr>
+  
   <tr>
     <td rowspan="11" align="center"><b>Infra</td>
     <td><img src="https://miro.medium.com/v2/resize:fit:393/1*BCgeXMygZAH_xXzKG8vvQQ.png" width="15px" alt="_icon" />&nbsp;&nbsp;<b>AWS Fargate</td>
