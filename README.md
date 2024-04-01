@@ -4,6 +4,9 @@
   http://52.79.51.120:3000
 </div>
 
+
+
+## 🛠️&nbsp;&nbsp;&nbsp;Tech Stacks&nbsp;&nbsp;&nbsp;
 <div align="center">
   <!-- M/L Stack -->
 <table border=""4>
