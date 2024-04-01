@@ -1,16 +1,11 @@
 # 🖥 A1BnB Renewal
-
-<br>
-
-## &nbsp;&nbsp;소개&nbsp;&nbsp;
-
-A1BnB는 Object Detection, Classification을 활용하여,<br>
-호스트가 사진을 업로드하면 어떤 공간인지,<br>
-어떤 어메니티가 있는지 자동으로 게시물을 작성해주는 서비스 입니다.<br>
+A1BnB는 Object Detection, Classification을 활용하여 호스트가 사진을 업로드하면 
+어떤 공간인지, 어떤 어메니티가 있는지 자동으로 게시물을 작성해주는 서비스 입니다.
 팀프로젝트 A1BnB를 진행하며 아쉬웠던 점을 개인적으로 새로운 기술 스택 및 기능 구현을 추가하여 재구현하였습니다.
-[http://52.79.51.120:3000/](http://52.79.51.120:3000/)
 
-<br/>
+<div align="center">
+[http://52.79.51.120:3000/](http://52.79.51.120:3000/)
+</div>
 
 ### Project Architecture
 
