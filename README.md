@@ -10,8 +10,6 @@
 <div align="center">
   <!-- M/L Stack -->
 <table border=""4>
-  <th align="center">Role</th>
-
   <!-- Backend Stack -->
   <tr>
     <td rowspan="5" align="center"><b>BE</td>
