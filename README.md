@@ -7,6 +7,7 @@
 
 
 ## 🛠️&nbsp;&nbsp;&nbsp;Tech Stacks&nbsp;&nbsp;&nbsp;
+<br>
 <div align="center">
 <table border=""4>
   <!-- Backend Stack -->
