@@ -7,6 +7,7 @@
 <div align="center">
   팀프로젝트 A1BnB를 진행하며 아쉬웠던 점을 개인적으로 새로운 기술 스택 및 기능 구현을 추가하여 재구현하였습니다.
 </div>
+<br>
 
 ## 🛠️&nbsp;&nbsp;&nbsp;링크&nbsp;&nbsp;&nbsp;
 <br>
@@ -46,6 +47,7 @@
   
 </table>
 </div>
+<br>
 
 ## 🛠️&nbsp;&nbsp;&nbsp;Project Architecture&nbsp;&nbsp;&nbsp;
 
