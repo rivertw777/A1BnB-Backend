@@ -20,10 +20,10 @@
 	    
   <tr>
     <td rowspan="2" align="center"><b>Deep Learning API</td>
-    <td><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/2300px-React-icon.svg.png" width="15px" alt="_icon" />&nbsp;&nbsp;<b>React.js</td>
+    <td>https://github.com/rivertw777/A1BnB-Classification</td>
   </tr>
   <tr>
-      <td><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/2300px-React-icon.svg.png" width="15px" alt="_icon" />&nbsp;&nbsp;<b>React.js</td>
+      <td>https://github.com/rivertw777/A1BnB-Detection</td>
   </tr>
 	    
   <tr>
