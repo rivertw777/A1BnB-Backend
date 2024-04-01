@@ -14,7 +14,7 @@
 <table border=""4>
 
   <tr>
-    <td rowspan="1" align="center"><b>Front Repo</td>
+    <td rowspan="1" align="center"><b>Frontend</td>
     <td><b>Spring Boot</td>
   </tr>
 	    
