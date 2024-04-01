@@ -14,12 +14,12 @@
 <table border=""4>
 
   <tr>
-    <td rowspan="1" align="center"><b>Frontend</td>
+    <td rowspan="1" align="center"><b>Frontend Repo</td>
     <td>https://github.com/rivertw777/A1BnB-Frontend</td>
   </tr>
 	    
   <tr>
-    <td rowspan="2" align="center"><b>Deep Learning API</td>
+    <td rowspan="2" align="center"><b>Deep Learning API Repo</td>
     <td>https://github.com/rivertw777/A1BnB-Classification</td>
   </tr>
   <tr>
