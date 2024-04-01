@@ -41,7 +41,7 @@
     <td>https://velog.io/@nickygod/series/SpringReact-AI-%EB%93%B1%EB%A1%9D-%EC%9B%B9%EC%84%9C%EB%B9%84%EC%8A%A4</td>
   </tr>
   <tr>
-      <td><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/2300px-React-icon.svg.png" width="15px" alt="_icon" />&nbsp;&nbsp;<b>React.js</td>
+      <td>https://velog.io/@nickygod/series/Spring-Security-JWT-%EB%A1%9C%EA%B7%B8%EC%9D%B8-%EA%B5%AC%ED%98%84%ED%95%98%EA%B8%B0-with-Redis</td>
   </tr>
   
 </table>
