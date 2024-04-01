@@ -33,12 +33,12 @@
 
   <tr>
     <td rowspan="1" align="center"><b>API 명세</td>
-    <td><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/2300px-React-icon.svg.png" width="15px" alt="_icon" />&nbsp;&nbsp;<b>React.js</td>
+    <td>https://a1bnb-renewal-api.gitbook.io/a1bnb-api-reference</td>
   </tr>
 
   <tr>
     <td rowspan="2" align="center"><b>개발 일지</td>
-    <td><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/2300px-React-icon.svg.png" width="15px" alt="_icon" />&nbsp;&nbsp;<b>React.js</td>
+    <td>https://velog.io/@nickygod/series/SpringReact-AI-%EB%93%B1%EB%A1%9D-%EC%9B%B9%EC%84%9C%EB%B9%84%EC%8A%A4</td>
   </tr>
   <tr>
       <td><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/2300px-React-icon.svg.png" width="15px" alt="_icon" />&nbsp;&nbsp;<b>React.js</td>
