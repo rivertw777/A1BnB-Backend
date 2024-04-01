@@ -8,13 +8,26 @@
   팀프로젝트 A1BnB를 진행하며 아쉬웠던 점을 개인적으로 새로운 기술 스택 및 기능 구현을 추가하여 재구현하였습니다.
 </div>
 
+## 🛠️&nbsp;&nbsp;&nbsp;링크&nbsp;&nbsp;&nbsp;
+<br>
+<div align="center">
+<table border=""4>
+
+  <tr>
+    <td rowspan="1" align="center"><b>BE</td>
+    <td><img src="https://user-images.githubusercontent.com/112257466/209075280-78be8487-7d6a-485c-92a8-d6677f0caab9.png" width="15px" alt="_icon" />&nbsp;&nbsp;<b>Spring Boot</td>
+  </tr>
+  
+</table>
+</div>
+
 ## 🛠️&nbsp;&nbsp;&nbsp;Project Architecture&nbsp;&nbsp;&nbsp;
 
 ## 🛠️&nbsp;&nbsp;&nbsp;Tech Stacks&nbsp;&nbsp;&nbsp;
 <br>
 <div align="center">
 <table border=""4>
-  <!-- Backend Stack -->
+  
   <tr>
     <td rowspan="1" align="center"><b>BE</td>
     <td><img src="https://user-images.githubusercontent.com/112257466/209075280-78be8487-7d6a-485c-92a8-d6677f0caab9.png" width="15px" alt="_icon" />&nbsp;&nbsp;<b>Spring Boot</td>
