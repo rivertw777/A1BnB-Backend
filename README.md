@@ -4,7 +4,7 @@
   http://52.79.51.120:3000
 </div>
 
-
+## 🛠️&nbsp;&nbsp;&nbsp;Project Architecture&nbsp;&nbsp;&nbsp;
 
 ## 🛠️&nbsp;&nbsp;&nbsp;Tech Stacks&nbsp;&nbsp;&nbsp;
 <br>
@@ -48,7 +48,6 @@
   <tr>
     <td><img src="https://iconape.com/wp-content/files/kz/370585/svg/aws-api-gateway-logo-icon-png-svg.png" width="15px" alt="_icon" />&nbsp;&nbsp;<b>AWS Api Gateway</td>
   </tr>
-
 	    
   <tr>
   <td rowspan="3" align="center"><b>CI/CD</td>
@@ -63,19 +62,6 @@
 </table>
 </div>
 	      
-### Project Architecture
-
-## 🛠️&nbsp;&nbsp;&nbsp;Tech Stacks&nbsp;&nbsp;&nbsp;🛠️
-
-## Backend - Spring Boot
-## Frontend - React.js
-## DB - MySQL, Redis
-
-## DevOps
-- AWS EC2, S3, RDS, ElastiCache, Lambda
-- Docker
-- jenkins, ngrok
-
 ### 블로그 개발 일지
 A1BnB - https://velog.io/@nickygod/series/SpringReact-AI-등록-웹서비스
 Spring Security - https://velog.io/@nickygod/series/Spring-Security-JWT-로그인-구현하기-with-Redis
