@@ -15,7 +15,7 @@
 
   <tr>
     <td rowspan="1" align="center"><b>Frontend</td>
-    <td><b>Spring Boot</td>
+    <td>https://github.com/rivertw777/A1BnB-Frontend</td>
   </tr>
 	    
   <tr>
@@ -104,12 +104,3 @@
   </tr>
 </table>
 </div>
-	      
-### 블로그 개발 일지
-A1BnB - https://velog.io/@nickygod/series/SpringReact-AI-등록-웹서비스
-Spring Security - https://velog.io/@nickygod/series/Spring-Security-JWT-로그인-구현하기-with-Redis
-
-### API 명세
-https://a1bnb-renewal-api.gitbook.io/a1bnb-api-reference/
-
-### 페이지 소개
