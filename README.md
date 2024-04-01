@@ -19,8 +19,11 @@
   </tr>
 	    
   <tr>
-    <td rowspan="1" align="center"><b>D</td>
+    <td rowspan="2" align="center"><b>Deep Learning API</td>
     <td><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/2300px-React-icon.svg.png" width="15px" alt="_icon" />&nbsp;&nbsp;<b>React.js</td>
+  </tr>
+  <tr>
+      <td><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/2300px-React-icon.svg.png" width="15px" alt="_icon" />&nbsp;&nbsp;<b>React.js</td>
   </tr>
 	    
   <tr>
