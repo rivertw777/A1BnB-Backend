@@ -1,8 +1,7 @@
-# 🖥 A1BnB Renewal
+# 🖥 A1BnB Renewal http://52.79.51.120:3000
 ## 🛠️&nbsp;&nbsp;&nbsp;소개&nbsp;&nbsp;&nbsp;
 <div align="center">
   팀프로젝트 A1BnB를 진행하며 아쉬웠던 점을 개인적으로 새로운 기술 스택 및 기능 구현을 추가하여 재구현하였습니다.
-  http://52.79.51.120:3000
 </div>
 
 ## 🛠️&nbsp;&nbsp;&nbsp;Project Architecture&nbsp;&nbsp;&nbsp;
