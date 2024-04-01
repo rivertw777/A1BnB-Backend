@@ -9,7 +9,6 @@
 ## 🛠️&nbsp;&nbsp;&nbsp;Tech Stacks&nbsp;&nbsp;&nbsp;
 <div align="center">
 <table border=""4>
-  <th align="center">Role</th>
 
   <!-- Backend Stack -->
   <tr>
@@ -22,8 +21,9 @@
     <tr>
 	</tr>
   </tr>
-  <!-- Frontend Stack -->	
-  <tr>
+
+  
+  <tr>   
     <td rowspan="3" align="center"><b>FE</td>
     <td><img src="https://static-00.iconduck.com/assets.00/nextjs-icon-512x512-y563b8iq.png" width="15px" alt="_icon" />&nbsp;&nbsp;<b>Next.js</td>
   </tr>
