@@ -26,7 +26,7 @@
     <td><img src="https://user-images.githubusercontent.com/112257466/209078356-d9120e3d-9498-4ee4-a38d-139a263910f4.png" width="15px" alt="_icon" />&nbsp;&nbsp;<b>MySQL</td>
   </tr>
   <tr>
-    <td><img src="https://user-images.githubusercontent.com/112257466/209078356-d9120e3d-9498-4ee4-a38d-139a263910f4.png" width="15px" alt="_icon" />&nbsp;&nbsp;<b>Redis</td>
+    <td>&nbsp;&nbsp;<b>Redis</td>
   </tr>
   
   <tr>
