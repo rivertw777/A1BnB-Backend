@@ -115,10 +115,10 @@
       <td><img src="https://www.svgrepo.com/show/353659/docker-icon.svg" width="15px" alt="_icon" />&nbsp;&nbsp;<b>Docker</td>
   </tr>
   <tr>
-      <td><img src="https://avatars.githubusercontent.com/u/44036562?s=280&v=4" width="15px" alt="_icon" />&nbsp;&nbsp;<b>Github Actions</td>
+      <td><b>Jenkins</td>
   </tr>
   <tr>
-      <td><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHcGD9-6695ksV7JAout6j7FG9WNyjD0-YpQ&usqp=CAU" width="15px" alt="_icon" />&nbsp;&nbsp;<b>AWS Amplify</td>
+      <td><b>Ngrok</td>
   </tr>
 </table>
 </div>
