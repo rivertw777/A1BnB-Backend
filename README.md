@@ -32,7 +32,7 @@
   </tr>
 	    
   <tr>
-    <td rowspan="1" align="center"><b>구현 기능 소개</td>
+    <td rowspan="1" align="center"><b>구현 기능</td>
     <td></td>
   </tr>
 
