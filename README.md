@@ -55,6 +55,8 @@
 <br>
 <div align="center">
 <img src="https://a1bnb-project.s3.ap-northeast-2.amazonaws.com/0402.png" width="83.7%"/></a>
+</div>
+<br>
 <br>
 
 ## 🛠️&nbsp;&nbsp;&nbsp;Tech Stacks&nbsp;&nbsp;&nbsp;
