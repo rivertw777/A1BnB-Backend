@@ -2,6 +2,8 @@
 <div align="center">
   <b>배포 링크: http://52.79.51.120:3000
 </div>
+<br>
+<br>
 
 ## 🛠️&nbsp;&nbsp;&nbsp;링크&nbsp;&nbsp;&nbsp;
 <br>
@@ -47,8 +49,9 @@
 </table>
 </div>
 <br>
+<br>
 
-## 🛠️&nbsp;&nbsp;&nbsp;Project Architecture&nbsp;&nbsp;&nbsp;
+## 🛠️&nbsp;&nbsp;&nbsp;CI/CD Workflow&nbsp;&nbsp;&nbsp;
 <br>
 <div align="center">
 <img src="https://a1bnb-project.s3.ap-northeast-2.amazonaws.com/0402.png" width="83.7%"/></a>
