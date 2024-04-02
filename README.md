@@ -1,14 +1,14 @@
 # 🖥 A1BnB Renewal 
-<div align="center">
-  <b>배포 링크: http://52.79.51.120:3000
-</div>
-<br>
-<br>
 
 ## 🛠️&nbsp;&nbsp;&nbsp;링크&nbsp;&nbsp;&nbsp;
 <br>
 <div align="center">
 <table border=""4>
+
+  <tr>
+    <td rowspan="1" align="center"><b>배포 링크</td>
+    <td>http://52.79.51.120:3000</td>
+  </tr>
 
   <tr>
     <td rowspan="1" align="center"><b>Frontend Repo</td>
