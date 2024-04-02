@@ -1,9 +1,9 @@
 # 🖥 A1BnB Renewal 
 <br>
 <div align="center">
-## A1BnB는 AI 기반 숙박 공유 서비스입니다.<br>
-## Object Detection, Classification 모델을 활용하여 호스트가 사진을 업로드하면<br>
-## 어떤 공간인지, 어떤 어매니티가 있는지 분석하여 게시물 작성을 도와주는 서비스 입니다.<br>
+<b>A1BnB는 AI 기반 숙박 공유 서비스입니다.<br>
+<b>Object Detection, Classification 모델을 활용하여 호스트가 사진을 업로드하면<br>
+<b>어떤 공간인지, 어떤 어매니티가 있는지 분석하여 게시물 작성을 도와주는 서비스 입니다.<br>
 </div>
 <br>
 <br>
