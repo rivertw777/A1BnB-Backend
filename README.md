@@ -22,8 +22,8 @@
   </tr>
 	    
   <tr>
-    <td rowspan="1" align="center"><b>페이지 소개</td>
-    <td><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/2300px-React-icon.svg.png" width="15px" alt="_icon" />&nbsp;&nbsp;<b>React.js</td>
+    <td rowspan="1" align="center"><b>구현 기능 소개</td>
+    <td></td>
   </tr>
 
   <tr>
@@ -49,6 +49,9 @@
 <br>
 
 ## 🛠️&nbsp;&nbsp;&nbsp;Project Architecture&nbsp;&nbsp;&nbsp;
+<br>
+<div align="center">
+<img src="https://a1bnb-project.s3.ap-northeast-2.amazonaws.com/0402.png" width="83.7%"/></a>
 <br>
 
 ## 🛠️&nbsp;&nbsp;&nbsp;Tech Stacks&nbsp;&nbsp;&nbsp;
