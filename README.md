@@ -123,7 +123,7 @@
       <td><img src="https://cdn.icon-icons.com/icons2/2699/PNG/512/jenkins_logo_icon_170552.png" width="15px" alt="_icon" />&nbsp;&nbsp;<b>Jenkins</td>
   </tr>
   <tr>
-      <td><b>Ngrok</td>
+      <td><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFrK09IvHpZZXR7UwT4C9F-lSA9BOXh0-QmXx7aZ3Ngw&s" width="15px" alt="_icon" />&nbsp;&nbsp;<b>Ngrok</td>
   </tr>
 </table>
 </div>
