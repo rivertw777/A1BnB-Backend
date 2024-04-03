@@ -120,7 +120,7 @@
       <td><img src="https://www.svgrepo.com/show/353659/docker-icon.svg" width="15px" alt="_icon" />&nbsp;&nbsp;<b>Docker</td>
   </tr>
   <tr>
-      <td><b>Jenkins</td>
+      <td><img src="https://cdn.icon-icons.com/icons2/2699/PNG/512/jenkins_logo_icon_170552.png" width="15px" alt="_icon" />&nbsp;&nbsp;<b>Jenkins</td>
   </tr>
   <tr>
       <td><b>Ngrok</td>
