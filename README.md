@@ -1,5 +1,5 @@
 <div align="center">
-<img src="https://a1bnb-project.s3.ap-northeast-2.amazonaws.com/0403.png" width="500px" height="270px"/></a>
+<img src="https://a1bnb-project.s3.ap-northeast-2.amazonaws.com/0403.png" width="700px" height="400px"/></a>
 </div>
 <br>
 
