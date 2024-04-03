@@ -38,7 +38,7 @@
 	    
   <tr>
     <td rowspan="1" align="center"><b>구현 기능</td>
-    <td></td>
+    <td>https://a1bnb-renewal-api.gitbook.io/a1bnb-implementation-features-1/</td>
   </tr>
 
   <tr>
