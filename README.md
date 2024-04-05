@@ -20,7 +20,7 @@
 
   <tr>
     <td rowspan="1" align="center"><b>배포 링크</td>
-    <td>http://52.79.51.120:3000</td>
+    <td>http://a1bnb.site/</td>
   </tr>
 
   <tr>
