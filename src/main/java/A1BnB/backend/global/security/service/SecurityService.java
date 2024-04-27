@@ -37,7 +37,6 @@ public class SecurityService implements UserDetailsService {
     public CustomUserDetails loadUserByUsername(String username) {
         Member member = memberRepository.findByName(username)
                 .orElseThrow(() -> new UsernameNotFoundException(MEMBER_NAME_NOT_FOUND.getMessage()));
-        CustomUserDetails user = new CustomUserDetails(member);
         return new CustomUserDetails(member);
     }
 

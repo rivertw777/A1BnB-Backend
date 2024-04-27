@@ -31,7 +31,7 @@ public class PhotoController {
     @Value("${aws.lambda.url}")
     private String lambdaUrl;
 
-    @Retryable(value = {Exception.class}, maxAttempts = 5, backoff = @Backoff(delay = 1000))
+    @Retryable(value = {Exception.class}, maxAttempts = 10, backoff = @Backoff(delay = 1000))
     @PostMapping(value = "", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Long> inferPhotos(@Valid @ModelAttribute PhotoUploadRequest requestParam) throws IOException {
         // s3 사진 업로드, 경로 반환
