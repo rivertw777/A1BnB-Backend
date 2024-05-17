@@ -57,4 +57,5 @@ public class ChatService {
         return chatRoomRepository.findChatRoomByParticipants(receiver, sender)
                 .orElseGet(() -> saveChatRoom(sender, receiver));
     }
+
 }

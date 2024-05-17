@@ -20,8 +20,6 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Value("${react.url}")
     private String reactUrl;
 
-
-    //  Simple Message Broker 활성화, Subscriber들에게 메시지를 전달
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/ws")

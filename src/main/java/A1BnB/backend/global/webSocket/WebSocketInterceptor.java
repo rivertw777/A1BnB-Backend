@@ -1,5 +1,6 @@
 package A1BnB.backend.global.webSocket;
 
+import static A1BnB.backend.global.security.constants.JwtProperties.HEADER_STRING;
 import static A1BnB.backend.global.security.constants.JwtProperties.TOKEN_PREFIX;
 
 import A1BnB.backend.global.security.service.SecurityService;
@@ -27,7 +28,7 @@ public class WebSocketInterceptor implements ChannelInterceptor {
         StompHeaderAccessor accessor = MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
 
         if (accessor.getCommand() == StompCommand.CONNECT) {
-            String token = accessor.getFirstNativeHeader("Authorization").replace(TOKEN_PREFIX.getValue(), "");
+            String token = accessor.getFirstNativeHeader(HEADER_STRING.getValue()).replace(TOKEN_PREFIX.getValue(), "");
             // 토큰 검증
             securityService.validateToken(token);
             // 인증 정보 주입

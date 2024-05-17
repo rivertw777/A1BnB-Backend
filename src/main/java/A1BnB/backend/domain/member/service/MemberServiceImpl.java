@@ -177,6 +177,7 @@ public class MemberServiceImpl implements MemberService {
         return new ChatRoomResponse(chatRoom.getId(), chatMessageInfoList);
     }
 
+    // 내 채팅방 목록 조회
     @Override
     @Transactional(readOnly = true)
     public List<MyChatRoomResponse> findMyChatRooms(String username) {
