@@ -64,6 +64,14 @@
 <br>
 <br>
 
+## 🛠️&nbsp;&nbsp;&nbsp;ERD&nbsp;&nbsp;&nbsp;
+<br>
+<div align="center">
+<img src="https://github.com/rivertw777/A1BnB-Backend/assets/105557972/740007dd-11da-4a4f-8d8c-2f58af5ed3a8" width="100%"/></a>
+</div>
+<br>
+<br>
+
 ## 🛠️&nbsp;&nbsp;&nbsp;CI/CD Workflow&nbsp;&nbsp;&nbsp;
 <br>
 <div align="center">
