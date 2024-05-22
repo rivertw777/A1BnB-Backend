@@ -15,6 +15,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AccessLevel;
@@ -37,10 +38,12 @@ public class Photo {
     private Post post;
 
     // 원본 사진경로
+    @NotNull
     @Column(name = "original_url")
     private String originalUrl;
 
     // 분석된 사진 경로
+    @NotNull
     @Column(name = "detected_url")
     private String detectedUrl;
 

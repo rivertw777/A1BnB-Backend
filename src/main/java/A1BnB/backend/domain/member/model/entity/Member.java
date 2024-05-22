@@ -14,6 +14,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -33,12 +34,15 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     @Column(unique = true, name = "username", length = 10)
     private String name;
 
+    @NotNull
     @Column(name = "password", length = 60)
     private String password;
 
+    @NotNull
     @Column(name = "roles")
     private List<Role> roles = new ArrayList<>();
 
@@ -51,6 +55,7 @@ public class Member {
     @OneToMany(mappedBy = "guest", cascade = CascadeType.ALL)
     private List<PostBookInfo> postBookInfos = new ArrayList<>();
 
+    @NotNull
     @Column(name = "settlementAmount")
     private Integer settlementAmount;
 

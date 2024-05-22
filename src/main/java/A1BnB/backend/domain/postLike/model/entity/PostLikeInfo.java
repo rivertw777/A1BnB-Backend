@@ -30,7 +30,7 @@ public class PostLikeInfo {
     private Post post;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "memberId")
+    @JoinColumn(name = "guestId")
     private Member guest;
 
     @Builder

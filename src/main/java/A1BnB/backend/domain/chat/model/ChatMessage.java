@@ -10,6 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -29,9 +30,11 @@ public class ChatMessage extends BaseTimeEntity {
     @JoinColumn(name = "ChatRoomId")
     private ChatRoom chatRoom;
 
+    @NotNull
     @Column(name = "senderName")
     private String senderName;
 
+    @NotNull
     @Column(name = "message")
     private String message;
 

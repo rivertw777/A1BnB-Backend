@@ -14,6 +14,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,15 +41,18 @@ public class PostBookInfo {
     @JoinColumn(name = "guestId")
     private Member guest;
 
+    @NotNull
     @Column(name = "checkInDate")
     private LocalDateTime checkInDate;
 
+    @NotNull
     @Column(name = "checkOutDate")
     private LocalDateTime checkOutDate;
 
     @OneToMany(mappedBy = "postBookInfo", cascade = CascadeType.ALL)
     private List<Date> bookedDates = new ArrayList<>();
 
+    @NotNull
     @Column(name = "paymentAmount")
     private Integer paymentAmount;
 

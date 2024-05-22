@@ -10,6 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,7 +18,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
-@Table(name = "ammenities")
+@Table(name = "amenities")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Amenity {
 
@@ -25,9 +26,11 @@ public class Amenity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     @Column(name = "type")
     private String type;
 
+    @NotNull
     @Column(name = "confidence")
     private Double confidence;
 

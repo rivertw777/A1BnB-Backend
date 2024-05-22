@@ -16,6 +16,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AccessLevel;
@@ -37,18 +38,22 @@ public class Post extends BaseTimeEntity {
     @JoinColumn(name = "hostId")
     private Member host;
 
+    @NotNull
     @Column(name = "location", length = 100)
     private String location;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<Photo> photos = new ArrayList<>();
 
+    @NotNull
     @Column(name = "pricePerNight")
     private Integer pricePerNight;
 
+    @NotNull
     @Column(name = "maximumOccupancy")
     private Integer maximumOccupancy;
 
+    @NotNull
     @Column(name = "caption")
     private String caption;
 
