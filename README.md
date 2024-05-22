@@ -67,7 +67,7 @@
 ## 🛠️&nbsp;&nbsp;&nbsp;ERD&nbsp;&nbsp;&nbsp;
 <br>
 <div align="center">
-<img src="https://private-user-images.githubusercontent.com/105557972/332811857-42b5a70e-bae6-4ec7-a7a4-55940b17213b.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3MTYzODQyODYsIm5iZiI6MTcxNjM4Mzk4NiwicGF0aCI6Ii8xMDU1NTc5NzIvMzMyODExODU3LTQyYjVhNzBlLWJhZTYtNGVjNy1hN2E0LTU1OTQwYjE3MjEzYi5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjQwNTIyJTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI0MDUyMlQxMzE5NDZaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT03OTBhMWY5NDcxMjY3MmEzZDkyNzc0ZjM0NjVlMmY3N2NkNWU4ZjU1M2NlMDc4YmM5NTIzMzM4ZTZhM2U2YTI2JlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCZhY3Rvcl9pZD0wJmtleV9pZD0wJnJlcG9faWQ9MCJ9.9ZNpKDBUSinE0X0ieE6ItJxVsCd3-Sfxb9Jc5zTE-vo" width="83.7%"/></a>
+<img src="https://github.com/rivertw777/A1BnB-Backend/assets/105557972/740007dd-11da-4a4f-8d8c-2f58af5ed3a8" width="83.7%"/></a>
 </div>
 <br>
 <br>
