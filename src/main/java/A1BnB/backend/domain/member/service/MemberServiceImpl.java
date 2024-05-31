@@ -165,7 +165,6 @@ public class MemberServiceImpl implements MemberService {
         return new CheckSameMemberResponse(isSameMember);
     }
 
-
     // 수신자 송신자로 방 조회, 없다면 새로 생성
     @Override
     @Transactional
