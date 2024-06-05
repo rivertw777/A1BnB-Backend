@@ -18,16 +18,27 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface MemberService {
-    void registerUser(MemberSignupRequest signupParam);
+    void registerUser(MemberSignupRequest requestParam);
+
     Member findMember(String name);
+
     SettleAmountResponse findSettlementAmount(String username);
+
     List<HostPostResponse> findHostPosts(String username);
+
     List<HostReservationResponse> findHostReservations(String username);
+
     NearestCheckInDateResponse findNearestCheckInDate(String username);
+
     List<GuestReservationResponse> findGuestReservations(String username);
+
     List<MyLikePostResponse> findLikePosts(String username);
+
     CheckSameMemberResponse checkSameMember(String username, CkeckSameMemberRequest requestParam);
+
     ChatRoomResponse findRoom(String username, FindChatRoomRequest requestParam);
+
     List<MyChatRoomResponse> findMyChatRooms(String username);
+
     void deleteAllMember();
 }

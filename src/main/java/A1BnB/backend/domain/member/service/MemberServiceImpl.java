@@ -1,7 +1,7 @@
 package A1BnB.backend.domain.member.service;
 
-import static A1BnB.backend.global.exception.constants.MemberExceptionMessages.DUPLICATE_NAME;
-import static A1BnB.backend.global.exception.constants.MemberExceptionMessages.MEMBER_NAME_NOT_FOUND;
+import static A1BnB.backend.domain.member.exception.MemberExceptionMessages.DUPLICATE_NAME;
+import static A1BnB.backend.domain.member.exception.MemberExceptionMessages.MEMBER_NAME_NOT_FOUND;
 
 import A1BnB.backend.domain.member.dto.ChatMessageInfo;
 import A1BnB.backend.domain.member.dto.mapper.ChatMessageInfoMapper;
@@ -31,7 +31,7 @@ import A1BnB.backend.domain.postBook.model.PostBookInfo;
 import A1BnB.backend.domain.postBook.service.PostBookService;
 import A1BnB.backend.domain.postLike.model.entity.PostLikeInfo;
 import A1BnB.backend.domain.postLike.service.PostLikeService;
-import A1BnB.backend.global.exception.MemberException;
+import A1BnB.backend.domain.member.exception.MemberException;
 import A1BnB.backend.domain.member.model.Role;
 import A1BnB.backend.domain.member.repository.MemberRepository;
 

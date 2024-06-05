@@ -1,6 +1,6 @@
 package A1BnB.backend.domain.postBook.service;
 
-import static A1BnB.backend.global.exception.constants.PostExceptionMessages.POST_BOOK_INFO_NOT_FOUND;
+import static A1BnB.backend.domain.post.exception.PostExceptionMessages.POST_BOOK_INFO_NOT_FOUND;
 
 import A1BnB.backend.domain.date.model.entity.Date;
 import A1BnB.backend.domain.date.service.DateService;
@@ -9,7 +9,7 @@ import A1BnB.backend.domain.post.dto.request.PostBookRequest;
 import A1BnB.backend.domain.post.model.entity.Post;
 import A1BnB.backend.domain.postBook.model.PostBookInfo;
 import A1BnB.backend.domain.postBook.repository.PostBookRepostiory;
-import A1BnB.backend.global.exception.PostException;
+import A1BnB.backend.domain.post.exception.PostException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

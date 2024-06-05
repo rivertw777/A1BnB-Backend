@@ -1,4 +1,4 @@
-package A1BnB.backend.global.exception;
+package A1BnB.backend.domain.post.exception;
 
 import lombok.experimental.StandardException;
 

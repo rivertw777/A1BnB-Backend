@@ -1,6 +1,5 @@
-package A1BnB.backend.global.exception.handler;
+package A1BnB.backend.domain.post.exception;
 
-import A1BnB.backend.global.exception.PostException;
 import A1BnB.backend.global.exception.dto.CustomErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,4 +1,4 @@
-package A1BnB.backend.global.exception.constants;
+package A1BnB.backend.global.security.exception;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

@@ -1,6 +1,6 @@
 package A1BnB.backend.domain.post.service;
 
-import static A1BnB.backend.global.exception.constants.PostExceptionMessages.POST_NOT_FOUND;
+import static A1BnB.backend.domain.post.exception.PostExceptionMessages.POST_NOT_FOUND;
 
 import A1BnB.backend.domain.date.service.DateService;
 import A1BnB.backend.domain.member.service.MemberService;
@@ -21,7 +21,7 @@ import A1BnB.backend.domain.post.dto.response.PostResponse;
 import A1BnB.backend.domain.post.dto.mapper.PostResponseMapper;
 import A1BnB.backend.domain.postBook.service.PostBookService;
 import A1BnB.backend.domain.postLike.service.PostLikeService;
-import A1BnB.backend.global.exception.PostException;
+import A1BnB.backend.domain.post.exception.PostException;
 import A1BnB.backend.global.redis.service.PostLikeCountService;
 import java.time.LocalDateTime;
 import java.util.List;
