@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class PostBookServiceImpl implements PostBookService {
 
     private final PostBookRepostiory postBookRepostiory;
+
     private final DateService dateService;
 
     @Override

@@ -10,7 +10,7 @@ import A1BnB.backend.domain.photo.service.PhotoService;
 import A1BnB.backend.domain.post.dto.PostDto.PostBookRequest;
 import A1BnB.backend.domain.post.dto.PostDto.PostDetailResponse;
 import A1BnB.backend.domain.post.dto.PostDto.PostSearchRequest;
-import A1BnB.backend.domain.post.dto.mapper.PostDetailResponseMapper;
+import A1BnB.backend.domain.post.dto.PostDtoMapper;
 import A1BnB.backend.domain.post.dto.PostDto.PostLikeCheckResponse;
 import A1BnB.backend.domain.post.dto.PostDto.PostLikeCountResponse;
 import A1BnB.backend.domain.post.model.Post;
@@ -18,7 +18,6 @@ import A1BnB.backend.domain.post.repository.PostRepository;
 import A1BnB.backend.domain.member.model.Member;
 import A1BnB.backend.domain.post.dto.PostDto.PostUploadRequest;
 import A1BnB.backend.domain.post.dto.PostDto.PostResponse;
-import A1BnB.backend.domain.post.dto.mapper.PostResponseMapper;
 import A1BnB.backend.domain.postBook.service.PostBookService;
 import A1BnB.backend.domain.postLike.service.PostLikeService;
 import A1BnB.backend.domain.post.exception.PostException;
@@ -50,8 +49,7 @@ public class PostServiceImpl implements PostService {
     private final DateService dateService;
     private final PostLikeCountService postLikeCountService;
 
-    private final PostResponseMapper postResponseMapper;
-    private final PostDetailResponseMapper postDetailResponseMapper;
+    private final PostDtoMapper postDtoMapper;
 
     // 게시물 등록
     @Override
@@ -96,7 +94,7 @@ public class PostServiceImpl implements PostService {
     public Page<PostResponse> getAllPosts(Pageable pageable) {
         Page<Post> postPage = postRepository.findAll(pageable);
         // 게시물 응답 DTO 반환
-        return postPage.map(postResponseMapper::toPostResponse);
+        return postPage.map(postDtoMapper::toPostResponse);
     }
 
     // 게시물 검색 DTO Page 반환
@@ -105,7 +103,7 @@ public class PostServiceImpl implements PostService {
     public Page<PostResponse> searchByCondition(PostSearchRequest requestParam, Pageable pageable) {
         List<LocalDateTime> searchDates = getSearchDates(requestParam.checkInDate(), requestParam.checkOutDate());
         Page<Post> postPage = postRepository.search(requestParam, searchDates, pageable);
-        return postPage.map(postResponseMapper::toPostResponse);
+        return postPage.map(postDtoMapper::toPostResponse);
     }
 
      private List<LocalDateTime> getSearchDates(LocalDateTime checkInDate, LocalDateTime checkOutDate){
@@ -122,7 +120,7 @@ public class PostServiceImpl implements PostService {
     public PostDetailResponse getPostDetail(Long postId) {
         Post post = findPostById(postId);
         List<PhotoInfo> photoInfos = photoService.getPhotoInfos(post.getPhotos());
-        return postDetailResponseMapper.toPostDetailResponse(post, photoInfos);
+        return postDtoMapper.toPostDetailResponse(post, photoInfos);
     }
 
     // 게시물 좋아요 여부
@@ -187,7 +185,7 @@ public class PostServiceImpl implements PostService {
                         .findFirst()
                         .orElse(null))
                 .collect(Collectors.toList()));
-        return postPage.map(postResponseMapper::toPostResponse);
+        return postPage.map(postDtoMapper::toPostResponse);
     }
 
     // 좋아요 수 반환

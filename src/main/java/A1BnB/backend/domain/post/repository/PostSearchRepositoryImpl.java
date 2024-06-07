@@ -1,7 +1,7 @@
 package A1BnB.backend.domain.post.repository;
 
-import static A1BnB.backend.domain.member.model.entity.QMember.member;
-import static A1BnB.backend.domain.post.model.entity.QPost.post;
+import static A1BnB.backend.domain.member.model.QMember.member;
+import static A1BnB.backend.domain.post.model.QPost.post;
 
 import A1BnB.backend.domain.post.dto.PostDto.PostSearchRequest;
 import A1BnB.backend.domain.post.model.Post;
@@ -43,6 +43,7 @@ public class PostSearchRepositoryImpl implements PostSearchRepository {
                 .fetch();
         return new PageImpl<>(posts, pageable, posts.size());
     }
+
     // 작성자 이름 일치 여부
     private BooleanExpression memberNameEq(String memberName){
         return memberName == null ? null : member.name.eq(memberName);

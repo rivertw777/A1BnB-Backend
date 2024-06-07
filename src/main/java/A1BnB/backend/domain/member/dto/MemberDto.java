@@ -34,7 +34,7 @@ public class MemberDto {
                                           String thumbnail, String location, String guestName, Integer paymentAmount) {
     }
 
-    // 호스트 게시물 응답
+    // 호스트 등록 게시물 응답
     public record HostPostResponse(Long postId, LocalDateTime createdAt, String hostName, String thumbnail,
                                    String location, Integer pricePerNight, boolean hasReservation) {
     }

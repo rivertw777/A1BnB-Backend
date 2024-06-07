@@ -4,7 +4,7 @@ import static A1BnB.backend.global.security.constants.JwtProperties.HEADER_STRIN
 import static A1BnB.backend.global.security.constants.JwtProperties.TOKEN_PREFIX;
 import static jakarta.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
-import A1BnB.backend.global.security.dto.response.AccessTokenResponse;
+import A1BnB.backend.global.security.dto.AccessTokenResponse;
 import A1BnB.backend.global.security.utils.ResponseWriter;
 import A1BnB.backend.global.security.service.SecurityService;
 import jakarta.servlet.FilterChain;
@@ -23,6 +23,8 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
     private final SecurityService securityService;
     private final ResponseWriter responseWriter;
+
+    private final String TOKEN_REFRESH_REQUEST_URI = "/api/security/refresh";
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
@@ -46,6 +48,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         }
         // access 토큰 만료시
         catch (SecurityException e){
+            // 토큰 재발급 요청 여부 확인
             if (checkRefreshRequest(request, response, token)) {
                 return;
             }
@@ -58,16 +61,16 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         chain.doFilter(request, response);
    }
 
-   // 현재 요청이 토큰 재발급 요청인지
    private boolean checkRefreshRequest(HttpServletRequest request, HttpServletResponse response, String token)
            throws IOException {
        String currentPath = request.getRequestURI();
-       if ("/api/security/refresh".equals(currentPath)) {
+       if (TOKEN_REFRESH_REQUEST_URI.equals(currentPath)) {
            try {
+               // 토큰 재발급
                AccessTokenResponse accessTokenResponse = securityService.refreshAccessToken(token);
                responseWriter.writeAccessTokenResponse(response, accessTokenResponse);
                return true;
-               // refresh 토큰 만료시
+           // refresh 토큰 만료시
            } catch (SecurityException e) {
                responseWriter.writeErrorResponse(response, SC_UNAUTHORIZED, e.getMessage());
                return true;

@@ -19,11 +19,7 @@ import A1BnB.backend.domain.member.dto.MemberDto.FindChatRoomRequest;
 import A1BnB.backend.domain.chat.model.ChatRoom;
 import A1BnB.backend.domain.chat.service.ChatService;
 import A1BnB.backend.domain.member.dto.MemberDtoMapper;
-import A1BnB.backend.domain.member.dto.mapper.MyChatRoomResponseMapper;
 import A1BnB.backend.domain.date.service.DateService;
-import A1BnB.backend.domain.member.dto.mapper.HostPostResponseMapper;
-import A1BnB.backend.domain.member.dto.mapper.HostReservationResponseMapper;
-import A1BnB.backend.domain.member.dto.mapper.MyLikePostResponseMapper;
 import A1BnB.backend.domain.member.model.Member;
 import A1BnB.backend.domain.post.model.Post;
 import A1BnB.backend.domain.postBook.model.PostBookInfo;
@@ -49,7 +45,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
-    private final PasswordEncoder passwordEncoder;
 
     private final PostBookService postBookService;
     private final PostLikeService postLikeService;
@@ -57,10 +52,8 @@ public class MemberServiceImpl implements MemberService {
     private final ChatService chatService;
 
     private final MemberDtoMapper memberDtoMapper;
-    private final HostReservationResponseMapper hostReservationResponseMapper;
-    private final HostPostResponseMapper hostPostResponseMapper;
-    private final MyLikePostResponseMapper myLikePostResponseMapper;
-    private final MyChatRoomResponseMapper myChatRoomResponseMapper;
+
+    private final PasswordEncoder passwordEncoder;
 
     // 회원 가입
     @Override
@@ -112,7 +105,7 @@ public class MemberServiceImpl implements MemberService {
     public List<HostPostResponse> findHostPosts(String username) {
         Member currentMember = findMember(username);
         List<Post> posts = currentMember.getPosts();
-        return hostPostResponseMapper.toPostResponses(posts);
+        return memberDtoMapper.toHostPostResponses(posts);
     }
 
     // 예약 내역 조회 (호스트)
@@ -122,7 +115,7 @@ public class MemberServiceImpl implements MemberService {
         Member currentMember = findMember(username);
         List<Post> posts = currentMember.getPosts();
         List<PostBookInfo> postBookInfos = postBookService.findByPosts(posts);
-        return hostReservationResponseMapper.toReservationResponses(postBookInfos);
+        return memberDtoMapper.toHostReservationResponses(postBookInfos);
     }
 
     // 가장 가까운 체크인 예정 날짜 조회 (게스트)
@@ -141,7 +134,7 @@ public class MemberServiceImpl implements MemberService {
     public List<GuestReservationResponse> findGuestReservations(String username) {
         Member currentMember = findMember(username);
         List<PostBookInfo> postBookInfos = postBookService.findByGuest(currentMember);
-        return memberDtoMapper.toReservationResponses(postBookInfos);
+        return memberDtoMapper.toGuestReservationResponses(postBookInfos);
     }
 
     // 좋아요 게시물 조회 (게스트)
@@ -153,7 +146,7 @@ public class MemberServiceImpl implements MemberService {
         List<Post> posts = postLikeInfos.stream()
                 .map(postLikeInfo -> postLikeInfo.getPost())
                 .collect(Collectors.toList());
-        return myLikePostResponseMapper.toPostResponses(posts);
+        return memberDtoMapper.toLikePostResponses(posts);
     }
 
     // 동일 인물인지 판별
@@ -180,7 +173,7 @@ public class MemberServiceImpl implements MemberService {
     public List<MyChatRoomResponse> findMyChatRooms(String username) {
         Member currentMember = findMember(username);
         List<ChatRoom> chatRooms = chatService.findByParticipants(currentMember);
-        return myChatRoomResponseMapper.toRoomResponses(chatRooms, currentMember);
+        return memberDtoMapper.toRoomResponses(chatRooms, currentMember);
     }
 
     @Override

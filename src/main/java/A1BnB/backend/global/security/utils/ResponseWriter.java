@@ -1,7 +1,7 @@
 package A1BnB.backend.global.security.utils;
 
-import A1BnB.backend.global.security.dto.response.AccessTokenResponse;
-import A1BnB.backend.global.exception.dto.CustomErrorResponse;
+import A1BnB.backend.global.security.dto.AccessTokenResponse;
+import A1BnB.backend.global.dto.CustomErrorResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;

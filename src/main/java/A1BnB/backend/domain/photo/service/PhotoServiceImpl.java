@@ -6,8 +6,7 @@ import A1BnB.backend.domain.photo.dto.PhotoDto.InferenceResultRequest;
 import A1BnB.backend.domain.photo.dto.PhotoDto.PhotoInfo;
 import A1BnB.backend.domain.photo.dto.PhotoDto.PhotoUploadRequest;
 import A1BnB.backend.domain.photo.dto.PhotoDto.InferenceResultResponse;
-import A1BnB.backend.domain.photo.dto.mapper.PhotoInfoMapper;
-import A1BnB.backend.domain.photo.dto.mapper.ResultResponseMapper;
+import A1BnB.backend.domain.photo.dto.PhotoDtoMapper;
 import A1BnB.backend.domain.photo.model.Photo;
 import A1BnB.backend.domain.photo.repository.PhotoRepository;
 import A1BnB.backend.domain.photo.utils.JsonParser;
@@ -31,12 +30,14 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public class PhotoServiceImpl implements PhotoService {
 
+    private final PhotoRepository photoRepository;
+
     private final S3Service s3Service;
     private final AmenityService amenityService;
     private final RoomService roomService;
-    private final PhotoRepository photoRepository;
-    private final ResultResponseMapper resultResponseMapper;
-    private final PhotoInfoMapper photoInfoMapper;
+
+    private final PhotoDtoMapper photoDtoMapper;
+
     private final JsonParser jsonParser;
 
     @Value("${photo.detected.url}")
@@ -100,7 +101,7 @@ public class PhotoServiceImpl implements PhotoService {
     @Transactional(readOnly = true)
     public List<InferenceResultResponse> getInferenceResults(InferenceResultRequest requestParam) {
         List<Photo> photos = findPhotos(requestParam.photoIdList());
-        return resultResponseMapper.toResultResponses(photos);
+        return photoDtoMapper.toResultResponses(photos);
     }
 
     // Photo 리스트 반환
@@ -112,7 +113,7 @@ public class PhotoServiceImpl implements PhotoService {
     // 사진 정보 DTO 리스트 반환
     @Override
     public List<PhotoInfo> getPhotoInfos(List<Photo> photos) {
-        return photoInfoMapper.toPhotoInfoList(photos);
+        return photoDtoMapper.toPhotoInfoList(photos);
     }
 
 }
