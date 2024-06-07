@@ -1,7 +1,7 @@
 package A1BnB.backend.domain.post.repository;
 
 import A1BnB.backend.domain.post.dto.PostDto.PostSearchRequest;
-import A1BnB.backend.domain.post.model.entity.Post;
+import A1BnB.backend.domain.post.model.Post;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.data.domain.Page;

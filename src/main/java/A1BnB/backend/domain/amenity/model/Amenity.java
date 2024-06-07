@@ -1,6 +1,6 @@
-package A1BnB.backend.domain.amenity.model.entity;
+package A1BnB.backend.domain.amenity.model;
 
-import A1BnB.backend.domain.photo.model.entity.Photo;
+import A1BnB.backend.domain.photo.model.Photo;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;

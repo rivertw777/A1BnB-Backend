@@ -1,6 +1,6 @@
 package A1BnB.backend.domain.photo.service;
 
-import A1BnB.backend.domain.amenity.model.entity.Amenity;
+import A1BnB.backend.domain.amenity.model.Amenity;
 import A1BnB.backend.domain.amenity.service.AmenityService;
 import A1BnB.backend.domain.photo.dto.PhotoDto.InferenceResultRequest;
 import A1BnB.backend.domain.photo.dto.PhotoDto.PhotoInfo;
@@ -8,10 +8,10 @@ import A1BnB.backend.domain.photo.dto.PhotoDto.PhotoUploadRequest;
 import A1BnB.backend.domain.photo.dto.PhotoDto.InferenceResultResponse;
 import A1BnB.backend.domain.photo.dto.mapper.PhotoInfoMapper;
 import A1BnB.backend.domain.photo.dto.mapper.ResultResponseMapper;
-import A1BnB.backend.domain.photo.model.entity.Photo;
+import A1BnB.backend.domain.photo.model.Photo;
 import A1BnB.backend.domain.photo.repository.PhotoRepository;
 import A1BnB.backend.domain.photo.utils.JsonParser;
-import A1BnB.backend.domain.room.model.entity.Room;
+import A1BnB.backend.domain.room.model.Room;
 import A1BnB.backend.domain.room.service.RoomService;
 import A1BnB.backend.global.s3.service.S3Service;
 import com.fasterxml.jackson.core.JsonProcessingException;

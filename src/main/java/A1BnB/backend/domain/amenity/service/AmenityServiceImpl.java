@@ -1,6 +1,6 @@
 package A1BnB.backend.domain.amenity.service;
 
-import A1BnB.backend.domain.amenity.model.entity.Amenity;
+import A1BnB.backend.domain.amenity.model.Amenity;
 import A1BnB.backend.domain.amenity.repository.AmenityRepository;
 
 import java.util.List;

@@ -1,8 +1,8 @@
-package A1BnB.backend.domain.photo.model.entity;
+package A1BnB.backend.domain.photo.model;
 
-import A1BnB.backend.domain.amenity.model.entity.Amenity;
-import A1BnB.backend.domain.post.model.entity.Post;
-import A1BnB.backend.domain.room.model.entity.Room;
+import A1BnB.backend.domain.amenity.model.Amenity;
+import A1BnB.backend.domain.post.model.Post;
+import A1BnB.backend.domain.room.model.Room;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

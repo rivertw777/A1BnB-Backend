@@ -1,7 +1,7 @@
 package A1BnB.backend.domain.member.dto.mapper;
 
 import A1BnB.backend.domain.member.dto.MemberDto.MyLikePostResponse;
-import A1BnB.backend.domain.post.model.entity.Post;
+import A1BnB.backend.domain.post.model.Post;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;

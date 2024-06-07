@@ -2,11 +2,11 @@ package A1BnB.backend.domain.postBook.service;
 
 import static A1BnB.backend.domain.post.exception.PostExceptionMessages.POST_BOOK_INFO_NOT_FOUND;
 
-import A1BnB.backend.domain.date.model.entity.Date;
+import A1BnB.backend.domain.date.model.Date;
 import A1BnB.backend.domain.date.service.DateService;
-import A1BnB.backend.domain.member.model.entity.Member;
+import A1BnB.backend.domain.member.model.Member;
 import A1BnB.backend.domain.post.dto.PostDto.PostBookRequest;
-import A1BnB.backend.domain.post.model.entity.Post;
+import A1BnB.backend.domain.post.model.Post;
 import A1BnB.backend.domain.postBook.model.PostBookInfo;
 import A1BnB.backend.domain.postBook.repository.PostBookRepostiory;
 import A1BnB.backend.domain.post.exception.PostException;

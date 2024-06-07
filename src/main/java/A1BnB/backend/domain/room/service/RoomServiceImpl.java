@@ -1,7 +1,7 @@
 package A1BnB.backend.domain.room.service;
 
-import A1BnB.backend.domain.room.model.entity.Room;
-import A1BnB.backend.domain.room.model.repostiory.RoomRepository;
+import A1BnB.backend.domain.room.model.Room;
+import A1BnB.backend.domain.room.repostiory.RoomRepository;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -3,7 +3,7 @@ package A1BnB.backend.global.security.service;
 import static A1BnB.backend.domain.member.exception.MemberExceptionMessages.MEMBER_NAME_NOT_FOUND;
 import static A1BnB.backend.global.security.exception.SecurityExceptionMessages.EXPIRED_REFRESH_TOKEN;
 
-import A1BnB.backend.domain.member.model.entity.Member;
+import A1BnB.backend.domain.member.model.Member;
 import A1BnB.backend.global.security.dto.TokenData;
 import A1BnB.backend.global.security.dto.response.AccessTokenResponse;
 import A1BnB.backend.global.security.model.CustomUserDetails;

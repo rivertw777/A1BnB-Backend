@@ -5,7 +5,7 @@ import A1BnB.backend.domain.chat.model.ChatMessage;
 import A1BnB.backend.domain.chat.model.ChatRoom;
 import A1BnB.backend.domain.chat.repository.ChatMessageRepository;
 import A1BnB.backend.domain.chat.repository.ChatRoomRepository;
-import A1BnB.backend.domain.member.model.entity.Member;
+import A1BnB.backend.domain.member.model.Member;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

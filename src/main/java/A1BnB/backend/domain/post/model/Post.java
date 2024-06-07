@@ -1,10 +1,10 @@
-package A1BnB.backend.domain.post.model.entity;
+package A1BnB.backend.domain.post.model;
 
-import A1BnB.backend.domain.member.model.entity.Member;
-import A1BnB.backend.domain.photo.model.entity.Photo;
+import A1BnB.backend.domain.member.model.Member;
+import A1BnB.backend.domain.photo.model.Photo;
 import A1BnB.backend.domain.postBook.model.PostBookInfo;
-import A1BnB.backend.domain.postLike.model.entity.PostLikeInfo;
-import A1BnB.backend.global.model.entity.BaseTimeEntity;
+import A1BnB.backend.domain.postLike.model.PostLikeInfo;
+import A1BnB.backend.global.model.BaseTimeEntity;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

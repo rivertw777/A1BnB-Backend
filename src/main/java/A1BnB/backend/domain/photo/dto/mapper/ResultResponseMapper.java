@@ -1,8 +1,8 @@
 package A1BnB.backend.domain.photo.dto.mapper;
 
-import A1BnB.backend.domain.amenity.model.entity.Amenity;
+import A1BnB.backend.domain.amenity.model.Amenity;
 import A1BnB.backend.domain.photo.dto.PhotoDto.InferenceResultResponse;
-import A1BnB.backend.domain.photo.model.entity.Photo;
+import A1BnB.backend.domain.photo.model.Photo;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;

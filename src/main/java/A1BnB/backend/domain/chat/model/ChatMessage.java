@@ -1,6 +1,6 @@
 package A1BnB.backend.domain.chat.model;
 
-import A1BnB.backend.global.model.entity.BaseTimeEntity;
+import A1BnB.backend.global.model.BaseTimeEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;

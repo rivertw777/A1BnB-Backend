@@ -1,6 +1,6 @@
 package A1BnB.backend.domain.post.repository;
 
-import A1BnB.backend.domain.post.model.entity.Post;
+import A1BnB.backend.domain.post.model.Post;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;

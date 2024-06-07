@@ -1,10 +1,9 @@
-package A1BnB.backend.domain.member.model.entity;
+package A1BnB.backend.domain.member.model;
 
 import A1BnB.backend.domain.chat.model.ChatRoom;
-import A1BnB.backend.domain.member.model.Role;
-import A1BnB.backend.domain.post.model.entity.Post;
+import A1BnB.backend.domain.post.model.Post;
 import A1BnB.backend.domain.postBook.model.PostBookInfo;
-import A1BnB.backend.domain.postLike.model.entity.PostLikeInfo;
+import A1BnB.backend.domain.postLike.model.PostLikeInfo;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;

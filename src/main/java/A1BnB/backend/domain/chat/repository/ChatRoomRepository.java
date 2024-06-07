@@ -1,7 +1,7 @@
 package A1BnB.backend.domain.chat.repository;
 
 import A1BnB.backend.domain.chat.model.ChatRoom;
-import A1BnB.backend.domain.member.model.entity.Member;
+import A1BnB.backend.domain.member.model.Member;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;

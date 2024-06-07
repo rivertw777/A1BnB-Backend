@@ -1,7 +1,7 @@
 package A1BnB.backend.global.security.model;
 
 import A1BnB.backend.domain.member.model.Role;
-import A1BnB.backend.domain.member.model.entity.Member;
+import A1BnB.backend.domain.member.model.Member;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;

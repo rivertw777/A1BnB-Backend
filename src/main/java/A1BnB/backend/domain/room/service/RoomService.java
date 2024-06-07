@@ -1,6 +1,6 @@
 package A1BnB.backend.domain.room.service;
 
-import A1BnB.backend.domain.room.model.entity.Room;
+import A1BnB.backend.domain.room.model.Room;
 import java.util.Map;
 
 public interface RoomService {

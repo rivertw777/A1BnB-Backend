@@ -1,6 +1,6 @@
 package A1BnB.backend.domain.date.service;
 
-import A1BnB.backend.domain.date.model.entity.Date;
+import A1BnB.backend.domain.date.model.Date;
 import A1BnB.backend.domain.date.repository.DateRepository;
 import A1BnB.backend.domain.postBook.model.PostBookInfo;
 import java.time.LocalDate;

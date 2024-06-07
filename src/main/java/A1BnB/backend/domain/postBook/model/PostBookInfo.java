@@ -1,8 +1,8 @@
 package A1BnB.backend.domain.postBook.model;
 
-import A1BnB.backend.domain.date.model.entity.Date;
-import A1BnB.backend.domain.member.model.entity.Member;
-import A1BnB.backend.domain.post.model.entity.Post;
+import A1BnB.backend.domain.date.model.Date;
+import A1BnB.backend.domain.member.model.Member;
+import A1BnB.backend.domain.post.model.Post;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

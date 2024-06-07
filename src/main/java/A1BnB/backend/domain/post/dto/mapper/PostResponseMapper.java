@@ -1,8 +1,8 @@
 package A1BnB.backend.domain.post.dto.mapper;
 
 import A1BnB.backend.domain.post.dto.PostDto.PostResponse;
-import A1BnB.backend.domain.post.model.entity.Post;
-import A1BnB.backend.domain.photo.model.entity.Photo;
+import A1BnB.backend.domain.post.model.Post;
+import A1BnB.backend.domain.photo.model.Photo;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;

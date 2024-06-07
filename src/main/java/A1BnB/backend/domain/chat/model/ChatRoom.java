@@ -1,9 +1,7 @@
 package A1BnB.backend.domain.chat.model;
 
-import A1BnB.backend.domain.amenity.model.entity.Amenity;
-import A1BnB.backend.domain.member.model.entity.Member;
+import A1BnB.backend.domain.member.model.Member;
 import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
