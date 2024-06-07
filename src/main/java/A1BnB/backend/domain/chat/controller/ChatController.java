@@ -1,6 +1,6 @@
 package A1BnB.backend.domain.chat.controller;
 
-import A1BnB.backend.domain.chat.dto.request.ChatRequest;
+import A1BnB.backend.domain.chat.dto.ChatRequest;
 import A1BnB.backend.domain.chat.service.ChatService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;

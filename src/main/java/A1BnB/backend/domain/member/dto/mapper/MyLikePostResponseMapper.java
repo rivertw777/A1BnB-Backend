@@ -1,6 +1,6 @@
 package A1BnB.backend.domain.member.dto.mapper;
 
-import A1BnB.backend.domain.member.dto.response.MyLikePostResponse;
+import A1BnB.backend.domain.member.dto.MemberDto.MyLikePostResponse;
 import A1BnB.backend.domain.post.model.entity.Post;
 import java.util.List;
 import java.util.stream.Collectors;

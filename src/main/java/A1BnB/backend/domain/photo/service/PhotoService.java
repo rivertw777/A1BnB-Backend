@@ -1,9 +1,9 @@
 package A1BnB.backend.domain.photo.service;
 
-import A1BnB.backend.domain.photo.dto.request.InferenceResultRequest;
-import A1BnB.backend.domain.photo.dto.PhotoInfo;
-import A1BnB.backend.domain.photo.dto.request.PhotoUploadRequest;
-import A1BnB.backend.domain.photo.dto.response.InferenceResultResponse;
+import A1BnB.backend.domain.photo.dto.PhotoDto.InferenceResultRequest;
+import A1BnB.backend.domain.photo.dto.PhotoDto.PhotoInfo;
+import A1BnB.backend.domain.photo.dto.PhotoDto.PhotoUploadRequest;
+import A1BnB.backend.domain.photo.dto.PhotoDto.InferenceResultResponse;
 import A1BnB.backend.domain.photo.model.entity.Photo;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import java.io.IOException;

@@ -1,9 +1,9 @@
 package A1BnB.backend.domain.member.dto.mapper;
 
-import A1BnB.backend.domain.member.dto.response.MyChatRoomResponse;
 import A1BnB.backend.domain.chat.model.ChatMessage;
 import A1BnB.backend.domain.chat.model.ChatRoom;
 import A1BnB.backend.domain.chat.repository.ChatMessageRepository;
+import A1BnB.backend.domain.member.dto.MemberDto.MyChatRoomResponse;
 import A1BnB.backend.domain.member.model.entity.Member;
 import java.time.LocalDateTime;
 import java.util.List;

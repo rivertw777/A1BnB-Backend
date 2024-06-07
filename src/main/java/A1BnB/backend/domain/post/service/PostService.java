@@ -1,12 +1,12 @@
 package A1BnB.backend.domain.post.service;
 
-import A1BnB.backend.domain.post.dto.request.PostBookRequest;
-import A1BnB.backend.domain.post.dto.response.PostDetailResponse;
-import A1BnB.backend.domain.post.dto.request.PostSearchRequest;
-import A1BnB.backend.domain.post.dto.request.PostUploadRequest;
-import A1BnB.backend.domain.post.dto.response.PostLikeCheckResponse;
-import A1BnB.backend.domain.post.dto.response.PostLikeCountResponse;
-import A1BnB.backend.domain.post.dto.response.PostResponse;
+import A1BnB.backend.domain.post.dto.PostDto.PostBookRequest;
+import A1BnB.backend.domain.post.dto.PostDto.PostDetailResponse;
+import A1BnB.backend.domain.post.dto.PostDto.PostSearchRequest;
+import A1BnB.backend.domain.post.dto.PostDto.PostUploadRequest;
+import A1BnB.backend.domain.post.dto.PostDto.PostLikeCheckResponse;
+import A1BnB.backend.domain.post.dto.PostDto.PostLikeCountResponse;
+import A1BnB.backend.domain.post.dto.PostDto.PostResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;

@@ -1,7 +1,7 @@
 package A1BnB.backend.domain.postBook.service;
 
 import A1BnB.backend.domain.member.model.entity.Member;
-import A1BnB.backend.domain.post.dto.request.PostBookRequest;
+import A1BnB.backend.domain.post.dto.PostDto.PostBookRequest;
 import A1BnB.backend.domain.post.model.entity.Post;
 import A1BnB.backend.domain.postBook.model.PostBookInfo;
 import java.util.List;

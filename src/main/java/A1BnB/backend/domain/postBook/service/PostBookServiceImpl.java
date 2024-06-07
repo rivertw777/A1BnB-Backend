@@ -5,7 +5,7 @@ import static A1BnB.backend.domain.post.exception.PostExceptionMessages.POST_BOO
 import A1BnB.backend.domain.date.model.entity.Date;
 import A1BnB.backend.domain.date.service.DateService;
 import A1BnB.backend.domain.member.model.entity.Member;
-import A1BnB.backend.domain.post.dto.request.PostBookRequest;
+import A1BnB.backend.domain.post.dto.PostDto.PostBookRequest;
 import A1BnB.backend.domain.post.model.entity.Post;
 import A1BnB.backend.domain.postBook.model.PostBookInfo;
 import A1BnB.backend.domain.postBook.repository.PostBookRepostiory;

@@ -1,12 +1,12 @@
 package A1BnB.backend.domain.post.controller;
 
-import A1BnB.backend.domain.post.dto.request.PostBookRequest;
-import A1BnB.backend.domain.post.dto.response.PostDetailResponse;
-import A1BnB.backend.domain.post.dto.request.PostSearchRequest;
-import A1BnB.backend.domain.post.dto.request.PostUploadRequest;
-import A1BnB.backend.domain.post.dto.response.PostLikeCheckResponse;
-import A1BnB.backend.domain.post.dto.response.PostLikeCountResponse;
-import A1BnB.backend.domain.post.dto.response.PostResponse;
+import A1BnB.backend.domain.post.dto.PostDto.PostBookRequest;
+import A1BnB.backend.domain.post.dto.PostDto.PostDetailResponse;
+import A1BnB.backend.domain.post.dto.PostDto.PostSearchRequest;
+import A1BnB.backend.domain.post.dto.PostDto.PostUploadRequest;
+import A1BnB.backend.domain.post.dto.PostDto.PostLikeCheckResponse;
+import A1BnB.backend.domain.post.dto.PostDto.PostLikeCountResponse;
+import A1BnB.backend.domain.post.dto.PostDto.PostResponse;
 import A1BnB.backend.domain.post.service.PostService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

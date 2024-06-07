@@ -3,29 +3,28 @@ package A1BnB.backend.domain.member.service;
 import static A1BnB.backend.domain.member.exception.MemberExceptionMessages.DUPLICATE_NAME;
 import static A1BnB.backend.domain.member.exception.MemberExceptionMessages.MEMBER_NAME_NOT_FOUND;
 
-import A1BnB.backend.domain.member.dto.ChatMessageInfo;
-import A1BnB.backend.domain.member.dto.mapper.ChatMessageInfoMapper;
-import A1BnB.backend.domain.member.dto.request.FindChatRoomRequest;
-import A1BnB.backend.domain.member.dto.response.ChatRoomResponse;
+import A1BnB.backend.domain.member.dto.MemberDto.ChatMessageInfo;
+import A1BnB.backend.domain.member.dto.MemberDto.ChatRoomResponse;
+import A1BnB.backend.domain.member.dto.MemberDto.CheckSameMemberResponse;
+import A1BnB.backend.domain.member.dto.MemberDto.CkeckSameMemberRequest;
+import A1BnB.backend.domain.member.dto.MemberDto.GuestReservationResponse;
+import A1BnB.backend.domain.member.dto.MemberDto.HostPostResponse;
+import A1BnB.backend.domain.member.dto.MemberDto.HostReservationResponse;
+import A1BnB.backend.domain.member.dto.MemberDto.MemberSignupRequest;
+import A1BnB.backend.domain.member.dto.MemberDto.MyChatRoomResponse;
+import A1BnB.backend.domain.member.dto.MemberDto.MyLikePostResponse;
+import A1BnB.backend.domain.member.dto.MemberDto.NearestCheckInDateResponse;
+import A1BnB.backend.domain.member.dto.MemberDto.SettleAmountResponse;
+import A1BnB.backend.domain.member.dto.MemberDto.FindChatRoomRequest;
 import A1BnB.backend.domain.chat.model.ChatRoom;
 import A1BnB.backend.domain.chat.service.ChatService;
+import A1BnB.backend.domain.member.dto.MemberDtoMapper;
 import A1BnB.backend.domain.member.dto.mapper.MyChatRoomResponseMapper;
-import A1BnB.backend.domain.member.dto.response.MyChatRoomResponse;
 import A1BnB.backend.domain.date.service.DateService;
-import A1BnB.backend.domain.member.dto.mapper.GuestReservationResponseMapper;
 import A1BnB.backend.domain.member.dto.mapper.HostPostResponseMapper;
 import A1BnB.backend.domain.member.dto.mapper.HostReservationResponseMapper;
 import A1BnB.backend.domain.member.dto.mapper.MyLikePostResponseMapper;
-import A1BnB.backend.domain.member.dto.request.CkeckSameMemberRequest;
-import A1BnB.backend.domain.member.dto.response.CheckSameMemberResponse;
-import A1BnB.backend.domain.member.dto.response.HostPostResponse;
-import A1BnB.backend.domain.member.dto.response.HostReservationResponse;
-import A1BnB.backend.domain.member.dto.response.MyLikePostResponse;
-import A1BnB.backend.domain.member.dto.response.NearestCheckInDateResponse;
-import A1BnB.backend.domain.member.dto.response.GuestReservationResponse;
-import A1BnB.backend.domain.member.dto.response.SettleAmountResponse;
 import A1BnB.backend.domain.member.model.entity.Member;
-import A1BnB.backend.domain.member.dto.request.MemberSignupRequest;
 import A1BnB.backend.domain.post.model.entity.Post;
 import A1BnB.backend.domain.postBook.model.PostBookInfo;
 import A1BnB.backend.domain.postBook.service.PostBookService;
@@ -57,12 +56,11 @@ public class MemberServiceImpl implements MemberService {
     private final DateService dateService;
     private final ChatService chatService;
 
-    private final GuestReservationResponseMapper guestReservationResponseMapper;
+    private final MemberDtoMapper memberDtoMapper;
     private final HostReservationResponseMapper hostReservationResponseMapper;
     private final HostPostResponseMapper hostPostResponseMapper;
     private final MyLikePostResponseMapper myLikePostResponseMapper;
     private final MyChatRoomResponseMapper myChatRoomResponseMapper;
-    private final ChatMessageInfoMapper chatMessageInfoMapper;
 
     // 회원 가입
     @Override
@@ -143,7 +141,7 @@ public class MemberServiceImpl implements MemberService {
     public List<GuestReservationResponse> findGuestReservations(String username) {
         Member currentMember = findMember(username);
         List<PostBookInfo> postBookInfos = postBookService.findByGuest(currentMember);
-        return guestReservationResponseMapper.toReservationResponses(postBookInfos);
+        return memberDtoMapper.toReservationResponses(postBookInfos);
     }
 
     // 좋아요 게시물 조회 (게스트)
@@ -172,7 +170,7 @@ public class MemberServiceImpl implements MemberService {
         Member receiver = findMember(requestParam.receiverName());
         Member sender = findMember(username);
         ChatRoom chatRoom = chatService.findChatRoomByParticipants(receiver, sender);
-        List<ChatMessageInfo> chatMessageInfoList = chatMessageInfoMapper.toMessageInfoList(chatRoom.getChatMessages());
+        List<ChatMessageInfo> chatMessageInfoList = memberDtoMapper.toMessageInfoList(chatRoom.getChatMessages());
         return new ChatRoomResponse(chatRoom.getId(), chatMessageInfoList);
     }
 

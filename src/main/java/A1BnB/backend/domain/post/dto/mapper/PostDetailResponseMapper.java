@@ -1,8 +1,8 @@
 package A1BnB.backend.domain.post.dto.mapper;
 
 import A1BnB.backend.domain.date.model.entity.Date;
-import A1BnB.backend.domain.photo.dto.PhotoInfo;
-import A1BnB.backend.domain.post.dto.response.PostDetailResponse;
+import A1BnB.backend.domain.photo.dto.PhotoDto.PhotoInfo;
+import A1BnB.backend.domain.post.dto.PostDto.PostDetailResponse;
 import A1BnB.backend.domain.post.model.entity.Post;
 import java.time.LocalDateTime;
 import java.util.List;

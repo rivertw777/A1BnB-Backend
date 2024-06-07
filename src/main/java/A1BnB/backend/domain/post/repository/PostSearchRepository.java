@@ -1,6 +1,6 @@
 package A1BnB.backend.domain.post.repository;
 
-import A1BnB.backend.domain.post.dto.request.PostSearchRequest;
+import A1BnB.backend.domain.post.dto.PostDto.PostSearchRequest;
 import A1BnB.backend.domain.post.model.entity.Post;
 import java.time.LocalDateTime;
 import java.util.List;

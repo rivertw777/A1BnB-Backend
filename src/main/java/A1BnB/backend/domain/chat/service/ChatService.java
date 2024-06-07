@@ -1,6 +1,6 @@
 package A1BnB.backend.domain.chat.service;
 
-import A1BnB.backend.domain.chat.dto.request.ChatRequest;
+import A1BnB.backend.domain.chat.dto.ChatRequest;
 import A1BnB.backend.domain.chat.model.ChatMessage;
 import A1BnB.backend.domain.chat.model.ChatRoom;
 import A1BnB.backend.domain.chat.repository.ChatMessageRepository;

@@ -1,17 +1,16 @@
 package A1BnB.backend.domain.member.controller;
 
-import A1BnB.backend.domain.member.dto.request.FindChatRoomRequest;
-import A1BnB.backend.domain.member.dto.response.ChatRoomResponse;
-import A1BnB.backend.domain.member.dto.response.MyChatRoomResponse;
-import A1BnB.backend.domain.member.dto.request.CkeckSameMemberRequest;
-import A1BnB.backend.domain.member.dto.request.MemberSignupRequest;
-import A1BnB.backend.domain.member.dto.response.CheckSameMemberResponse;
-import A1BnB.backend.domain.member.dto.response.HostPostResponse;
-import A1BnB.backend.domain.member.dto.response.HostReservationResponse;
-import A1BnB.backend.domain.member.dto.response.MyLikePostResponse;
-import A1BnB.backend.domain.member.dto.response.NearestCheckInDateResponse;
-import A1BnB.backend.domain.member.dto.response.GuestReservationResponse;
-import A1BnB.backend.domain.member.dto.response.SettleAmountResponse;
+import A1BnB.backend.domain.member.dto.MemberDto;
+import A1BnB.backend.domain.member.dto.MemberDto.ChatRoomResponse;
+import A1BnB.backend.domain.member.dto.MemberDto.GuestReservationResponse;
+import A1BnB.backend.domain.member.dto.MemberDto.HostPostResponse;
+import A1BnB.backend.domain.member.dto.MemberDto.HostReservationResponse;
+import A1BnB.backend.domain.member.dto.MemberDto.MemberSignupRequest;
+import A1BnB.backend.domain.member.dto.MemberDto.MyChatRoomResponse;
+import A1BnB.backend.domain.member.dto.MemberDto.MyLikePostResponse;
+import A1BnB.backend.domain.member.dto.MemberDto.NearestCheckInDateResponse;
+import A1BnB.backend.domain.member.dto.MemberDto.SettleAmountResponse;
+import A1BnB.backend.domain.member.dto.MemberDto.FindChatRoomRequest;
 import A1BnB.backend.domain.member.service.MemberService;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -77,8 +76,8 @@ public class MemberController {
 
     // 동일 인물인지 판별
     @PostMapping("same")
-    public CheckSameMemberResponse ckeckSameMember(@AuthenticationPrincipal(expression = "username") String username,
-                                                   @Valid @RequestBody CkeckSameMemberRequest requestParam) {
+    public MemberDto.CheckSameMemberResponse ckeckSameMember(@AuthenticationPrincipal(expression = "username") String username,
+                                                             @Valid @RequestBody MemberDto.CkeckSameMemberRequest requestParam) {
         return memberService.checkSameMember(username, requestParam);
     }
 

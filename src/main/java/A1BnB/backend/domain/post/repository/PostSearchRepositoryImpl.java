@@ -3,7 +3,7 @@ package A1BnB.backend.domain.post.repository;
 import static A1BnB.backend.domain.member.model.entity.QMember.member;
 import static A1BnB.backend.domain.post.model.entity.QPost.post;
 
-import A1BnB.backend.domain.post.dto.request.PostSearchRequest;
+import A1BnB.backend.domain.post.dto.PostDto.PostSearchRequest;
 import A1BnB.backend.domain.post.model.entity.Post;
 import A1BnB.backend.domain.postBook.model.QPostBookInfo;
 import com.querydsl.core.types.dsl.BooleanExpression;
