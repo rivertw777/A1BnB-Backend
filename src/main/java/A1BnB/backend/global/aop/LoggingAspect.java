@@ -17,7 +17,7 @@ public class LoggingAspect {
     private static final Logger logger = LoggerFactory.getLogger(LoggingAspect.class);
 
     // 예외 발생 시 로깅
-    @AfterThrowing(pointcut = "execution(* A1BnB.backend.*.*.service.*.*(..))", throwing = "ex")
+    @AfterThrowing(pointcut = "execution(* A1BnB.backend.domain.*.service.*.*(..))", throwing = "ex")
     public void logAfterThrowing(JoinPoint joinPoint, Throwable ex) {
         String methodName = joinPoint.getSignature().getName();
         String className = joinPoint.getSignature().getDeclaringTypeName();
@@ -26,7 +26,7 @@ public class LoggingAspect {
     }
 
     // 메서드 실행 이전 로깅
-    @Before("execution(* A1BnB.backend.*.*.service.*.*(..))")
+    @Before("execution(* A1BnB.backend.domain.*.service.*.*(..))")
     public void logBefore(JoinPoint joinPoint) {
         String methodName = joinPoint.getSignature().getName();
         String className = joinPoint.getSignature().getDeclaringTypeName();
@@ -35,7 +35,7 @@ public class LoggingAspect {
     }
 
     // 메서드 실행 이후 로깅
-    @Around("execution(* A1BnB.backend.*.*.service.*.*(..)) || "
+    @Around("execution(* A1BnB.backend.domain.*.service.*.*(..)) || "
             + "execution(* A1BnB.backend.domain.photo.controller.PhotoController.inferPhotos(..))")
     public Object logAfter(ProceedingJoinPoint joinPoint) throws Throwable {
         String methodName = joinPoint.getSignature().getName();
