@@ -67,7 +67,7 @@
 ## 🛠️&nbsp;&nbsp;&nbsp;Project Architecture&nbsp;&nbsp;&nbsp;
 <br>
 <div align="center">
-<img src="https://a1bnb-project.s3.ap-northeast-2.amazonaws.com/archi.png" width="83.7%"/></a>
+<img src="https://a1bnb-project.s3.ap-northeast-2.amazonaws.com/%ED%94%8C%EC%A0%9D+%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98.png" width="83.7%"/></a>
 </div>
 <br>
 <br>
