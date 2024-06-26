@@ -72,6 +72,14 @@
 <br>
 <br>
 
+## 🛠️&nbsp;&nbsp;&nbsp;Deep Learning Inference Process&nbsp;&nbsp;&nbsp;
+<br>
+<div align="center">
+<img src="https://a1bnb-project.s3.ap-northeast-2.amazonaws.com/%EB%94%A5%EB%9F%AC%EB%8B%9D.png" width="60%"/></a>
+</div>
+<br>
+<br>
+
 ## 🛠️&nbsp;&nbsp;&nbsp;ERD&nbsp;&nbsp;&nbsp;
 <br>
 <div align="center">
