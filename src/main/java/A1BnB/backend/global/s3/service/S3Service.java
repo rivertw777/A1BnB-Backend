@@ -10,8 +10,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class S3Service {
 
     private final AmazonS3 amazonS3;

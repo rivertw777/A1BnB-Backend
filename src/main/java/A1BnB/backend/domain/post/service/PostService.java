@@ -9,9 +9,7 @@ import A1BnB.backend.domain.post.dto.PostDto.PostLikeCountResponse;
 import A1BnB.backend.domain.post.dto.PostDto.PostResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
 
-@Service
 public interface PostService {
     void registerPost(String username, PostUploadRequest requestParam);
     void deletePost(Long postId);

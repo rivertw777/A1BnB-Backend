@@ -14,9 +14,7 @@ import A1BnB.backend.domain.member.dto.MemberDto.SettleAmountResponse;
 import A1BnB.backend.domain.member.dto.MemberDto.FindChatRoomRequest;
 import A1BnB.backend.domain.member.model.Member;
 import java.util.List;
-import org.springframework.stereotype.Service;
 
-@Service
 public interface MemberService {
     void registerUser(MemberSignupRequest requestParam);
 
