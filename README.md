@@ -22,19 +22,6 @@
     <td rowspan="1" align="center"><b>배포 링크</td>
     <td>https://a1bnb.site</td>
   </tr>
-
-  <tr>
-    <td rowspan="1" align="center"><b>Frontend Repo</td>
-    <td>https://github.com/rivertw777/A1BnB-Frontend</td>
-  </tr>
-	    
-  <tr>
-    <td rowspan="2" align="center"><b>Deep Learning API Repo</td>
-    <td>https://github.com/rivertw777/A1BnB-Classification</td>
-  </tr>
-  <tr>
-      <td>https://github.com/rivertw777/A1BnB-Detection</td>
-  </tr>
 	    
   <tr>
     <td rowspan="1" align="center"><b>구현 기능</td>
@@ -57,6 +44,19 @@
     <td>
       <a href="https://velog.io/@nickygod/series/Spring-Security-JWT-%EB%A1%9C%EA%B7%B8%EC%9D%B8-%EA%B5%AC%ED%98%84%ED%95%98%EA%B8%B0-with-Redis">Spring Security + JWT</a>
     </td>
+  </tr>
+
+  <tr>
+    <td rowspan="1" align="center"><b>Frontend Repo</td>
+    <td>https://github.com/rivertw777/A1BnB-Frontend</td>
+  </tr>
+	    
+  <tr>
+    <td rowspan="2" align="center"><b>Lambda Repo</td>
+    <td>https://github.com/rivertw777/A1BnB-Classification</td>
+  </tr>
+  <tr>
+      <td>https://github.com/rivertw777/A1BnB-Detection</td>
   </tr>
   
 </table>
