@@ -22,9 +22,12 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.retry.annotation.Backoff;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.reactive.function.client.WebClient;
 
 @RequiredArgsConstructor
 @Service
@@ -40,8 +43,21 @@ public class PhotoServiceImpl implements PhotoService {
 
     private final JsonParser jsonParser;
 
+    private final WebClient webClient;
+
+    @Value("${aws.lambda.url}")
+    private String lambdaUrl;
+
     @Value("${photo.detected.url}")
     private String detecetedUrl;
+
+    // 사진 추론
+    @Override
+    public List<Long> inferPhotos(PhotoUploadRequest requestParam) throws IOException {
+        List<String> photoUrls = uploadPhotos(requestParam);
+        String inferenceResult = postLambda(photoUrls);
+        return savePhotos(inferenceResult);
+    }
 
     // 사진 s3 업로드
     @Override
@@ -55,6 +71,17 @@ public class PhotoServiceImpl implements PhotoService {
         return photos.stream()
                 .map(photo -> UUID.randomUUID() + "_" + photo.getOriginalFilename())
                 .collect(Collectors.toList());
+    }
+
+    // Lambda POST 요청
+    @Retryable(value = {Exception.class}, maxAttempts = 3, backoff = @Backoff(delay = 1000))
+    private String postLambda(List<String> photoUrls){
+        return webClient.post()
+                .uri(lambdaUrl)
+                .bodyValue(photoUrls)
+                .retrieve()
+                .bodyToMono(String.class)
+                .block();
     }
 
     // 사진 저장, PhotoId 리스트 반환

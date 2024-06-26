@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.List;
 
 public interface PhotoService {
+    List<Long> inferPhotos(PhotoUploadRequest requestParam) throws IOException;
     List<String> uploadPhotos(PhotoUploadRequest requestParam) throws IOException;
     List<Long> savePhotos(String inferenceResult) throws JsonProcessingException;
     List<InferenceResultResponse> getInferenceResults(InferenceResultRequest requestParam);
