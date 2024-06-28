@@ -35,8 +35,7 @@ public class LoggingAspect {
     }
 
     // 메서드 실행 이후 로깅
-    @Around("execution(* A1BnB.backend.domain.*.service.*.*(..)) || "
-            + "execution(* A1BnB.backend.domain.photo.controller.PhotoController.inferPhotos(..))")
+    @Around("execution(* A1BnB.backend.domain.*.service.*.*(..))")
     public Object logAfter(ProceedingJoinPoint joinPoint) throws Throwable {
         String methodName = joinPoint.getSignature().getName();
         String className = joinPoint.getSignature().getDeclaringTypeName();
