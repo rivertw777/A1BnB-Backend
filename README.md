@@ -66,7 +66,12 @@
 
 ## 🛠️&nbsp;&nbsp;&nbsp;Main Feature&nbsp;&nbsp;&nbsp;
 <br>
+
 ### Post Upload
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/971f43c3-8924-4276-a45f-a93a2550daf5" width="80%" alt="게시물 업로드">
+</p>
 
 ### 1-on-1 chat
 
