@@ -64,6 +64,17 @@
 <br>
 <br>
 
+## 🛠️&nbsp;&nbsp;&nbsp;Main Feature&nbsp;&nbsp;&nbsp;
+<br>
+### Post Upload
+
+### 1-on-1 chat
+
+### Post Search
+
+<br>
+<br>
+
 ## 🛠️&nbsp;&nbsp;&nbsp;Project Architecture&nbsp;&nbsp;&nbsp;
 <br>
 <div align="center">
