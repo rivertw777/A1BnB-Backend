@@ -76,7 +76,7 @@
 ### &nbsp;&nbsp;&nbsp;1-on-1 chat
 <br>
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/971f43c3-8924-4276-a45f-a93a2550daf5" width="80%" alt="1대1 채팅">
+  <img src="https://github.com/user-attachments/assets/f3792ed7-648e-4e60-a12d-1d11bc0b8764" width="80%" alt="1대1 채팅">
 </p>
 <br>
 
