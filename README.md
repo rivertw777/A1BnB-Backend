@@ -65,18 +65,26 @@
 <br>
 
 ## 🛠️&nbsp;&nbsp;&nbsp;Main Feature&nbsp;&nbsp;&nbsp;
+
+### &nbsp;&nbsp;&nbsp;Post Upload
+<br>
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/cd3afb61-e053-482d-badb-ebc04c0e3e51" width="80%" alt="게시물 업로드">
+</p>
 <br>
 
-### Post Upload
-
+### &nbsp;&nbsp;&nbsp;1-on-1 chat
+<br>
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/971f43c3-8924-4276-a45f-a93a2550daf5" width="80%" alt="게시물 업로드">
+  <img src="https://github.com/user-attachments/assets/971f43c3-8924-4276-a45f-a93a2550daf5" width="80%" alt="1대1 채팅">
 </p>
+<br>
 
-### 1-on-1 chat
-
-### Post Search
-
+### &nbsp;&nbsp;&nbsp;Post Search
+<br>
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/1bb49742-85c5-4efa-b6e9-c3cac1d6d9f7" width="80%" alt="게시물 검색">
+</p>
 <br>
 <br>
 
