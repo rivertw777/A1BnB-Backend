@@ -140,7 +140,7 @@
     <td><img src="https://static-00.iconduck.com/assets.00/aws-ec2-icon-423x512-iaajemnx.png" width="15px" alt="_icon" />&nbsp;&nbsp;<b>AWS EC2</td>
   </tr>
   <tr>
-    <td><img src="https://seeklogo.com/images/A/aws-rds-relational-database-service-logo-99EA3E8EA4-seeklogo.com.png" width="15px" alt="_icon" />&nbsp;&nbsp;<b>AWS RDS</td>
+    <td><img src="https://ih1.redbubble.net/image.4649980455.0604/mp,504x498,matte,f8f8f8,t-pad,600x600,f8f8f8.jpg" width="15px" alt="_icon" />&nbsp;&nbsp;<b>AWS RDS</td>
   </tr>
   <tr>
     <td><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTZn-0RTwQV0Aqu6kDoqEgYD2bIrdoSP5OLhhZQHNB0GA&s" width="15px" alt="_icon" />&nbsp;&nbsp;<b>AWS ElastiCache</td>
